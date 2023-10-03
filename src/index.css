@@ -11,9 +11,12 @@
 
 body {
   background-color: #f8fafc;
+  /* background-color: #f1f5f9; */
+  box-sizing: border-box;
   margin: 0;
   /* height: 100vh; */
   width: 100%;
+  overflow-x: hidden;
 }
 
 .blur-background {
@@ -33,8 +36,8 @@ body {
 .active {
   position: relative;
   border-radius: 20px 0px 0px 20px;
-  background: #fafcff;
-  color: #4d7c0f;
+  background: #f8fafc;
+  color: #1a2e05;
   font-weight: bold;
   padding-top: .4rem;
   padding-bottom: .4rem;
@@ -50,12 +53,12 @@ body {
 
 .active::after {
   top: -14px;
-  background: radial-gradient(circle at top left, #4d7c0f, 14px, #f8fafc 15px);
+  background: radial-gradient(circle at top left, #1a2e05, 14px, #f8fafc 15px);
 }
 
 .active::before {
   bottom: -14px;
-  background: radial-gradient(circle at bottom left, #4d7c0f, 14px, #f8fafc 15px);
+  background: radial-gradient(circle at bottom left, #1a2e05, 14px, #f8fafc 15px);
 }
 
 .inactive {

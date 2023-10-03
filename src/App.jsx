@@ -2,9 +2,9 @@ import { useState } from 'react';
 import './App.css';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Auth from './pages/Auth';
-// import DashboardLayout from './components/layout/AdminLayout';
 import Dashboard from './pages/Dashboard';
 import ResetPassword from './pages/ResetPassword';
+import MyProfile from './pages/MyProfile';
 
 function App() {
   return (
@@ -14,6 +14,7 @@ function App() {
         <Route path="/auth" element={<Auth />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/my-profile" element={<MyProfile />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>

@@ -1,18 +1,18 @@
 import { Link } from 'react-router-dom';
-import man from '../assets/images/pik.png';
+import man from '../assets/images/admin.png';
+import { Key } from '@mui/icons-material';
 
 const Auth = () => {
-
-
   return (
-    <section className="mx-auto shadow-md bg-white grid grid-cols-[4.5fr_5.5fr] h-fit my-8 w-4/5">
+    <section className="mx-auto shadow-lg bg-white grid grid-cols-[4.5fr_5.5fr] h-fit mt-12 w-4/5">
       <div className="p-12 space-y-8">
-        <h1 className="text-4xl text-slate-700 tracking-wide">Login</h1>
+        <div className="flex w-fit">
+          <h1 className="text-4xl text-slate-700 tracking-wide">Login</h1>
+          <Key className="self-end text-slate-200 rotate-45" sx={{ fontSize: '45px' }} />
+        </div>
         <form className="">
           <div className="mb-6">
-            <label
-              for="email"
-              className="block mb-2 text-sm font-medium text-slate-600">
+            <label htmlFor="email" className="block mb-2 text-sm font-medium text-slate-600">
               Your email
             </label>
             <input
@@ -23,17 +23,15 @@ const Auth = () => {
               required
             />
           </div>
-          <div class="mb-6">
-            <label
-              for="password"
-              className="block mb-2 text-sm font-medium text-slate-600">
+          <div className="mb-6">
+            <label htmlFor="password" className="block mb-2 text-sm font-medium text-slate-600">
               Your password
             </label>
             <input
               type="password"
               id="password"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-4 focus:outline-none focus:ring-lime-300 block w-full p-2.5"
-              placeholder='your password'
+              placeholder="your password"
               required
             />
           </div>
@@ -47,9 +45,7 @@ const Auth = () => {
                 required
               />
             </div>
-            <label
-              for="remember"
-              className="flex-2 ml-2 text-sm font-medium text-gray-900">
+            <label htmlFor="remember" className="flex-2 ml-2 text-sm font-medium text-gray-900">
               Remember me
             </label>
           </div>
@@ -59,15 +55,21 @@ const Auth = () => {
             Login
           </button>
         </form>
-        <p className='mt-8 text-slate-700'>Forgot password ? <Link to="/reset-password" className='underline'> Reset</Link> </p>
+        <p className="mt-8 text-slate-700">
+          Forgot password ?{' '}
+          <Link to="/reset-password" className="underline">
+            {' '}
+            Reset
+          </Link>{' '}
+        </p>
       </div>
 
-      <div className="w-full bg-lime-800 p-8 h-fit">
+      <div className="w-full bg-lime-900 p-8 h-fit">
         <div className="py-4 text-center space-y-2">
           <h1 className="text-4xl text-white font-semibold tracking-widest">Welcome back!</h1>
           <p className="text-lg font-normal text-white">Login to access your admin account</p>
         </div>
-        <img className="h-1/2 w-3/4 mx-auto" src={man} alt="man" />
+        <img className="h-1/2 w-2/3 mx-auto" src={man} alt="man" />
       </div>
     </section>
   );

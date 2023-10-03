@@ -4,13 +4,13 @@
 const ResetPassword = () => {
 
     return (
-        <section className="mx-auto shadow-md bg-white h-fit my-8 w-[30rem]">
+        <section className="mx-auto shadow-md bg-white h-fit mt-16 w-[30rem]">
         <div className="p-12 space-y-8">
           <h1 className="text-3xl text-slate-700 tracking-wide">Reset Password</h1>
           <form className="">
             <div className="mb-6">
               <label
-                for="email"
+                htmlFor="email"
                 className="block mb-2 text-sm font-medium text-slate-600">
                 Your email
               </label>
