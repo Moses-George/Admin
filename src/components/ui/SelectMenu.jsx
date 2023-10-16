@@ -9,13 +9,13 @@ const SelectMenu = () => {
     const [dropdownIsVisible, setDropdownIsVisible] = useState(false);
 
     return (
-        <div className="relative w-64">
+        <div className="relative w-32">
             <button onClick={() => setDropdownIsVisible(prev=> !prev)} className="flex items-center gap-x-1 text-slate-800 border border-lime-600  focus:ring-4 focus:outline-none focus:ring-lime-200 font-medium rounded-3xl text-sm px-4 py-2.5 text-center inline-flex items-center" type="button">
                 <FilterList className="text-dark-peach text-2xl" />
-                <span>Default filter</span> 
+                <span>Filter</span> 
                 <ArrowDropDown className="text-slate-600 text-2xl" />
             </button>
-            {dropdownIsVisible && <div className="z-10 w-48 absolute bg-white divide-y divide-gray-100 rounded-lg shadow-md">
+            {dropdownIsVisible && <div className="z-[100] w-48 absolute bg-white divide-y divide-gray-100 rounded-lg shadow-md">
                 <ul className="p-3 space-y-1 text-sm text-slate-600" >
                     <li>
                         <div className="flex items-center p-2 rounded hover:bg-gray-100">

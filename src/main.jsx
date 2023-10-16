@@ -9,8 +9,8 @@ import 'react-toastify/dist/ReactToastify.css';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
-      <ToastContainer position="top-center" />
+      <ToastContainer position="top-center" pauseOnHover={false} /> 
       <App />
     </BrowserRouter>
-  </React.StrictMode>
+  </React.StrictMode> 
 );

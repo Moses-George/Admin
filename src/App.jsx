@@ -1,12 +1,28 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import './App.css';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Auth from './pages/Auth';
 import Dashboard from './pages/Dashboard';
 import ResetPassword from './pages/ResetPassword';
 import MyProfile from './pages/MyProfile';
+import JobsListing from './pages/JobsListing';
+import NewJob from './pages/NewJob';
+import Mentors from './pages/Mentors';
+import MentorProfile from './pages/MentorProfile';
+import Mentees from './pages/Mentees';
+import Transactions from './pages/Transactions';
+import EditJob from './pages/EditJob';
 
 function App() {
+
+  const location = useLocation();
+
+  useEffect(() => {
+      window.scrollTo(0, 0);
+  }, [location]);
+
+
   return (
     <>
       <Routes>
@@ -15,6 +31,13 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/my-profile" element={<MyProfile />} />
+        <Route path="/jobs-listing/*" element={<JobsListing />} />
+        <Route path="/jobs-listing/new-job" element={<NewJob />} />
+        <Route path="/jobs-listing/:jobId" element={<EditJob />} />
+        <Route path="/mentors/*" element={<Mentors />} />
+        <Route path="/mentors/:mentorId" element={<MentorProfile />} />
+        <Route path="/mentees" element={<Mentees />} />
+        <Route path="/transactions" element={<Transactions />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>

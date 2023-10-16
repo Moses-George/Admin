@@ -1,7 +1,8 @@
 import { AccountBox, GitHub, LinkedIn, Visibility } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const ProfileBaseData = () => {
+  const { mentorId } = useParams();
   return (
     <section className="bg-white rounded-md shadow-md p-8">
       <div className="grid grid-cols-[1fr_9fr] gap-4">
@@ -23,7 +24,7 @@ const ProfileBaseData = () => {
                 <GitHub />
               </Link>
               <Link className="flex items-center gap-1 py-2 px-3 rounded-md bg-slate-100 border">
-                <Visibility className='text-lime-900' />
+                <Visibility className="text-lime-900" />
                 <span>Resume</span>
               </Link>
             </div>
@@ -39,8 +40,8 @@ const ProfileBaseData = () => {
             </div>
             <div className="jsutify-end space-y-6 flex-grow basis-1/4 text-end">
               <div className="">
-                <p className="text-slate-800 font-medium">Phone number</p>
-                <p className="text-slate-600">+234 81 659 6182</p>
+                <p className="text-slate-800 font-medium">UUID</p>
+                <p className="text-slate-600">{`#${mentorId}`}</p>
               </div>
               <div className="">
                 <p className="text-slate-800 font-medium">Higher Education</p>

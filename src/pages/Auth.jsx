@@ -1,77 +1,109 @@
 import { Link } from 'react-router-dom';
-import man from '../assets/images/admin.png';
-import { Key } from '@mui/icons-material';
+import InputField from '../components/ui/InputField';
+import useForm from '../hooks/useForm';
+// import { KeyRound, Lock, Mail } from 'lucide-react';
+import { Email, Lock, Key } from '@mui/icons-material';
+import Spinner from '../components/ui/spinners/Spinner';
+import { Validator } from '../utils/validator';
+import { toast } from 'react-toastify';
+// import {} from "@radix-ui/react-icons"
+
+const InitialData = {
+  email: '',
+  password: ''
+};
 
 const Auth = () => {
+  const { formData, setFormData, handleChange } = useForm(InitialData);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const { whiteSpaces, message } = new Validator(formData);
+    if (whiteSpaces()) {
+      toast.error(message, { autoClose: 4000 });
+    }
+    console.log(formData);
+    // setFormData(InitialData);
+  };
+
   return (
-    <section className="mx-auto shadow-lg bg-white grid grid-cols-[4.5fr_5.5fr] h-fit mt-12 w-4/5">
-      <div className="p-12 space-y-8">
-        <div className="flex w-fit">
-          <h1 className="text-4xl text-slate-700 tracking-wide">Login</h1>
-          <Key className="self-end text-slate-200 rotate-45" sx={{ fontSize: '45px' }} />
-        </div>
-        <form className="">
-          <div className="mb-6">
-            <label htmlFor="email" className="block mb-2 text-sm font-medium text-slate-600">
-              Your email
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-4 focus:outline-none focus:ring-lime-300 block w-full p-2.5"
-              placeholder="your email"
-              required
-            />
+    <>
+      {/* <Spinner /> */}
+      <section className="mx-auto shadow-lg bg-white grid lg:grid-cols-[4.5fr_5.5fr] h-fit mt-12 w-[22rem] lg:w-4/5">
+        <div className="lg:p-12 p-8 space-y-8">
+          <div className="flex w-fit">
+            <h1 className="text-4xl text-slate-700 tracking-wide">Login</h1>
+            <Key className="self-end text-slate-200 rotate-45" sx={{ fontSize: '45px' }} />
           </div>
-          <div className="mb-6">
-            <label htmlFor="password" className="block mb-2 text-sm font-medium text-slate-600">
-              Your password
-            </label>
-            <input
-              type="password"
-              id="password"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-4 focus:outline-none focus:ring-lime-300 block w-full p-2.5"
-              placeholder="your password"
-              required
-            />
-          </div>
-          <div className="flex items-start mb-6">
-            <div className="flex items-center h-5 flex-1">
-              <input
-                id="remember"
-                type="checkbox"
-                value=""
-                className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-4 focus:outline-none focus:ring-lime-300"
-                required
+          <form onSubmit={handleSubmit} className="">
+            <div className="mb-6">
+              <label htmlFor="email" className="block mb-2 text-sm font-medium text-slate-600">
+                Your email
+              </label>
+              <InputField
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Enter your email..."
+                value={formData.email}
+                onChange={handleChange}
+                ringColorClass="focus:ring-lime-300"
+                icon={<Email className="text-slate-400" />}
               />
             </div>
-            <label htmlFor="remember" className="flex-2 ml-2 text-sm font-medium text-gray-900">
-              Remember me
-            </label>
-          </div>
-          <button
-            type="submit"
-            className="text-white bg-lime-600 hover:bg-lime-800 focus:ring-4 focus:outline-none focus:ring-lime-300 font-medium rounded-lg text-sm sm:w-auto px-8 py-2.5 text-center">
-            Login
-          </button>
-        </form>
-        <p className="mt-8 text-slate-700">
-          Forgot password ?{' '}
-          <Link to="/reset-password" className="underline">
-            {' '}
-            Reset
-          </Link>{' '}
-        </p>
-      </div>
-
-      <div className="w-full bg-lime-900 p-8 h-fit">
-        <div className="py-4 text-center space-y-2">
-          <h1 className="text-4xl text-white font-semibold tracking-widest">Welcome back!</h1>
-          <p className="text-lg font-normal text-white">Login to access your admin account</p>
+            <div className="mb-6">
+              <label htmlFor="password" className="block mb-2 text-sm font-medium text-slate-600">
+                Your password
+              </label>
+              <InputField
+                id="password"
+                name="password"
+                type="password"
+                placeholder="Enter your password..."
+                value={formData.password}
+                onChange={handleChange}
+                ringColorClass="focus:ring-lime-300"
+                icon={<Lock className="text-slate-400" />}
+              />
+            </div>
+            <div className="flex items-start mb-6">
+              <div className="flex items-center h-5 flex-1">
+                <input
+                  id="remember"
+                  type="checkbox"
+                  value=""
+                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-4 focus:outline-none focus:ring-lime-300"
+                  required
+                />
+              </div>
+              <label htmlFor="remember" className="flex-2 ml-2 text-sm font-medium text-gray-900">
+                Remember me
+              </label>
+            </div>
+            <button
+              type="submit"
+              className="text-white bg-lime-600 hover:bg-lime-800 focus:ring-4 focus:outline-none focus:ring-lime-300 font-medium rounded-lg text-sm sm:w-auto px-8 py-2.5 text-center">
+              Login
+            </button>
+          </form>
+          <p className="mt-8 text-slate-700">
+            Forgot password ?{' '}
+            <Link to="/reset-password" className="underline">
+              {' '}
+              Reset
+            </Link>{' '}
+          </p>
         </div>
-        <img className="h-1/2 w-2/3 mx-auto" src={man} alt="man" />
-      </div>
-    </section>
+
+        <div className="w-full bg-lime-900 p-8 h-fit hidden lg:block">
+          <div className="py-4 text-center space-y-2">
+            <h1 className="text-4xl text-white font-semibold tracking-widest">Welcome back!</h1>
+            <p className="text-lg font-normal text-white">Login to access your admin account</p>
+          </div>
+          <img className="h-1/2 w-2/3 mx-auto" src="/images/admin.png" alt="man" />
+        </div>
+      </section>
+    </>
   );
 };
 

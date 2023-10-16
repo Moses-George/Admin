@@ -1,0 +1,92 @@
+ [
+    {
+        "id": "z1",
+        "company": "Photosnap studios",
+        "postion": "intern Programmer",
+        "salary": "14,000",
+        "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore illum nesciunt sint perspiciatis qui reiciendis?",
+        "location": "London, England",
+        "category": "Remote",
+        "imageUrl": "/images/photosnap.svg"
+    },
+    {
+        "id": "z2",
+        "company": "Photosnap studios",
+        "postion": "intern Programmer",
+        "salary": "14,000",
+        "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore illum nesciunt sint perspiciatis qui reiciendis?",
+        "location": "London, England",
+        "category": "On-site",
+        "imageUrl": "/images/photosnap.svg"
+    } ,  
+     {
+        "id": "z3",
+        "company": "Photosnap studios",
+        "postion": "intern Programmer",
+        "salary": "14,000",
+        "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore illum nesciunt sint perspiciatis qui reiciendis?",
+        "location": "London, England",
+        "category": "Remote",
+        "imageUrl": "/images/photosnap.svg"
+    },
+    {
+        "id": "z4",
+        "company": "Photosnap studios",
+        "postion": "intern Programmer",
+        "salary": "14,000",
+        "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore illum nesciunt sint perspiciatis qui reiciendis?",
+        "location": "London, England",
+        "category": "Hybrid",
+        "imageUrl": "/images/photosnap.svg"
+    },
+    {
+        "id": "z5",
+        "company": "Photosnap studios",
+        "postion": "intern Programmer",
+        "salary": "14,000",
+        "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore illum nesciunt sint perspiciatis qui reiciendis?",
+        "location": "London, England",
+        "category": "Hybrid",
+        "imageUrl": "/images/photosnap.svg"
+    },
+    {
+        "id": "z6",
+        "company": "Photosnap studios",
+        "postion": "intern Programmer",
+        "salary": "14,000",
+        "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore illum nesciunt sint perspiciatis qui reiciendis?",
+        "location": "London, England",
+        "category": "Remote",
+        "imageUrl": "/images/photosnap.svg"
+    },
+    {
+        "id": "z7",
+        "company": "Photosnap studios",
+        "postion": "intern Programmer",
+        "salary": "14,000",
+        "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore illum nesciunt sint perspiciatis qui reiciendis?",
+        "location": "London, England",
+        "category": "On-site",
+        "imageUrl": "/images/photosnap.svg"
+    },
+    {
+        "id": "z8",
+        "company": "Photosnap studios",
+        "postion": "intern Programmer",
+        "salary": "14,000",
+        "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore illum nesciunt sint perspiciatis qui reiciendis?",
+        "location": "London, England",
+        "category": "Remote",
+        "imageUrl": "/images/photosnap.svg"
+    },
+    {
+        "id": "z9",
+        "company": "Photosnap studios",
+        "postion": "intern Programmer",
+        "salary": "14,000",
+        "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore illum nesciunt sint perspiciatis qui reiciendis?",
+        "location": "London, England",
+        "category": "Hybrid",
+        "imageUrl": "/images/photosnap.svg"
+    }
+  ]

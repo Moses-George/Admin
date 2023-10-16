@@ -5,6 +5,16 @@ const Doughnut = ({color, label, percentage, width}) => {
   const series = [percentage];
 
   const options = {
+    chart: {
+      dropShadow: {
+        enabled: true,
+        top: 3,
+        left: 2,
+        blur: 4,
+        opacity: 1,
+        color: "#cbd5e1"
+      }
+    },
     labels: [label],
     legend: {
       show: false
