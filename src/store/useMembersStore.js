@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import axios from 'axios';
+import { http } from '../lib/http.service';
 
 const initialState = {
   members: [],
@@ -17,8 +17,8 @@ const useMembersStore = create((set) => ({
   fetchMembers: async (member) => {
     set({ loading: true, error: '', members: [], success: false });
     try {
-      const { data } = await axios.get(`./data/${member}.json`);
-      set({ loading: false, members: data, error: '', success: true });
+      const response = await http.service().get(`/${member}.json`);
+      set({ loading: false, members: response, error: '', success: true });
     } catch (error) {
       set({ loading: false, error });
     }

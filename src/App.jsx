@@ -13,6 +13,7 @@ import MentorProfile from './pages/MentorProfile';
 import Mentees from './pages/Mentees';
 import Transactions from './pages/Transactions';
 import EditJob from './pages/EditJob';
+import Settings from './pages/Settings';
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
         <Route path="/mentors/:mentorId" element={<MentorProfile />} />
         <Route path="/mentees" element={<Mentees />} />
         <Route path="/transactions" element={<Transactions />} />
+        <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>

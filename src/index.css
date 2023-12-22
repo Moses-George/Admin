@@ -9,6 +9,7 @@
 
 html {
   overflow-x: hidden;
+  height: 100%;
 }
 
 
@@ -17,7 +18,12 @@ body {
   box-sizing: border-box;
   margin: 0;
   width: 100%;
+  /* height: 100%; */
   overflow-x: hidden;
+}
+
+#root {
+  height: 100%;
 }
 
 .blur-background {
@@ -163,4 +169,42 @@ body {
 .ant-table-thead > tr > th, .ant-table-tbody > tr > td {
   word-break: break-all;
   -ms-word-break: break-word;
+}
+
+/* styles for  horizontal scrollbar */
+
+.scroller {
+  overflow-y: auto;
+  scrollbar-width: none;
+  white-space: nowrap;
+}
+
+.scroller::-webkit-scrollbar {
+  display: none;
+  width: 6px;
+  color: hsl(224, 8%, 36%);
+}
+
+.scroller::-webkit-scrollbar:hover {
+  display: block;
+}
+
+.scroller:hover {
+  scrollbar-width: thin !important;
+}
+
+.scroller::-webkit-scrollbar-track {
+  background-color: rgb(29, 26, 26);
+}
+
+.scroller::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 20px;
+  border: 3px solid rgb(29, 26, 26);
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .scroller {
+      overflow-y: overlay
+      }
 }

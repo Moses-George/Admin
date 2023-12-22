@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
-import { Table } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Table, message } from 'antd';
 import TableActionsMenu from './ui/TableActionsMenu';
 import MemberForm from './ui/modal/MemberForm';
 import { AccountCircle } from '@mui/icons-material';
 import DeleteModal from './ui/modal/DeleteModal';
+import { modifiedDate } from '../utils/timeAndDate';
 
 const TableGrid = ({ page, setSearchParams, param, query, tableData }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [tableColumn, setTableColumn] = useState([]);
 
   // const Delete = (record) => {
   //   Modal.confirm({
@@ -55,7 +57,8 @@ const TableGrid = ({ page, setSearchParams, param, query, tableData }) => {
     {
       key: 'address',
       title: 'Address',
-      dataIndex: 'address'
+      dataIndex: 'address',
+      ellipsis: true
     },
     {
       key: 'phone',
@@ -67,7 +70,8 @@ const TableGrid = ({ page, setSearchParams, param, query, tableData }) => {
       key: 'category',
       title: 'Category',
       width: '10%',
-      dataIndex: 'category'
+      dataIndex: 'category',
+      ellipsis: true
     },
     {
       key: 'status',
@@ -142,7 +146,8 @@ const TableGrid = ({ page, setSearchParams, param, query, tableData }) => {
     {
       key: 'address',
       title: 'Address',
-      dataIndex: 'address'
+      dataIndex: 'address',
+      ellipsis: true
     },
     {
       key: 'phone',
@@ -207,13 +212,16 @@ const TableGrid = ({ page, setSearchParams, param, query, tableData }) => {
     {
       key: 'email',
       title: 'Email',
-      // ellipsis: true,
+      ellipsis: true,
       dataIndex: 'email'
     },
     {
       key: 'date',
       title: 'Date',
-      dataIndex: 'date'
+      render: ({ date } = record) => {
+        return <span className="">{modifiedDate.formatDate(date)}</span>;
+      }
+      // dataIndex: 'date'
     },
     {
       key: 'phone',
@@ -267,24 +275,66 @@ const TableGrid = ({ page, setSearchParams, param, query, tableData }) => {
     }
   ];
 
+  useEffect(() => {
+    switch (page) {
+      case 'mentors':
+        setTableColumn(mentorsColumnData);
+        break;
+
+      case 'mentees':
+        setTableColumn(menteesColumnData);
+        break;
+
+      case 'transactions':
+        setTableColumn(transactionsColumnData);
+        break;
+
+      default:
+        break;
+    }
+  }, [page]);
+
+  const deleteMessages = [
+    {
+      page: 'mentors',
+      title: 'Delete Member ?',
+      content:
+        "Deleting a member will automatically erase all records of the member. You'll need to be \
+      re-authenticated to perform this action."
+    },
+    {
+      page: 'mentees',
+      title: 'Delete Member ?',
+      content:
+        "Deleting a member will automatically erase all records of the member. You'll need to be \
+      re-authenticated to perform this action."
+    },
+    {
+      page: 'transactions',
+      title: 'Delete Transaction data ?',
+      content:
+        "Deleting a transaction will automatically erase all records related to the transaction. You'll need to be \
+      re-authenticated to perform this action."
+    }
+  ];
+
   return (
     <>
       {isEditing && <MemberForm isNewMember={false} onClose={() => setIsEditing(false)} />}
-      {isDeleting && <DeleteModal setIsDeleting={setIsDeleting} />}
-      <div className="app">
-        <div className="table">
+      {isDeleting && (
+        <DeleteModal
+          setIsDeleting={setIsDeleting}
+          message={deleteMessages.find((message) => message.page === page)}
+        />
+      )}
+      <div className="w-full app scroller glossy">
+        <div className="w-full table">
           <Table
             dataSource={tableData}
-            columns={
-              page === 'mentors'
-                ? mentorsColumnData
-                : page === 'mentees'
-                ? menteesColumnData
-                : transactionsColumnData
-            }
+            columns={tableColumn}
             pagination={{ pageSize: 10, total: tableData.length, showSizeChanger: true }}
-            className="overflow-x-scroll"
-            // scroll={{ x: 700 }}
+            rowKey={(record) => record.id}
+            className="lg:w-full w-[100rem]"
           />
         </div>
       </div>

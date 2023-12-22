@@ -1,6 +1,6 @@
 import { AttachMoney, LocationOn, Person } from '@mui/icons-material';
 
-export const InputFieldsData = [
+const InputFieldsData = [
   {
     id: 'company',
     name: 'company',
@@ -30,3 +30,5 @@ export const InputFieldsData = [
     icon: <AttachMoney className="text-slate-400" />
   }
 ];
+
+export default InputFieldsData;

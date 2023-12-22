@@ -13,3 +13,7 @@ export class Validator {
     return invalidFields;
   }
 }
+
+export const validator = new Validator();
+
+export default Validator;

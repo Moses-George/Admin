@@ -1,4 +1,4 @@
-import { Email, Key, Person, Phone } from '@mui/icons-material';
+import { Email, Key, Person, Phone, SchoolSharp } from '@mui/icons-material';
 
 //  Input fields data for memberform
 
@@ -7,36 +7,36 @@ const InputFieldsData = [
     id: 'first_name',
     name: 'first_name',
     type: 'text',
-    placeholder: "Enter member's first name",
+    placeholder: "Enter new first name",
     icon: <Person className="text-slate-400" />
   },
   {
     id: 'last_name',
     name: 'last_name',
     type: 'text',
-    placeholder: "Enter member's last name ",
+    placeholder: "Enter new last name ",
     icon: <Person className="text-slate-400" />
   },
   {
     id: 'email',
     name: 'email',
     type: 'email',
-    placeholder: "Enter member's email",
+    placeholder: "Enter new email",
     icon: <Email className="text-slate-400" />
   },
   {
     id: 'phone_number',
     name: 'phone_number',
     type: 'number',
-    placeholder: "Enter member's phone number",
+    placeholder: "Enter new phone number",
     icon: <Phone className="text-slate-400" />
   },
   {
-    id: 'password',
-    name: 'password',
-    type: 'password',
-    placeholder: "Enter member's password",
-    icon: <Key className="text-slate-400" />
+    id: 'education',
+    name: 'education',
+    type: 'text',
+    placeholder: "Enter new level of education",
+    icon: <SchoolSharp className="text-slate-400" />
   }
 ];
 

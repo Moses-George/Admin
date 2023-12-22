@@ -1,15 +1,11 @@
-import ReactApexChart from "react-apexcharts";
-
+import ReactApexChart from 'react-apexcharts';
 
 const SparkLineChart = () => {
-
-  const series = [{data: [12, 14, 2, 47, 32, 44, 14, 55, 41, 69]}];
+  const series = [{ data: [12, 14, 2, 47, 32, 44, 14, 55, 41, 69] }];
 
   const options = {
     chart: {
-    //   id: 'spark1',
       group: 'sparks',
-    //   type: 'line',
       sparkline: {
         enabled: true
       },
@@ -34,7 +30,7 @@ const SparkLineChart = () => {
     markers: {
       size: 0
     },
-    colors: ["#84cc16"],
+    colors: ['#84cc16'],
     tooltip: {
       x: {
         show: false
@@ -49,7 +45,9 @@ const SparkLineChart = () => {
     }
   };
 
-  return <ReactApexChart series={series} options={options} type="line" width={"100%"} height={100} />
+  return (
+    <ReactApexChart series={series} options={options} type="line" width={'100%'} height={100} />
+  );
 };
 
 export default SparkLineChart;

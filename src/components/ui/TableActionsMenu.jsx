@@ -80,7 +80,7 @@ const TableActionsMenu = ({
                     checked={record.status === 'approved'}
                   />
                   <div className="w-12 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-lime-300  rounded-full peer  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all  peer-checked:bg-lime-600"></div>
-                  <span className="ml-3 text-sm font-medium text-slate-800">toggle status</span>
+                  <span className="ml-3 text-sm font-medium text-slate-800 w-full">toggle status</span>
                 </label>
               </div>
             </li>
@@ -92,7 +92,7 @@ const TableActionsMenu = ({
                 <span className="text-slate-800">Download receipt</span>
               </button>
             ) : (
-              <Link
+              page === "mentors" && <Link
                 to={`/${page}/${record.id}`}
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 space-x-2">
                 <AccountCircle className="text-slate-500" />

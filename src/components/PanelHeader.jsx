@@ -1,8 +1,7 @@
 import { VerifiedUser } from '@mui/icons-material';
-import { Greeting } from '../utils/greeting';
+import { greeting } from '../utils/greeting';
 
 const PanelHeader = ({ title, status }) => {
-  const greeting = new Greeting();
 
   return (
     <section className="bg-lime-500 shadow-md rounded-br-[3rem] rounded-tl-[3rem] p-8 w-full flex flex-col lg:flex-row justify-between items-center gap-4 text-white">

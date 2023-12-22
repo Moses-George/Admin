@@ -22,7 +22,7 @@ const useForm = (InitialData) => {
     }
   };
 
-  return { mediaPreview, setMediaPreview, formData, setFormData, handleChange }; 
+  return { mediaPreview, setMediaPreview, formData, setFormData, handleChange };
 };
 
 export default useForm;

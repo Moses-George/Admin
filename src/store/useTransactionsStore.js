@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import axios from 'axios';
+import { http } from '../lib/http.service';
 
 const initialState = {
   transactions: [],
@@ -17,8 +17,8 @@ const useTransactionStore = create((set) => ({
   fetchTransactions: async () => {
     set({ loading: true, error: '', transactions: [], success: false });
     try {
-      const { data } = await axios.get('./data/transactions.json');
-      set({ loading: false, transactions: data, error: '', success: true });
+      const response = await http.service().get('/transactions.json');
+      set({ loading: false, transactions: response, error: '', success: true });
     } catch (error) {
       set({ loading: false, error });
     }

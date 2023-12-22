@@ -1,22 +1,15 @@
 import { AccountCircle, Logout, Menu, Close } from '@mui/icons-material';
-import { Link, NavLink } from 'react-router-dom';
+import {  NavLink } from 'react-router-dom';
 import { superAdminLinks } from '.';
+import { framerDelaySlide, framerIcon, framerSidebarPanel } from '../../utils/framer-motion/variants';
+import { motion } from 'framer-motion';
 
-const Sidebar = ({display, lg_display, zIndex, isVisible, setIsVisible }) => {
-  // const pathname = usePathname();
-
-  // const { data: session } = useSession();
-  // console.log(session);
-
-  const isSuperAdmin = true;
-
+const Sidebar = ({ display, lg_display, zIndex, isVisible, setIsVisible }) => {
   return (
     <aside
       className={`h-screen bg-lime-950 pl-3 fixed top-0 w-[14rem] ${display} lg:${lg_display} ${zIndex}`}>
       <div>
-        {!isSuperAdmin && <h1 className="text-2xl text-white mx-auto pb-5 px-2">Welcome</h1>}
         <div className={`absolute top-20 -right-7 w-14 h-14 p-3 rounded-full `}>
-          {/* <MdOutlineArrowBack className="text-center text-white text-3xl" onClick={toggleSidebar} /> */}
         </div>
       </div>
       <div className="flex flex-col space-y-4 bg-lime-900 text-white py-4 rounded-bl-full">
@@ -31,19 +24,18 @@ const Sidebar = ({display, lg_display, zIndex, isVisible, setIsVisible }) => {
       </div>
 
       <div className="flex flex-col space-y-3 text-white mt-6">
-        {superAdminLinks.map((link) => (
+        {superAdminLinks.map((link, index) => ( 
           <NavLink
             className={`${({ isActive }) =>
               isActive ? 'active' : 'inactive'} flex items-center gap-2 pl-4`}
             key={link.id}
             to={link.href}>
-            {link.icon}
-            <span className="text-md flex-4">{link.name}</span>
+            <motion.div {...framerIcon} className=''> {link.icon} </motion.div>
+            <motion.span {...framerDelaySlide(index)} className="text-md flex-4">{link.name}</motion.span>
           </NavLink>
         ))}
       </div>
       <div className="py-12 sm:py-8 px-2">
-        {/* <SiCodechef className="text-8xl text-white mx-auto" /> */}
       </div>
       <div className="pb-5">
         <button className="flex items-center w-fit px-2 space-x-2 text-white">

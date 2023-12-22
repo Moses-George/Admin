@@ -1,4 +1,4 @@
-import { AddCircle } from '@mui/icons-material';
+import { AddCircle, Dashboard } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
 const SubNavbar = ({ onClick, page, array, filterKey, param, query }) => {
@@ -8,7 +8,7 @@ const SubNavbar = ({ onClick, page, array, filterKey, param, query }) => {
     <section className="bg-white rounded-md shadow-md glossy flex flex-col lg:flex-row gap-12 justify-between items-center py-4 px-8">
       <div className="space-x-6 text-slate-600 font-medium w-full">
         <Link to={`/${page}`} className={`${!param && 'selected'}`}>
-          All 
+          All
         </Link>
         {links.map((link, index) => (
           <Link
@@ -19,15 +19,25 @@ const SubNavbar = ({ onClick, page, array, filterKey, param, query }) => {
           </Link>
         ))}
       </div>
-      <hr className='lg:hidden w-full' />
-      <Link to="/mentors" className="lg:justify-self-end self-start w-44">
-        <button
-          onClick={onClick}
-          className="flex items-center gap-1 py-2.5 px-4 bg-amber-500 rounded-3xl text-white w-40">
-          <AddCircle />
-          <span className="">Add Mentor</span>
-        </button>
-      </Link>
+      <hr className="lg:hidden w-full" />
+      {page === 'mentors' ? (
+        <Link to="/mentors" className="lg:justify-self-end self-start w-44">
+          <button
+            onClick={onClick}
+            className="flex items-center gap-1 py-2.5 px-4 bg-amber-500 rounded-3xl text-white w-40">
+            <AddCircle />
+            <span className="">Add Mentor</span>
+          </button>
+        </Link>
+      ) : (
+        <Link to="/dashboard" className="lg:justify-self-end self-start w-44">
+          <button
+            className="flex items-center gap-1 py-2.5 px-4 bg-amber-500 rounded-3xl text-white w-40">
+            <Dashboard />
+            <span className="">Dashboard</span>
+          </button>
+        </Link>
+      )}
     </section>
   );
 };

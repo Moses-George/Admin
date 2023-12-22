@@ -1,7 +1,5 @@
 import axios from 'axios';
-import { EHttpMethod } from '../constants';
-
-// console.log(process.env.BASE_URL);
+import { HttpMethod } from '../constants';
 
 class HttpService {
 //   baseURL = process.env.BASE_URL;
@@ -41,7 +39,7 @@ class HttpService {
 
   //   Perform GET request
   async get(url, params = {} || params, hasAttachment = false) {
-    return this.request(EHttpMethod.GET, url, {
+    return this.request(HttpMethod.GET, url, {
       params,
       headers: this.setupHeaders(hasAttachment)
     });
@@ -49,7 +47,7 @@ class HttpService {
 
   //   Perform POST request
   async push(url, payload, params = {} || params, hasAttachment = false) {
-    return this.request(EHttpMethod.POST, url, {
+    return this.request(HttpMethod.POST, url, {
       params,
       data: payload,
       headers: this.setupHeaders(hasAttachment)
@@ -58,7 +56,7 @@ class HttpService {
 
   //   perform update request
   async update(url, payload, params = {} || params, hasAttachment = false) {
-    return this.request(EHttpMethod.PUT, url, {
+    return this.request(HttpMethod.PUT, url, {
       params,
       data: payload,
       headers: this.setupHeaders(hasAttachment)
@@ -67,7 +65,7 @@ class HttpService {
 
   //   Perform Delete request
   async remove(url, params = {} || params, hasAttachment = false) {
-    return this.request(EHttpMethod.DELETE, url, {
+    return this.request(HttpMethod.DELETE, url, {
       params,
       headers: this.setupHeaders(hasAttachment)
     });
@@ -96,5 +94,7 @@ class HttpService {
     return Promise.reject(error);
   }
 }
+
+export const http = new HttpService();
 
 export default HttpService;

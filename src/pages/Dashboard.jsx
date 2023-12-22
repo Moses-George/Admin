@@ -12,6 +12,8 @@ import SparkLineChart from '../components/charts/SparkLineChart';
 import PolarAreaChart from '../components/charts/PolarAreaChart';
 import useJobsFacade from '../facades/useJobsFacade';
 import { toast } from 'react-toastify';
+import ChartCardSkeleton from '../components/ui/skeleton-loaders/ChartCardSkeleton';
+import JobCardSkeleton from '../components/ui/skeleton-loaders/JobCardSkeleton';
 
 const chartCardData = [
   {
@@ -69,7 +71,9 @@ const Dashboard = () => {
     <AdminLayout header="Dashboard" icon={<DashboardCustomize />}>
       <div className="lg:mx-6 space-y-6 w-full">
         <PanelHeader />
-        <div className="flex flex-wrap gap-6"> 
+        <div className="flex flex-wrap gap-6">
+        {/* <ChartCardSkeleton />  */}
+        {/* <JobCardSkeleton /> */}
           {chartCardData.map((data) => {
             const { id, title, amount, percentage, icon, chart } = data;
             return (
@@ -91,7 +95,7 @@ const Dashboard = () => {
         <MenteesSummary />
         <section className="grid lg:grid-cols-[6.5fr_3.5fr] gap-6">
           <LineChart />
-          <RadialBarChart heading="Radial Bar" chartData={jobs}  />
+          <RadialBarChart heading="Radial Bar" chartData={jobs} />
         </section>
       </div>
     </AdminLayout>

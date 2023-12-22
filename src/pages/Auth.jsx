@@ -3,10 +3,8 @@ import InputField from '../components/ui/InputField';
 import useForm from '../hooks/useForm';
 // import { KeyRound, Lock, Mail } from 'lucide-react';
 import { Email, Lock, Key } from '@mui/icons-material';
-import Spinner from '../components/ui/spinners/Spinner';
 import { Validator } from '../utils/validator';
 import { toast } from 'react-toastify';
-// import {} from "@radix-ui/react-icons"
 
 const InitialData = {
   email: '',
@@ -29,8 +27,8 @@ const Auth = () => {
   return (
     <>
       {/* <Spinner /> */}
-      <section className="mx-auto shadow-lg bg-white grid lg:grid-cols-[4.5fr_5.5fr] h-fit mt-12 w-[22rem] lg:w-4/5">
-        <div className="lg:p-12 p-8 space-y-8">
+      <section className="mx-auto shadow-lg bg-white rounded-3xl grid lg:grid-cols-[4.5fr_5.5fr] lg:h-fit h-4/5 lg:h-full mt-12 w-[22rem] lg:w-4/5">
+        <div className="lg:p-12 p-8 space-y-8 h-full">
           <div className="flex w-fit">
             <h1 className="text-4xl text-slate-700 tracking-wide">Login</h1>
             <Key className="self-end text-slate-200 rotate-45" sx={{ fontSize: '45px' }} />
@@ -66,7 +64,7 @@ const Auth = () => {
                 icon={<Lock className="text-slate-400" />}
               />
             </div>
-            <div className="flex items-start mb-6">
+            <div className="flex justify-start w-fit mb-6">
               <div className="flex items-center h-5 flex-1">
                 <input
                   id="remember"
@@ -76,7 +74,7 @@ const Auth = () => {
                   required
                 />
               </div>
-              <label htmlFor="remember" className="flex-2 ml-2 text-sm font-medium text-gray-900">
+              <label htmlFor="remember" className="flex- ml-2 text-sm font-medium text-gray-900">
                 Remember me
               </label>
             </div>
@@ -95,7 +93,7 @@ const Auth = () => {
           </p>
         </div>
 
-        <div className="w-full bg-lime-900 p-8 h-fit hidden lg:block">
+        <div className="w-full bg-lime-900 p-8 h-fit hidden lg:block rounded-tl-[5rem] rounded-bl-[5rem] rounded-3xl">
           <div className="py-4 text-center space-y-2">
             <h1 className="text-4xl text-white font-semibold tracking-widest">Welcome back!</h1>
             <p className="text-lg font-normal text-white">Login to access your admin account</p>

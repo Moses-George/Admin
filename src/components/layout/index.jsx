@@ -1,22 +1,13 @@
-import {
-  Badge,
-  Dashboard,
-  People,
-  Person,
-  Settings,
-  Work,
-  Reviews,
-  Message,
-  CalendarMonth,
-  Paid
-} from '@mui/icons-material';
+import { Badge, Dashboard, People, Person, Settings, Work, Paid } from '@mui/icons-material';
+
+//  Sidebar links data
 
 export const superAdminLinks = [
   {
     id: 'l1',
     name: 'Dashboard',
     href: '/dashboard',
-    icon: <Dashboard size={20} className="" />
+    icon: <Dashboard  className="text-xl" />
   },
   {
     id: 'l2',
@@ -48,18 +39,6 @@ export const superAdminLinks = [
     href: '/transactions',
     icon: <Paid className="text-xl" />
   },
-  // {
-  //   id: 'l6',
-  //   name: 'Messages',
-  //   href: '/messages',
-  //   icon: <Message className="text-xl" />
-  // },
-  // {
-  //   id: 'l7',
-  //   name: 'Calender',
-  //   href: '/calender',
-  //   icon: <CalendarMonth className="text-xl" />
-  // },
   {
     id: 'l8',
     name: 'Settings',

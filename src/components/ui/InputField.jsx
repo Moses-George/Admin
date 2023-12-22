@@ -1,5 +1,4 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 
 const InputField = ({ id, name, placeholder, type, value, onChange, icon, ringColorClass }) => {
@@ -22,7 +21,7 @@ const InputField = ({ id, name, placeholder, type, value, onChange, icon, ringCo
         placeholder={placeholder}
         required
       />
-      {name === 'password' && (
+      {type === 'password' && (
         <div className="absolute inset-y-0 right-3 w-fit flex items-center pl-3">
           {passwordIsVisible ? (
             <VisibilityOff onClick={togglePasswordVisibility} className="text-slate-400" />

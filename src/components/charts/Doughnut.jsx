@@ -1,7 +1,6 @@
-import ReactApexChart from "react-apexcharts";
+import ReactApexChart from 'react-apexcharts';
 
-const Doughnut = ({color, label, percentage, width}) => {
-
+const Doughnut = ({ color, label, percentage, width }) => {
   const series = [percentage];
 
   const options = {
@@ -12,7 +11,7 @@ const Doughnut = ({color, label, percentage, width}) => {
         left: 2,
         blur: 4,
         opacity: 1,
-        color: "#cbd5e1"
+        color: '#cbd5e1'
       }
     },
     labels: [label],

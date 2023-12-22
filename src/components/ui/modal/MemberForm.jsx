@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { Add, Close, Update } from '@mui/icons-material';
 import { dropIn } from '../../../utils/framer-motion/variants';
 import useForm from '../../../hooks/useForm';
-import { Validator } from '../../../utils/validator';
+import { validator } from '../../../utils/validator';
 import { toast } from 'react-toastify';
 
 const InitialData = {
@@ -26,7 +26,6 @@ const MemberFormOverlay = ({ isNewMember, onClose }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const validator = new Validator(formData);
     if (validator.whiteSpaces()) {
       toast.error(`Please fill the field(s) ${validator.message}`, { autoClose: 4000 });
     }
@@ -42,8 +41,8 @@ const MemberFormOverlay = ({ isNewMember, onClose }) => {
       initial="hidden"
       animate="visible"
       exit="exit">
-      <div className="flex">
-        <h1 className="text-slate-800 text-2xl font-medium">
+      <div className="w-full flex">
+        <h1 className="text-slate-800 text-2xl font-medium w-full">
           {isNewMember ? 'Add new member' : 'Edit member info'}
         </h1>
         <div className="px-2.5 py-2 rounded-full bg-lime-300 w-fit">
@@ -56,7 +55,7 @@ const MemberFormOverlay = ({ isNewMember, onClose }) => {
           />
         </div>
       </div>
-      <form onSubmit={handleSubmit} className="space-y-4 lg:px-6">
+      <form onSubmit={handleSubmit} className="w-full space-y-4 lg:px-6">
         {InputFieldsData.map((fieldData) => {
           const { id, name, type, placeholder, icon } = fieldData;
           return (
@@ -104,7 +103,7 @@ const MemberFormOverlay = ({ isNewMember, onClose }) => {
             </div>
           );
         })}
-        <button className="p-3 bg-lime-500 text-white rounded-lg space-x-2 w-1/ mx-auto">
+        <button className="p-3 bg-lime-500 text-white rounded-lg space-x-2 w-1/ mx-auto w-full">
           {isNewMember ? <Add className="" /> : <Update />}
           <span>{isNewMember ? 'Add member' : 'Update member'}</span>
         </button>

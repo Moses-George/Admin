@@ -1,8 +1,6 @@
-import ReactApexChart from "react-apexcharts";
-
+import ReactApexChart from 'react-apexcharts';
 
 const SparkAreaChart = () => {
-
   const series = [{ name: 'sales', data: [31, 40, 28, 51, 42, 109, 100] }];
   const options = {
     chart: {
@@ -37,7 +35,9 @@ const SparkAreaChart = () => {
     colors: ['#84cc16']
   };
 
-  return <ReactApexChart series={series} options={options} type="area" width={"100%"} height={100} />
+  return (
+    <ReactApexChart series={series} options={options} type="area" width={'100%'} height={100} />
+  );
 };
 
 export default SparkAreaChart;

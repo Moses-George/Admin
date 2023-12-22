@@ -7,7 +7,8 @@
         "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore illum nesciunt sint perspiciatis qui reiciendis?",
         "location": "London, England",
         "category": "Remote",
-        "imageUrl": "/images/photosnap.svg"
+        "imageUrl": "/images/photosnap.svg",
+        "date": "Thu Oct 12 2020 09:17:19 GMT+0100 (West Africa Standard Time)"
     },
     {
         "id": "z2",
@@ -17,7 +18,8 @@
         "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore illum nesciunt sint perspiciatis qui reiciendis?",
         "location": "London, England",
         "category": "On-site",
-        "imageUrl": "/images/photosnap.svg"
+        "imageUrl": "/images/photosnap.svg",
+        "date": "Thu Oct 12 2020 09:17:19 GMT+0100 (West Africa Standard Time)"
     } ,  
      {
         "id": "z3",
@@ -27,7 +29,8 @@
         "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore illum nesciunt sint perspiciatis qui reiciendis?",
         "location": "London, England",
         "category": "Remote",
-        "imageUrl": "/images/photosnap.svg"
+        "imageUrl": "/images/photosnap.svg",
+        "date": "Thu Oct 12 2020 09:17:19 GMT+0100 (West Africa Standard Time)"
     },
     {
         "id": "z4",
@@ -37,7 +40,8 @@
         "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore illum nesciunt sint perspiciatis qui reiciendis?",
         "location": "London, England",
         "category": "Hybrid",
-        "imageUrl": "/images/photosnap.svg"
+        "imageUrl": "/images/photosnap.svg",
+        "date": "Thu Oct 12 2020 09:17:19 GMT+0100 (West Africa Standard Time)"
     },
     {
         "id": "z5",
@@ -47,7 +51,8 @@
         "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore illum nesciunt sint perspiciatis qui reiciendis?",
         "location": "London, England",
         "category": "Hybrid",
-        "imageUrl": "/images/photosnap.svg"
+        "imageUrl": "/images/photosnap.svg",
+        "date": "Thu Oct 12 2020 09:17:19 GMT+0100 (West Africa Standard Time)"
     },
     {
         "id": "z6",
@@ -57,7 +62,8 @@
         "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore illum nesciunt sint perspiciatis qui reiciendis?",
         "location": "London, England",
         "category": "Remote",
-        "imageUrl": "/images/photosnap.svg"
+        "imageUrl": "/images/photosnap.svg",
+        "date": "Thu Oct 12 2020 09:17:19 GMT+0100 (West Africa Standard Time)"
     },
     {
         "id": "z7",
@@ -67,7 +73,8 @@
         "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore illum nesciunt sint perspiciatis qui reiciendis?",
         "location": "London, England",
         "category": "On-site",
-        "imageUrl": "/images/photosnap.svg"
+        "imageUrl": "/images/photosnap.svg",
+        "date": "Thu Oct 12 2020 09:17:19 GMT+0100 (West Africa Standard Time)"
     },
     {
         "id": "z8",
@@ -77,7 +84,8 @@
         "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore illum nesciunt sint perspiciatis qui reiciendis?",
         "location": "London, England",
         "category": "Remote",
-        "imageUrl": "/images/photosnap.svg"
+        "imageUrl": "/images/photosnap.svg",
+        "date": "Thu Oct 12 2020 09:17:19 GMT+0100 (West Africa Standard Time)"
     },
     {
         "id": "z9",
@@ -87,6 +95,7 @@
         "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore illum nesciunt sint perspiciatis qui reiciendis?",
         "location": "London, England",
         "category": "Hybrid",
-        "imageUrl": "/images/photosnap.svg"
+        "imageUrl": "/images/photosnap.svg",
+        "date": "Thu Oct 12 2020 09:17:19 GMT+0100 (West Africa Standard Time)"
     }
   ]

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import HttpService from '../lib/http.service';
+import { http } from '../lib/http.service';
 
 const initialState = {
   jobs: [],
@@ -7,8 +7,6 @@ const initialState = {
   success: false,
   error: ''
 };
-
-const http = new HttpService();
 
 const useJobsStore = create((set) => ({
   jobs: initialState.jobs,
@@ -20,10 +18,9 @@ const useJobsStore = create((set) => ({
     set({ loading: true, error: '', jobs: [], success: false });
     try {
       const response = await http.service().get('/jobs.json');
-      console.log(response);
       set({ loading: false, jobs: response, error: '', success: true });
     } catch (error) {
-      set({ loading: false, error });
+      set({ loading: false, error: error?.message });
     }
   }
 }));

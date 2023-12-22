@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import Sidebar from './Sidebar';
 import { Link } from 'react-router-dom';
 import { AccountCircle, Notifications, MessageSharp, Menu } from '@mui/icons-material';
 import { Badge } from '@mui/material';
-import useToggleStore from '../../store/useToggleStore';
+import Sidebar from './Sidebar';
 
 const AdminLayout = ({ children, header, icon }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -20,7 +19,6 @@ const AdminLayout = ({ children, header, icon }) => {
         />
       )}
       <div className={`h-full w-full mt-32`}>
-        {/* <ProfileSidebarIcons /> */}
         <Sidebar display="hidden" lg_display="block" />
         <div className={`space-y-6 px-6 lg:pr-20 pb-12`}>
           <div

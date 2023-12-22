@@ -1,7 +1,7 @@
 import { AdminPanelSettings, AttachMoney, AvTimer, Badge, People, Reviews } from '@mui/icons-material';
 import ProfileBaseData from '../components/profile/ProfileBaseData';
 import AdminLayout from '../components/layout/AdminLayout';
-import MySkills from '../components/profile/MySkills';
+import MentorSkills from '../components/profile/MentorSkills';
 import AchieveMentCard from '../components/AchievementCard';
 
 const achievements = [
@@ -51,9 +51,9 @@ const MentorProfile = () => {
         </section>
         <ProfileBaseData />
         <section className="flex gap-6">
-          <MySkills />
-          <MySkills />
-          <MySkills />
+          <MentorSkills />
+          <MentorSkills />
+          <MentorSkills />
           {/* <MySkills /> */}
         </section>
       </div>

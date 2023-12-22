@@ -1,7 +1,6 @@
-import { Add, ImageAspectRatio, Photo } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import { Add, Edit, Photo } from '@mui/icons-material';
 import InputField from '../ui/InputField';
-import { InputFieldsData } from '.';
+import InputFieldsData from '.';
 import useForm from '../../hooks/useForm';
 
 const InitialData = {
@@ -18,7 +17,6 @@ const JobForm = ({ action }) => {
   const { mediaPreview, setMediaPreview, formData, setFormData, handleChange } =
     useForm(InitialData);
 
-  // console
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(formData);
@@ -130,8 +128,12 @@ const JobForm = ({ action }) => {
               value={formData.description}
               placeholder="description of meal..."></textarea>
           </div>
-          <button className="flex items-center bg-amber-700 text-white text-sm rounded-xl p-2.5 w-32 shadow-md">
-            <Add className="text-white text-xl" />
+          <button className="flex items-center justify-center bg-amber-700 text-white text-sm gap-2 rounded-xl p-2.5 w-36 shadow-md">
+            {action === 'Add' ? (
+              <Add className="text-white text-xl" />
+            ) : (
+              <Edit className="text-white text-xl" />
+            )}
             <span className="font-medium">{action} Job</span>
           </button>
         </div>

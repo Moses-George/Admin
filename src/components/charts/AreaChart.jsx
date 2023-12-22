@@ -1,7 +1,6 @@
-import ReactApexChart from "react-apexcharts";
+import ReactApexChart from 'react-apexcharts';
 
 const AreaChart = () => {
-
   const series = [
     {
       name: 'series1',
@@ -24,7 +23,7 @@ const AreaChart = () => {
         left: 2,
         blur: 4,
         opacity: 0.2,
-        color: "#94a3b8"
+        color: '#94a3b8'
       }
     },
     dataLabels: {
