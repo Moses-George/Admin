@@ -1,40 +1,25 @@
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Work } from '@mui/icons-material';
 import AdminLayout from '../components/layout/AdminLayout';
 import JobCard from '../components/jobs/JobCard';
 import useJobsFacade from '../facades/useJobsFacade';
 import { useEffect } from 'react';
 import FilterBar from '../components/ui/FilterBar';
-import { toast } from 'react-toastify';
 import { Pagination } from 'antd';
 import JobCardSkeleton from '../components/ui/skeleton-loaders/JobCardSkeleton';
-// import { jobs } from '../utils/dummy';
+import useAuth from '../hooks/useAuth';
 
 const JobsListing = () => {
   const { jobs, fetchJobs, loading, error, success } = useJobsFacade();
-  const [id, setId] = useState('');
-  console.log(error)
+
+  const { accessToken } = useAuth(); 
+  const navigate = useNavigate(); 
 
   useEffect(() => {
-    if (loading) {
-      setId(toast.loading('Fetching available jobs...'));
+    if (!accessToken) {
+      navigate('/', { replace: true });
     }
-    if (error) {
-      toast.update(id, { render: error, type: 'error', isLoading: false, autoClose: 4000 });
-    }
-    if (success) {
-      toast.update(id, {
-        render: 'UI updated successfully!',
-        type: 'success',
-        isLoading: false,
-        autoClose: 1000
-      });
-    }
-  }, [loading, success, jobs]);
-
-  useEffect(() => {
-    fetchJobs();
-  }, []);
+  }, [accessToken]);
 
   return (
     <AdminLayout

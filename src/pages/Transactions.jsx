@@ -1,20 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Paid, AttachMoney, Badge, People } from '@mui/icons-material';
-import { toast } from 'react-toastify';
 import AdminLayout from '../components/layout/AdminLayout';
-import SubNavbar from '../components/layout/SubNavbar';
 import TableGrid from '../components/TableGrid';
 import ChartCard from '../components/ChartCard';
 import SparkAreaChart from '../components/charts/SparkAreaChart';
 import SparkLineChart from '../components/charts/SparkLineChart';
 import useTransactionsFacade from '../facades/useTransactionsFacade';
-import useTableQueryParams from '../hooks/useTableQueryParams';
+import useApiToast from '../hooks/useApiToast';
 
 const chartCardData = [
   {
     id: 'c1',
     title: 'Revenue',
-    amount: "56k",
+    amount: '56k',
     percentage: 4,
     icon: <Badge className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
     chart: <SparkAreaChart />
@@ -22,7 +20,7 @@ const chartCardData = [
   {
     id: 'c2',
     title: 'Expenses',
-    amount: "20k",
+    amount: '20k',
     percentage: 4,
     icon: <People className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
     chart: <SparkLineChart />
@@ -30,7 +28,7 @@ const chartCardData = [
   {
     id: 'c3',
     title: 'Income',
-    amount: "36k",
+    amount: '36k',
     percentage: 4,
     icon: <AttachMoney className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
     chart: <SparkAreaChart />
@@ -38,31 +36,11 @@ const chartCardData = [
 ];
 
 const Transactions = () => {
-  const [id, setId] = useState(undefined);
   const { transactions, fetchTransactions, loading, error, success } = useTransactionsFacade();
-
-  const { setSearchParams, tableData, param } = useTableQueryParams(
-    'transactionStatus',
-    transactions,
-    'status'
+  useApiToast(
+    { data: transactions, loading, success, error },
+    { loadingMsg: 'Fetching all Transactions...', successMsg: 'UI successfully updated' }
   );
-
-  useEffect(() => {
-    if (loading) {
-      setId(toast.loading('Fetching transactions data...'));
-    }
-    if (error) {
-      toast.update(id, { render: error, type: 'error', isLoading: false, autoClose: 3000 });
-    }
-    if (success) {
-      toast.update(id, {
-        render: 'UI updated successfully!',
-        type: 'success',
-        isLoading: false,
-        autoClose: 1000
-      });
-    }
-  }, [loading, success, transactions]);
 
   useEffect(() => {
     fetchTransactions();
@@ -73,13 +51,6 @@ const Transactions = () => {
       header="Transactions"
       icon={<Paid className="text-slate-800" sx={{ fontSize: '40px' }} />}>
       <div className="lg:mx-6 w-full space-y-6">
-        <SubNavbar
-          page="transactions"
-          query="transactionStatus"
-          param={param}
-          array={transactions}
-          filterKey="status"
-        />
         <div className="flex flex-wrap gap-6">
           {chartCardData.map((data) => {
             const { id, title, amount, percentage, icon, chart } = data;
@@ -95,13 +66,7 @@ const Transactions = () => {
             );
           })}
         </div>
-        <TableGrid
-          page="transactions"
-          tableData={tableData}
-          setSearchParams={setSearchParams}
-          param={param}
-          query={'transactionStatus'}
-        />
+        <TableGrid page="transactions" tableData={transactions} />
       </div>
     </AdminLayout>
   );

@@ -1,13 +1,13 @@
 import SelectMenu from './ui/SelectMenu';
 import Doughnut from './charts/Doughnut';
 
-const MenteesSummary = () => {
+const MentorsSummary = () => {
 
   return (
     <section className="space-y-10 bg-white rounded-md shadow-md p-8 w-full glossy">
       <div className="w-full">
         <div className="flex flex-col lg:flex-row w-full">
-          <h1 className="text-2xl text-slate-800 font-medium pb-8 w-full">Mentees Summary</h1>
+          <h1 className="text-2xl text-slate-800 font-medium pb-8 w-full">Mentors Summary</h1>
           <SelectMenu />
         </div>
         <div className="flex scroller">
@@ -23,4 +23,4 @@ const MenteesSummary = () => {
   );
 };
 
-export default MenteesSummary;
+export default MentorsSummary;

@@ -1,13 +1,23 @@
-import { Badge, Dashboard, People, Person, Settings, Work, Paid } from '@mui/icons-material';
+import { Badge, Dashboard, People, Person, Settings, Work, Paid, PersonAdd } from '@mui/icons-material';
 
-//  Sidebar links data
-
-export const superAdminLinks = [
+export const adminLinks = [
   {
     id: 'l1',
     name: 'Dashboard',
     href: '/dashboard',
     icon: <Dashboard  className="text-xl" />
+  },
+  {
+    id: 'l11',
+    name: 'New Admin',
+    href: '/new-admin',
+    icon: <PersonAdd  className="text-xl" />
+  },
+  {
+    id: 'l12',
+    name: 'Admins',
+    href: '/admins',
+    icon: <Badge  className="text-xl" />
   },
   {
     id: 'l2',

@@ -1,31 +1,88 @@
 import React, { useEffect, useState } from 'react';
-import { Table, message } from 'antd';
+import { useSearchParams } from 'react-router-dom';
+import { Table } from 'antd';
 import TableActionsMenu from './ui/TableActionsMenu';
-import MemberForm from './ui/modal/MemberForm';
 import { AccountCircle } from '@mui/icons-material';
 import DeleteModal from './ui/modal/DeleteModal';
 import { modifiedDate } from '../utils/timeAndDate';
+import useMembersFacade from '../facades/useMembersFacade';
+import useAdminFacade from '../facades/useAdminFacade';
 
-const TableGrid = ({ page, setSearchParams, param, query, tableData }) => {
-  const [isEditing, setIsEditing] = useState(false);
+const TableGrid = ({ page, tableData }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [tableColumn, setTableColumn] = useState([]);
 
-  // const Delete = (record) => {
-  //   Modal.confirm({
-  //     title: 'Are you sure you want to delete this',
-  //     onOk: () => {
-  //       setData((pre) => {
-  //         return pre.filter((person) => person.id != record.id);
-  //         b;
-  //       });
-  //     }
-  //   });
-  // };
+  const { DeleteMember, loading, success, error, data, updateState, fetchMembers } =
+    useMembersFacade();
+  const { DeleteAdmin, loading: loading_2, success: success_2, fetchAdmins } = useAdminFacade();
+  const isLoading = loading || loading_2;
 
-  // const Edit = () => {
-  //   setVisible(true);
-  // };
+  const [searchParams, setSearchParams] = useSearchParams();
+  const userId = searchParams.get('userId');
+
+  const adminsColumnData = [
+    {
+      key: 'avatar',
+      title: 'Avatar',
+      // ellipsis: true,
+      render: () => {
+        return <AccountCircle className="text-slate-800" sx={{ fontSize: '40px' }} />;
+      }
+    },
+    {
+      key: 'id',
+      title: 'UUID',
+      dataIndex: 'id'
+    },
+    {
+      key: 'firstName',
+      title: 'First Name',
+      dataIndex: 'firstName',
+      sorter: (a, b) => a.name > b.name,
+      sortDirections: ['descend']
+    },
+    {
+      key: 'lastName',
+      title: 'Last Name',
+      dataIndex: 'lastName'
+      // ellipsis: true
+    },
+    {
+      key: 'email',
+      title: 'Email',
+      ellipsis: true,
+      dataIndex: 'email'
+    },
+    {
+      key: 'verified',
+      title: 'Status',
+      sorter: (a, b) => a.status > b.status,
+      sortDirections: ['descend'],
+      render: ({ verified } = record) => {
+        return (
+          <span
+            className={`text-white pb-1.5 pt-1 w-28 text-center px-2.5
+            } rounded-3xl ${!verified ? 'bg-yellow-500' : 'bg-lime-500'} font-medium`}>
+            {verified ? 'Verified' : 'Pending'}
+          </span>
+        );
+      }
+    },
+    {
+      key: 'action',
+      title: 'Actions',
+      render: (record) => {
+        return (
+          <TableActionsMenu
+            record={record}
+            setIsDeleting={setIsDeleting}
+            page={page}
+            setSearchParams={setSearchParams}
+          />
+        );
+      }
+    }
+  ];
 
   const mentorsColumnData = [
     {
@@ -42,9 +99,9 @@ const TableGrid = ({ page, setSearchParams, param, query, tableData }) => {
       dataIndex: 'id'
     },
     {
-      key: 'name',
+      key: 'firstName',
       title: 'Name',
-      dataIndex: 'name',
+      dataIndex: 'firstName',
       sorter: (a, b) => a.name > b.name,
       sortDirections: ['descend']
     },
@@ -55,43 +112,45 @@ const TableGrid = ({ page, setSearchParams, param, query, tableData }) => {
       dataIndex: 'email'
     },
     {
-      key: 'address',
-      title: 'Address',
-      dataIndex: 'address',
+      key: 'country',
+      title: 'Country',
+      dataIndex: 'country',
       ellipsis: true
     },
     {
-      key: 'phone',
+      key: 'telNumber',
       title: 'Phone',
       width: '10%',
-      dataIndex: 'phone'
-    },
-    {
-      key: 'category',
-      title: 'Category',
-      width: '10%',
-      dataIndex: 'category',
+      dataIndex: 'telNumber',
       ellipsis: true
     },
     {
-      key: 'status',
+      key: 'job_title',
+      title: 'Job Title',
+      width: '10%',
+      dataIndex: 'job_title',
+      ellipsis: true
+    },
+    {
+      key: 'price',
+      title: 'Price',
+      width: '10%',
+      dataIndex: 'price',
+      ellipsis: true
+    },
+    {
+      key: 'verified',
       title: 'Status',
+      // dataIndex: 'verified',
       // ellipsis: true,
       sorter: (a, b) => a.status > b.status,
       sortDirections: ['descend'],
-      render: ({ status } = record) => {
+      render: ({ verified } = record) => {
         return (
           <span
-            className={`text-white pb-1.5 pt-1 w-28 text-center ${
-              status === 'failed' ? 'px-5' : 'px-2.5'
-            } rounded-3xl ${
-              status === 'pending'
-                ? 'bg-yellow-500'
-                : status === 'failed'
-                ? 'bg-red-500'
-                : 'bg-lime-500'
-            } font-medium`}>
-            {status}
+            className={`text-white pb-1.5 pt-1 w-28 text-center px-2.5
+            } rounded-3xl ${!verified ? 'bg-yellow-500' : 'bg-lime-500'} font-medium`}>
+            {verified ? 'Verified' : 'Pending'}
           </span>
         );
       }
@@ -103,12 +162,9 @@ const TableGrid = ({ page, setSearchParams, param, query, tableData }) => {
         return (
           <TableActionsMenu
             record={record}
-            setIsEditing={setIsEditing}
             setIsDeleting={setIsDeleting}
-            setSearchParams={setSearchParams}
-            param={param}
-            query={query}
             page={page}
+            setSearchParams={setSearchParams}
           />
         );
       }
@@ -131,50 +187,33 @@ const TableGrid = ({ page, setSearchParams, param, query, tableData }) => {
       dataIndex: 'id'
     },
     {
-      key: 'name',
+      key: 'firstName',
       title: 'Name',
-      dataIndex: 'name',
+      dataIndex: 'firstName',
       sorter: (a, b) => a.name > b.name,
       sortDirections: ['descend']
     },
     {
       key: 'email',
       title: 'Email',
-      // ellipsis: true,
+      ellipsis: true,
       dataIndex: 'email'
     },
     {
-      key: 'address',
-      title: 'Address',
-      dataIndex: 'address',
+      key: 'country',
+      title: 'Country',
+      dataIndex: 'country',
       ellipsis: true
     },
     {
-      key: 'phone',
+      key: 'telNumber',
       title: 'Phone',
-      dataIndex: 'phone'
+      dataIndex: 'telNumber'
     },
     {
-      key: 'status',
-      title: 'Status',
-      sorter: (a, b) => a.status > b.status,
-      sortDirections: ['descend'],
-      render: ({ status } = record) => {
-        return (
-          <span
-            className={`w-full text-white pb-1.5 pt-1 text-center ${
-              status === 'failed' ? 'px-5' : 'px-2.5'
-            } rounded-3xl ${
-              status === 'pending'
-                ? 'bg-yellow-500'
-                : status === 'failed'
-                ? 'bg-red-500'
-                : 'bg-lime-500'
-            } font-medium`}>
-            {status}
-          </span>
-        );
-      }
+      key: 'mentor_type',
+      title: 'Mentor',
+      dataIndex: 'mentor_type'
     },
     {
       key: 'action',
@@ -183,12 +222,9 @@ const TableGrid = ({ page, setSearchParams, param, query, tableData }) => {
         return (
           <TableActionsMenu
             record={record}
-            setIsEditing={setIsEditing}
             setIsDeleting={setIsDeleting}
-            setSearchParams={setSearchParams}
-            param={param}
-            query={query}
             page={page}
+            setSearchParams={setSearchParams}
           />
         );
       }
@@ -263,12 +299,9 @@ const TableGrid = ({ page, setSearchParams, param, query, tableData }) => {
         return (
           <TableActionsMenu
             record={record}
-            setIsEditing={setIsEditing}
             setIsDeleting={setIsDeleting}
-            setSearchParams={setSearchParams}
-            param={param}
-            query={query}
             page={page}
+            setSearchParams={setSearchParams}
           />
         );
       }
@@ -277,6 +310,10 @@ const TableGrid = ({ page, setSearchParams, param, query, tableData }) => {
 
   useEffect(() => {
     switch (page) {
+      case 'admins':
+        setTableColumn(adminsColumnData);
+        break;
+
       case 'mentors':
         setTableColumn(mentorsColumnData);
         break;
@@ -294,45 +331,98 @@ const TableGrid = ({ page, setSearchParams, param, query, tableData }) => {
     }
   }, [page]);
 
+  const DeleteUser = () => {
+    switch (page) {
+      case 'admins':
+        DeleteAdmin(userId);
+        setTimeout(() => {
+          fetchAdmins();
+          setIsDeleting(false);
+          setSearchParams((params) => {
+            params.delete('userId');
+            return params;
+          });
+        }, 2500);
+        break;
+
+      case 'mentors':
+        DeleteMember('mentors', userId);
+        setTimeout(() => {
+          fetchMembers('mentors');
+          setIsDeleting(false);
+          setSearchParams((params) => {
+            params.delete('userId');
+            return params;
+          });
+        }, 2500);
+
+        break;
+
+      case 'mentees':
+        DeleteMember('mentees', userId);
+        setTimeout(() => {
+          fetchMembers('mentees');
+          setIsDeleting(false);
+          setSearchParams((params) => {
+            params.delete('userId');
+            return params;
+          });
+        }, 2500);
+        break;
+
+      case 'transactions':
+        console.log('Deleted');
+        break;
+
+      default:
+        break;
+    }
+  };
+
   const deleteMessages = [
+    {
+      page: 'admins',
+      title: 'Delete Admin ?',
+      content:
+        "Deleting an admin will automatically erase all records of the member. Confirm if you'd want to perform this action."
+    },
     {
       page: 'mentors',
       title: 'Delete Member ?',
       content:
-        "Deleting a member will automatically erase all records of the member. You'll need to be \
-      re-authenticated to perform this action."
+        "Deleting a mentor will automatically erase all records of the member. Confirm if you'd want to perform this action."
     },
     {
       page: 'mentees',
       title: 'Delete Member ?',
       content:
-        "Deleting a member will automatically erase all records of the member. You'll need to be \
-      re-authenticated to perform this action."
+        "Deleting a mentee will automatically erase all records of the member. Confirm if you'd want to perform this action."
     },
     {
       page: 'transactions',
       title: 'Delete Transaction data ?',
       content:
-        "Deleting a transaction will automatically erase all records related to the transaction. You'll need to be \
-      re-authenticated to perform this action."
+        'Deleting a transaction will automatically erase all records related to the transaction.'
     }
   ];
 
   return (
     <>
-      {isEditing && <MemberForm isNewMember={false} onClose={() => setIsEditing(false)} />}
       {isDeleting && (
         <DeleteModal
           setIsDeleting={setIsDeleting}
           message={deleteMessages.find((message) => message.page === page)}
+          DeleteUser={DeleteUser}
+          setSearchParams={setSearchParams}
+          loading={isLoading}
         />
       )}
-      <div className="w-full app scroller glossy">
+      <div className="w-full app scroller glossy h-screen ">
         <div className="w-full table">
           <Table
             dataSource={tableData}
             columns={tableColumn}
-            pagination={{ pageSize: 10, total: tableData.length, showSizeChanger: true }}
+            pagination={{ pageSize: 10, total: tableData?.length, showSizeChanger: true }}
             rowKey={(record) => record.id}
             className="lg:w-full w-[100rem]"
           />

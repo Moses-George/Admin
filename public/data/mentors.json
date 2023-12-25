@@ -3,108 +3,120 @@
     "id": 1,
     "name": "Leanne Graham",
     "email": "Sincere@april.com",
-    "address": "London Kulas Light Apt. 556",
     "phone": 177997368,
-    "status": "pending",
-    "category": "software development"
+    "status": 1,
+    "country": "Germany", 
+    "job_title": "software development",
+    "price": 200
   },
   {
     "id": 2,
     "name": "Ervin Howell",
     "email": "Shanna@melissa.org",
-    "address": "New York Victor Plains Suite 879",
     "phone": 99199692,
-    "status": "approved",
-    "category": "software development"
+    "status": 0,
+    "country": "Germany", 
+    "job_title": "software development",
+    "price": 200
   },
   {
     "id": 2.5,
     "name": "Ervin Howell",
     "email": "Shanna@melissa.org",
-    "address": "New York Victor Plains Suite 879",
     "phone": 991996,
-    "status": "pending",
-    "category": "software development"
+    "status": 0,
+    "country": "Germany", 
+    "job_title": "software development",
+    "price": 200
   },
   {
     "id": 3,
     "name": "Ervin Howell",
     "email": "Shanna@melissa.org",
-    "address": "New York Victor Plains Suite 879",
     "phone": 991996926,
-    "status": "approved",
-    "category": "software development"
+    "status": 1,
+    "country": "Germany", 
+    "job_title": "software development",
+    "price": 200
   },
   {
     "id": 4,
     "name": "Ervin Howell",
     "email": "Shanna@melissa.org",
-    "address": "New York Victor Plains Suite 879",
     "phone": 9919966,
-    "status": "approved",
-    "category": "software development"
+    "status": 0,
+    "country": "Germany", 
+    "job_title": "software development",
+    "price": 200
   },
   {
     "id": 5,
     "name": "Ervin Howell",
     "email": "Shanna@melissa.org",
-    "address": "New York Victor Plains Suite 879",
     "phone": 99199692,
-    "status": "pending",
-    "category": "software development"
+    "status": 1,
+    "country": "Germany", 
+    "job_title": "software development",
+    "price": 200
   },
   {
     "id": 6,
     "name": "Ervin Howell",
     "email": "Shanna@melissa.org",
-    "address": "New York Victor Plains Suite 879",
     "phone": 99199692,
-    "status": "approved",
-    "category": "software development"
+    "status": 1,
+    "country": "Germany", 
+    "job_title": "software development",
+    "price": 200
   },
   {
     "id": 7,
     "name": "Ervin Howell",
     "email": "Shanna@melissa.org",
-    "address": "New York Victor Plains Suite 879",
     "phone": 99199692,
-    "status": "approved",
-    "category": "software development"
+    "status": 0,
+    "country": "Germany", 
+    "job_title": "software development",
+    "price": 200
   },
   {
     "id": 8,
     "name": "Ervin Howell",
     "email": "Shanna@melissa.org",
-    "address": "New York Victor Plains Suite 879",
     "phone": 991996926,
-    "status": "pending",
-    "category": "software development"
+    "status": 0,
+    "country": "Germany", 
+    "job_title": "software development",
+    "price": 200
   },
   {
     "id": 9,
     "name": "Ervin Howell",
     "email": "Shanna@melissa.org",
-    "address": "New York Victor Plains Suite 879",
     "phone": 99199692,
-    "status": "approved",
-    "category": "software development"
+    "status": 1,
+    "country": "Germany", 
+    "job_title": "software development",
+    "price": 200
   },
   {
     "id": 10,
     "name": "Ervin Howell",
     "email": "Shanna@melissa.org",
-    "address": "New York Victor Plains Suite 879",
     "phone": 99199692,
     "status": "pending",
-    "category": "software development"
+    "country": "Germany", 
+    "job_title": "software development",
+    "price": 200
   },
   {
     "id": 11,
     "name": "Ervin Howell",
     "email": "Shanna@melissa.org",
-    "address": "New York Victor Plains Suite 879",
     "phone": 99199692,
-    "status": "pending",
-    "category": "software development"
+    "status": 1,
+    "country": "Germany", 
+    "job_title": "software development",
+    "price": 200
   }
 ]

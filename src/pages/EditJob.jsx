@@ -1,10 +1,19 @@
+import { useNavigate } from 'react-router-dom';
 import { Edit } from '@mui/icons-material';
 import AdminLayout from '../components/layout/AdminLayout';
 import JobForm from '../components/jobs/JobForm';
+import useAuth from '../hooks/useAuth';
 
 const EditJob = () => {
-  // const router = useRouter();
-  // const { query } = useRouter();
+
+  const { accessToken } = useAuth(); 
+  const navigate = useNavigate(); 
+
+  useEffect(() => {
+    if (!accessToken) {
+      navigate('/', { replace: true });
+    }
+  }, [accessToken]);
 
   return (
     <AdminLayout header="Edit Job" icon={<Edit sx={{fontSize:"40px"}} />}>

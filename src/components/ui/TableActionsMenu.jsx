@@ -1,37 +1,20 @@
-import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
 import { AccountCircle, Delete, Download, Edit, MoreVert } from '@mui/icons-material';
+import useMembersFacade from '../../facades/useMembersFacade';
+import useApiToast from '../../hooks/useApiToast';
 
-const TableActionsMenu = ({
-  record,
-  setIsEditing,
-  setIsDeleting,
-  setSearchParams,
-  param,
-  query,
-  page
-}) => {
+const TableActionsMenu = ({ record, setIsDeleting, page, setSearchParams }) => { 
   const [dropdownIsVisible, setDropdownIsVisible] = useState(false);
+  const [isVerified, setIsVerified] = useState(Boolean(record.verified));
+  // const isFirstRun = useRef(true);
+  const { verifyMentor, loading, success, error, members } = useMembersFacade();
+  // const [searchParams, setSearchParams] = useSearchParams();
 
-  // const confirmDelete = () => {
-  //   setIsDeleting(true);
-  //   param
-  //     ? setSearchParams({ [query]: param, mentorId: record.id })
-  //     : setSearchParams({ mentorId: record.id });
-  //   setDropdownIsVisible(false);
-  // };
-
-  const confimUpdate = () => {
-    setIsEditing(true);
-    param
-      ? setSearchParams({ [query]: param, mentorId: record.id })
-      : setSearchParams({ mentorId: record.id });
-    setDropdownIsVisible(false);
+  const openModal = () => { 
+    setIsDeleting(true);
+    setSearchParams({ userId: record.id });
   };
-
-  useEffect(() => {
-    setDropdownIsVisible(false);
-  }, [param]);
 
   return (
     <div className="relative">
@@ -52,7 +35,7 @@ const TableActionsMenu = ({
             aria-labelledby="dropdownMenuIconButton">
             <li>
               <button
-                onClick={()=> setIsDeleting(true)}
+                onClick={openModal} 
                 className="px-4 py-2 hover:bg-gray-100 flex items-center gap-1 justify-between">
                 <Delete className="text-slate-500" />
                 <span className="text-slate-800 text-sm">
@@ -61,30 +44,25 @@ const TableActionsMenu = ({
               </button>
             </li>
             <li>
-              <button
-                onClick={confimUpdate}
-                className="flex items-center justify-between px-4 gap-1 py-2 hover:bg-gray-100">
-                <Edit className="text-slate-500" />
-                <span className="text-slate-800 text-sm">
-                  Update {page.slice(0, page.length - 1)}
-                </span>
-              </button>
+              {page !== 'mentees' && (
+                <div className="flex p-2 rounded hover:bg-gray-100">
+                  <label className="relative inline-flex items-center gap-1 w-full cursor-pointer">
+                    <input
+                      type="checkbox"
+                      className="sr-only peer"
+                      value={record.status}
+                      // checked={isVerified}
+                      // onChange={handleChangeVerification}
+                    />
+                    <div className="w-12 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-lime-300  rounded-full peer  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all  peer-checked:bg-lime-600"></div>
+                    <span className="ml-3 text-sm font-medium text-slate-800 w-full">
+                      toggle status
+                    </span>
+                  </label>
+                </div>
+              )}
             </li>
-            <li>
-              <div className="flex p-2 rounded hover:bg-gray-100">
-                <label className="relative inline-flex items-center gap-1 w-full cursor-pointer">
-                  <input
-                    type="checkbox"
-                    className="sr-only peer"
-                    value={record.status}
-                    checked={record.status === 'approved'}
-                  />
-                  <div className="w-12 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-lime-300  rounded-full peer  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all  peer-checked:bg-lime-600"></div>
-                  <span className="ml-3 text-sm font-medium text-slate-800 w-full">toggle status</span>
-                </label>
-              </div>
-            </li>
-          </ul> 
+          </ul>
           <div className="py-2">
             {page === 'transactions' ? (
               <button className="space-x-3">
@@ -92,12 +70,14 @@ const TableActionsMenu = ({
                 <span className="text-slate-800">Download receipt</span>
               </button>
             ) : (
-              page === "mentors" && <Link
-                to={`/${page}/${record.id}`}
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 space-x-2">
-                <AccountCircle className="text-slate-500" />
-                <span className="text-slate-800">View profile</span>
-              </Link>
+              page === 'mentors' && (
+                <Link
+                  to={`/${page}/${record.id}`}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 space-x-2">
+                  <AccountCircle className="text-slate-500" />
+                  <span className="text-slate-800">View profile</span>
+                </Link>
+              )
             )}
           </div>
         </div>

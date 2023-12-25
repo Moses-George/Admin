@@ -1,18 +1,20 @@
 import axios from 'axios';
 import { HttpMethod } from '../constants';
+// import {  baseURL } from '../envVariables';
+
+const baseURL = 'https://dashboard-m5qj.onrender.com';
 
 class HttpService {
-//   baseURL = process.env.BASE_URL;
   constructor() {
     this.http = axios.create({
-      baseURL: "./data",
-      withCredentials: false,
+      baseURL: baseURL,
+      // withCredentials: false,
       headers: this.setupHeaders()
     });
   }
 
   getAuthorization() {
-    const accessToken = 'hhdhdhhdh6e67';
+    const accessToken = localStorage.getItem('accessToken');
     return accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
   }
 
@@ -38,7 +40,7 @@ class HttpService {
   }
 
   //   Perform GET request
-  async get(url, params = {} || params, hasAttachment = false) {
+  async get(url, params = { } || params, hasAttachment = false) {
     return this.request(HttpMethod.GET, url, {
       params,
       headers: this.setupHeaders(hasAttachment)

@@ -1,10 +1,13 @@
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, redirect, useNavigate } from 'react-router-dom';
 import InputField from '../components/ui/InputField';
 import useForm from '../hooks/useForm';
-// import { KeyRound, Lock, Mail } from 'lucide-react';
 import { Email, Lock, Key } from '@mui/icons-material';
 import { Validator } from '../utils/validator';
 import { toast } from 'react-toastify';
+import useApiToast from '../hooks/useApiToast';
+import useAdminFacade from '../facades/useAdminFacade';
+import useAuth from '../hooks/useAuth';
 
 const InitialData = {
   email: '',
@@ -13,16 +16,39 @@ const InitialData = {
 
 const Auth = () => {
   const { formData, setFormData, handleChange } = useForm(InitialData);
+  const { logInAdmin, resetState, data, loading, error, success} = useAdminFacade();
+  useApiToast(
+    { data, loading, success, error },
+    { loadingMsg: "Hold on, you're being logged in...", successMsg: data?.message }
+  );
+  const { accessToken } = useAuth();
+  const navigate = useNavigate();
+  // console.log(accessToken);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { whiteSpaces, message } = new Validator(formData);
-    if (whiteSpaces()) {
-      toast.error(message, { autoClose: 4000 });
-    }
     console.log(formData);
-    // setFormData(InitialData);
+    const validator = new Validator(formData);
+    if (validator.whiteSpaces().length !== 0) {
+      toast.error(validator.message, { autoClose: 4000 });
+      return;
+    }
+    logInAdmin(formData);
   };
+
+  useEffect(() => {
+    if (success) {
+      setFormData(InitialData);
+      navigate('/dashboard', { replace: true });
+      resetState();
+    }
+  }, [success]);
+
+  useEffect(() => {
+    if (accessToken) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [accessToken]);
 
   return (
     <>

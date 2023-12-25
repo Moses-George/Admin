@@ -1,10 +1,23 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SettingsSharp} from '@mui/icons-material';
 import AdminLayout from '../components/layout/AdminLayout';
 import BioDataForm from '../components/settings/BioDataForm';
 import ChangePasswordForm from '../components/settings/ChangePasswordForm';
 import ChangeDPForm from '../components/settings/ChangeDPForm';
+import useAuth from '../hooks/useAuth';
 
 const Settings = () => {
+
+  const { accessToken } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!accessToken) {
+      navigate('/', { replace: true });
+    }
+  }, [accessToken]);
+
   return (
     <AdminLayout header="Settings" icon={<SettingsSharp />}>
       <div className="lg:mx-6 space-y-6 w-full">

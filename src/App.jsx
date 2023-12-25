@@ -14,15 +14,19 @@ import Mentees from './pages/Mentees';
 import Transactions from './pages/Transactions';
 import EditJob from './pages/EditJob';
 import Settings from './pages/Settings';
+import { isAuthenticated } from './lib/authMiddleware';
+import NewAdmin from './pages/NewAdmin';
+import useAuth from './hooks/useAuth';
+import Admins from './pages/Admins';
 
 function App() {
-
   const location = useLocation();
 
-  useEffect(() => {
-      window.scrollTo(0, 0);
-  }, [location]);
+  const { token } = useAuth();
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
 
   return (
     <>
@@ -35,6 +39,8 @@ function App() {
         <Route path="/jobs-listing/*" element={<JobsListing />} />
         <Route path="/jobs-listing/new-job" element={<NewJob />} />
         <Route path="/jobs-listing/:jobId" element={<EditJob />} />
+        <Route path="/admins" element={<Admins />} />
+        <Route path="/new-admin" element={<NewAdmin />} />
         <Route path="/mentors/*" element={<Mentors />} />
         <Route path="/mentors/:mentorId" element={<MentorProfile />} />
         <Route path="/mentees" element={<Mentees />} />

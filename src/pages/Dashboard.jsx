@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AttachMoney, Badge, DashboardCustomize, People } from '@mui/icons-material';
 import PanelHeader from '../components/PanelHeader';
 import Revenue from '../components/dashboard/Revenue';
 import AdminLayout from '../components/layout/AdminLayout';
-import MenteesSummary from '../components/MenteesSummary';
+import MentorsSummary from '../components/MentorsSummary';
 import ChartCard from '../components/ChartCard';
 import LineChart from '../components/charts/LineChart';
 import RadialBarChart from '../components/charts/RadialBarChart';
@@ -11,70 +12,61 @@ import SparkAreaChart from '../components/charts/SparkAreaChart';
 import SparkLineChart from '../components/charts/SparkLineChart';
 import PolarAreaChart from '../components/charts/PolarAreaChart';
 import useJobsFacade from '../facades/useJobsFacade';
-import { toast } from 'react-toastify';
-import ChartCardSkeleton from '../components/ui/skeleton-loaders/ChartCardSkeleton';
-import JobCardSkeleton from '../components/ui/skeleton-loaders/JobCardSkeleton';
+import useAdminFacade from '../facades/useAdminFacade';
+import useAuth from '../hooks/useAuth';
 
-const chartCardData = [
-  {
-    id: 'c1',
-    title: 'Mentors',
-    amount: 56,
-    percentage: 4,
-    icon: <Badge className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
-    chart: <SparkAreaChart />
-  },
-  {
-    id: 'c2',
-    title: 'Mentees',
-    amount: 56,
-    percentage: 4,
-    icon: <People className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
-    chart: <SparkLineChart />
-  },
-  {
-    id: 'c3',
-    title: 'Income',
-    amount: 56,
-    percentage: 4,
-    icon: <AttachMoney className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
-    chart: <SparkAreaChart />
-  }
-];
+const getChartCardData = (mentors, mentees, income) => {
+  const chartCardData = [
+    {
+      id: 'c1',
+      title: 'Mentors',
+      amount: mentors,
+      percentage: 0,
+      icon: <Badge className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
+      chart: <SparkAreaChart />
+    },
+    {
+      id: 'c2',
+      title: 'Mentees',
+      amount: mentees,
+      percentage: 0,
+      icon: <People className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
+      chart: <SparkLineChart />
+    },
+    {
+      id: 'c3',
+      title: 'Income',
+      amount: `$${income}`,
+      percentage: 0,
+      icon: <AttachMoney className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
+      chart: <SparkAreaChart />
+    }
+  ];
+
+  return chartCardData;
+};
 
 const Dashboard = () => {
-  const [id, setId] = useState(undefined);
-  const { jobs, fetchJobs, loading, success, error } = useJobsFacade();
+  const { fetchSingleAdmin, loading, success, error, admin } = useAdminFacade();
+  const { accessToken } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (loading) {
-      setId(toast.loading('Updating UI...'));
-    }
-    if (error) {
-      toast.update(id, { render: error, type: 'error', isLoading: false, autoClose: 3000 });
-    }
-    if (success) {
-      toast.update(id, {
-        render: 'UI updated successfully!',
-        type: 'success',
-        isLoading: false,
-        autoClose: 1000
-      });
-    }
-  }, [loading, success, jobs]);
-
-  useEffect(() => {
-    fetchJobs();
+    fetchSingleAdmin(accessToken);
   }, []);
+
+  useEffect(() => {
+    if (!accessToken) {
+      navigate('/', { replace: true });
+    }
+  }, [accessToken]);
 
   return (
     <AdminLayout header="Dashboard" icon={<DashboardCustomize />}>
       <div className="lg:mx-6 space-y-6 w-full">
-        <PanelHeader />
+        <PanelHeader admin={admin} loading={loading} />
         <div className="flex flex-wrap gap-6">
-        {/* <ChartCardSkeleton />  */}
-        {/* <JobCardSkeleton /> */}
-          {chartCardData.map((data) => {
+          {getChartCardData(0, 0, '0.0').map((data) => {
             const { id, title, amount, percentage, icon, chart } = data;
             return (
               <ChartCard
@@ -90,12 +82,12 @@ const Dashboard = () => {
         </div>
         <section className="grid lg:grid-cols-[6.5fr_3.5fr] gap-6">
           <Revenue />
-          <PolarAreaChart heading="Jobs Category" chartData={jobs} />
+          <PolarAreaChart heading="Jobs Category" chartData={[]} />
         </section>
-        <MenteesSummary />
+        <MentorsSummary />
         <section className="grid lg:grid-cols-[6.5fr_3.5fr] gap-6">
           <LineChart />
-          <RadialBarChart heading="Radial Bar" chartData={jobs} />
+          <RadialBarChart heading="Radial Bar" chartData={[]} />
         </section>
       </div>
     </AdminLayout>

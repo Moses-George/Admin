@@ -1,10 +1,20 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Add, AddBox, AddCircle } from '@mui/icons-material';
 import AdminLayout from '../components/layout/AdminLayout';
 import JobForm from '../components/jobs/JobForm';
+import useAuth from '../hooks/useAuth';
 
 const NewJob = () => {
-  // const router = useRouter();
-  // const { query } = useRouter();
+
+  const { accessToken } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!accessToken) {
+      navigate('/', { replace: true });
+    }
+  }, [accessToken]);
 
   return (
     <AdminLayout header="New Job" icon={<AddCircle sx={{fontSize:"40px"}} />}>
