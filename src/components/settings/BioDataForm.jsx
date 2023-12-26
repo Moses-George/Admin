@@ -1,22 +1,66 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Save } from '@mui/icons-material';
 import InputFieldsData from '.';
 import useForm from '../../hooks/useForm';
 import InputField from '../ui/InputField';
+import { useUpdateUserProfileDataMutation } from '../../store/api/userApi';
+import { getToken } from '../../utils/authHelpers';
+import useApiToast from '../../hooks/useApiToast';
+import Validator from '../../utils/validator';
 
 const InitialData = {
-  first_name: '',
-  last_name: '',
+  firstName: '',
+  lastName: '',
   email: '',
-  phone_umber: '',
+  telNumber: '',
   education: '',
   about: ''
 };
 
 const BioDataForm = () => {
-  const { formData, setFormData, handleChange, setMediaPreview, mediaPreview } =
-    useForm(InitialData);
+  const { formData, setFormData, handleChange } = useForm(InitialData);
+  const [updateUserProfileData, { isLoading, isError, error, isSuccess, data: user }] =
+    useUpdateUserProfileDataMutation();
+  useApiToast({
+    user,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+    loadingMsg: 'Updating your bio data...',
+    successMsg: 'Successfully updated data!'
+  });
+  const token = getToken();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const validator = new Validator(formData); 
+    if (validator.whiteSpaces().length !== 0) {
+      toast.error(validator.message, { autoClose: 4000 });
+      return;
+    }
+    await updateUserProfileData({ token, payload: formData });
+  };
+
+  console.log(user);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setFormData(InitialData);
+      navigate('/my-profile');
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/', { replace: true });
+    }
+  }, [token]);
+
   return (
-    <form className="space-y-6 lg:space-y-0">
+    <form className="space-y-6 lg:space-y-0" onSubmit={handleSubmit}>
       <div className=" flex flex-col lg:flex-row lg:flex-wrap gap-y-6 gap-x-12">
         {InputFieldsData.map((fieldData) => {
           const { id, name, type, placeholder, icon } = fieldData;
@@ -51,7 +95,7 @@ const BioDataForm = () => {
             id="message"
             rows={3}
             className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border-2 border-gray-300 focus:bg-white focus:ring-4 focus:outline-none focus:ring-lime-300"
-            name="description"
+            name="about"
             onChange={handleChange}
             value={formData.about}
             placeholder="about yourself..."></textarea>

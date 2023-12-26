@@ -1,28 +1,25 @@
 import { AccountCircle, Logout, Menu, Close } from '@mui/icons-material';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { adminLinks } from '.';
-import {
-  framerDelaySlide,
-  framerIcon,
-  framerSidebarPanel
-} from '../../utils/framer-motion/variants';
-import { motion } from 'framer-motion';
-import useAdminFacade from '../../facades/useAdminFacade';
 import { useEffect } from 'react';
+import { useGetUserQuery } from '../../store/api/userApi';
+import { getToken, removeToken } from '../../utils/authHelpers';
 
 const Sidebar = ({ display, lg_display, zIndex, isVisible, setIsVisible }) => {
-  const { fetchSingleAdmin, loading, success, error, admin, resetState } = useAdminFacade();
+  const token = getToken();
+  const { isLoading, isError, error, isSuccess, data: user } = useGetUserQuery(token);
+  const admin = user?.data[0];
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchSingleAdmin();
-    resetState();
-  }, []);
+    if (!token) {
+      navigate('/', { replace: true });
+    }
+  }, [token]);
 
   const logout = () => {
-    resetState();
     navigate('/', { replace: true });
-    localStorage.removeItem('accessToken');
+    removeToken();
   };
 
   return (
@@ -41,25 +38,28 @@ const Sidebar = ({ display, lg_display, zIndex, isVisible, setIsVisible }) => {
           )}
         </div>
         <div className="p-1 rounded-full border-4 w-fit border-white self-center">
-          <AccountCircle className="text-7xl" style={{ fontSize: '60px' }} />
+          {isLoading || !user ? (
+            <div className="animate-pulse rounded-full h-24 w-24 bg-gray-300 shadow-md"></div>
+          ) : admin?.imageUrl ? (
+            <img src={admin?.imageUrl} alt="" className="rounded-full h-24 w-24" />
+          ) : (
+            <AccountCircle className="" style={{ fontSize: '80px' }} />
+          )}
         </div>
-        <p className="text-md font-semibold text-center">{admin?.firstName} {admin?.lastName}</p>
+        <p className="text-md font-semibold text-center">
+          {admin?.firstName} {admin?.lastName}
+        </p>
       </div>
 
-      <div className="flex flex-col space-y-3 text-white mt-6">
+      <div className="flex flex-col space-y-3 text-white mt-2">
         {adminLinks.map((link, index) => (
           <NavLink
             className={`${({ isActive }) =>
               isActive ? 'active' : 'inactive'} flex items-center gap-2 pl-4`}
             key={link.id}
             to={link.href}>
-            <div  className="">
-              {' '}
-              {link.icon}{' '}
-            </div>
-            <span  className="text-md flex-4">
-              {link.name}
-            </span>
+            <div className=""> {link.icon} </div>
+            <span className="text-md flex-4">{link.name}</span>
           </NavLink>
         ))}
       </div>

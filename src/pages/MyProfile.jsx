@@ -3,39 +3,43 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AccountBox, AdminPanelSettings, LinkedIn, Twitter, Facebook } from '@mui/icons-material';
 import AdminLayout from '../components/layout/AdminLayout';
 import PanelHeader from '../components/PanelHeader';
-import useAdminFacade from '../facades/useAdminFacade';
-import useAuth from '../hooks/useAuth';
+import { useGetUserQuery } from '../store/api/userApi';
+import { getToken } from '../utils/authHelpers';
 
 const MyProfile = () => {
-  const { fetchSingleAdmin, loading, success, error, admin } = useAdminFacade();
-
-  const { accessToken } = useAuth();
+  const token = getToken();
+  const { isLoading, isError, error, isSuccess, data: user, refetch } = useGetUserQuery(token);
+  const admin = user?.data[0];
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!accessToken) {
+    if (!token) {
       navigate('/', { replace: true });
     }
-  }, [accessToken]);
+  }, [token]);
 
   useEffect(() => {
-    fetchSingleAdmin(accessToken);
-  }, []);
+    refetch();
+  }, [user]);
 
   return (
     <AdminLayout header="My Profile" icon={<AdminPanelSettings sx={{ fontSize: '50px' }} />}>
-      <div className="mx-6 space-y-6 w-full">
-        <PanelHeader admin={admin} loading={loading} />
+      <div className="lg:mx-6 space-y-6 w-full">
+        <PanelHeader admin={admin} loading={isLoading} />
         <div className="bg-white rounded-md glossy px-8 py-16">
           <div className="grid grid-cols-1 lg:grid-cols-[2fr_8fr] gap-4 w-full">
             <div className="">
-              <AccountBox className="text-slate-800" sx={{ fontSize: '170px' }} />
+              {admin?.image ? (
+                <img src={admin?.image} alt="" className="rounded-full h-[10rem] w-[10rem]" />
+              ) : (
+                <AccountBox className="text-slate-800" sx={{ fontSize: '170px' }} />
+              )}
             </div>
 
             <div className="space-y-8 w-full">
               <div className="flex flex-col lg:flex-row w-full space-y-6">
                 <div className="w-full space-y-2">
-                  {loading || Object.keys(admin).length === 0 ? (
+                  {isLoading || !admin ? (
                     <h1 className="animate-pulse w-60 h-10 bg-gray-200"></h1>
                   ) : (
                     <h1 className="text-3xl text-lime-900 font-medium">
@@ -82,16 +86,27 @@ const MyProfile = () => {
                 </div>
                 <div className="text-en space-y-6 flex-grow basis-1/4 w-full">
                   <div className="w-full">
-                    <p className="text-slate-800 font-medium">Phone Number</p>
-                    <p className="text-slate-600">Null</p>
+                    <p className="text-slate-800 font-medium">Tel Number</p>
+                    <p className="text-slate-600">{!admin?.telNumber ? "Null" : admin?.telNumber}</p> 
                   </div>
                   <div className="w-full">
-                    <p className="text-slate-800 font-medium">Higher Education</p>
-                    <p className="text-slate-600">Null</p>
+                    <p className="text-slate-800 font-medium">Education</p>
+                    <p className="text-slate-600">{!admin?.education ? "Null" : admin?.education}</p>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-md glossy px-8 py-16">
+          <div className="space-y-3">
+            <h2 className="font-semibold text-2xl text-slate-800">About</h2>
+            {isLoading || !admin ? (
+              <p className="w-full h-60 bg-gray-200 animate-pulse"></p>
+            ) : (
+              <p className="text-slate-600">{!admin?.about ? 'No biography' : admin?.about}</p>
+            )}
           </div>
         </div>
       </div>

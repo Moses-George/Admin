@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Email, Key } from '@mui/icons-material';
+import { Email, Key } from '@mui/icons-material'; 
 import InputField from '../components/ui/InputField';
 import useForm from '../hooks/useForm';
 import Validator from '../utils/validator';
 import { toast } from 'react-toastify';
 import useApiToast from '../hooks/useApiToast';
-import useAdminFacade from '../facades/useAdminFacade';
+import { useResetUserPasswordMutation } from '../store/api/userApi';
 
 const InitialData = {
   email: '',
@@ -16,17 +16,22 @@ const InitialData = {
 
 const ResetPassword = () => {
   const { formData, setFormData, handleChange } = useForm(InitialData);
-  const { resetPassword, resetState, loading, success, error, data } = useAdminFacade();
-  useApiToast(
-    { data, loading, success, error },
-    { loadingMsg: 'Your request is being sent...', successMsg: data?.message }
-  );
+  const [resetUserPassword, { isLoading, isError, error, isSuccess, data: user }] =
+    useResetUserPasswordMutation();
+  useApiToast({
+    data,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+    loadingMsg: "Sending your request...",
+    successMsg: 'Successfully changed password!'
+  });
 
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(formData);
+  const handleSubmit = async (event) => {
+    event.preventDefault()
     const validator = new Validator(formData);
     if (validator.whiteSpaces().length !== 0) {
       toast.error(validator.message, { autoClose: 4000 });
@@ -34,19 +39,18 @@ const ResetPassword = () => {
     }
     if (validator.confirmPassword()) {
       const { email, password } = formData;
-      resetPassword({ email, password });
+      await resetUserPassword({ email, password });
     } else {
       toast.error(validator.message, { autoClose: 4000 });
     }
   };
 
   useEffect(() => {
-    if (success) {
+    if (isSuccess) {
       setFormData(InitialData);
       navigate('/');
-      resetState();
     }
-  }, [success]);
+  }, [isSuccess]);
 
   return (
     <section className="mx-auto shadow-md bg-white h-fit mt-12 w-[22rem] lg:w-[30rem]">
@@ -65,7 +69,7 @@ const ResetPassword = () => {
               value={formData.email}
               onChange={handleChange}
               ringColorClass="focus:ring-lime-300"
-              icon={<Key className="text-slate-400" />}
+              icon={<Email className="text-slate-400" />}
             />
           </div>
           <div className="mb-6">

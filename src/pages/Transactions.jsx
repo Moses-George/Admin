@@ -5,7 +5,6 @@ import TableGrid from '../components/TableGrid';
 import ChartCard from '../components/ChartCard';
 import SparkAreaChart from '../components/charts/SparkAreaChart';
 import SparkLineChart from '../components/charts/SparkLineChart';
-import useTransactionsFacade from '../facades/useTransactionsFacade';
 import useApiToast from '../hooks/useApiToast';
 
 const chartCardData = [
@@ -36,15 +35,6 @@ const chartCardData = [
 ];
 
 const Transactions = () => {
-  const { transactions, fetchTransactions, loading, error, success } = useTransactionsFacade();
-  useApiToast(
-    { data: transactions, loading, success, error },
-    { loadingMsg: 'Fetching all Transactions...', successMsg: 'UI successfully updated' }
-  );
-
-  useEffect(() => {
-    fetchTransactions();
-  }, []);
 
   return (
     <AdminLayout
@@ -66,7 +56,7 @@ const Transactions = () => {
             );
           })}
         </div>
-        <TableGrid page="transactions" tableData={transactions} />
+        <TableGrid page="transactions" tableData={[]} />
       </div>
     </AdminLayout>
   );

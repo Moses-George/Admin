@@ -5,10 +5,10 @@ import AdminLayout from '../components/layout/AdminLayout';
 import useForm from '../hooks/useForm';
 import InputField from '../components/ui/InputField';
 import Validator from '../utils/validator';
-import useAdminFacade from '../facades/useAdminFacade';
 import useApiToast from '../hooks/useApiToast';
 import { toast } from 'react-toastify';
-import useAuth from '../hooks/useAuth';
+import { useSignupUserMutation } from '../store/api/authApi';
+import { getToken } from '../utils/authHelpers';
 
 const InitialData = {
   firstName: '',
@@ -50,47 +50,51 @@ const InputFieldsData = [
 
 const NewAdmin = () => {
   const { formData, setFormData, handleChange } = useForm(InitialData);
-  const { registerNewAdmin, data, loading, success, error, resetState, resetDataState } =
-    useAdminFacade();
-  useApiToast(
-    { data, loading, success, error },
-    { loadingMsg: 'Creating new Admin...', successMsg: 'Admin successfully created' }
-  );
-
-  const { accessToken } = useAuth();
+  const [signupUser, { isLoading, isError, error, isSuccess, data: user }] =
+    useSignupUserMutation();
+  useApiToast({
+    user,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+    loadingMsg: 'Creating new admin...',
+    successMsg: 'Successfully added new admin!'
+  });
+  const token = getToken();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!accessToken) {
-      navigate('/', { replace: true });
-    }
-  }, [accessToken]);
-
-  const handleSubmit = (event) => {
+  const RegisterUser = async (event) => {
     event.preventDefault();
-    console.log(formData);
     const validator = new Validator(formData);
     if (validator.whiteSpaces().length !== 0) {
       toast.error(validator.message, { autoClose: 4000 });
       return;
     }
-    registerNewAdmin(formData);
+    await signupUser(formData);
   };
 
+  console.log(user);
+
   useEffect(() => {
-    resetState();
-    if (success) {
-      resetDataState();
+    if (isSuccess) {
+      setFormData(InitialData);
       navigate('/admins');
     }
-  }, [success]);
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/', { replace: true });
+    }
+  }, [token]);
 
   return (
     <AdminLayout header="New Admin" icon={<PersonAdd sx={{ fontSize: '40px' }} />}>
       <div className="lg:mx-6 w-full">
         <section className="bg-white rounded-md shadow-md p-12 space-y-16 glossy">
           <h1 className="text-3xl text-slate-800 font-medium">Add New Admin</h1>
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-6" onSubmit={RegisterUser}>
             <div className=" flex flex-col lg:flex-row lg:flex-wrap gap-y-6 gap-x-12">
               {InputFieldsData.map((fieldData) => {
                 const { id, name, type, placeholder, icon } = fieldData;

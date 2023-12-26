@@ -2,18 +2,18 @@ import { useNavigate } from 'react-router-dom';
 import { Edit } from '@mui/icons-material';
 import AdminLayout from '../components/layout/AdminLayout';
 import JobForm from '../components/jobs/JobForm';
-import useAuth from '../hooks/useAuth';
+import { getToken } from '../utils/authHelpers';
 
 const EditJob = () => {
 
-  const { accessToken } = useAuth(); 
-  const navigate = useNavigate(); 
+  const token = getToken();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!accessToken) {
+    if (!token) {
       navigate('/', { replace: true });
     }
-  }, [accessToken]);
+  }, [token]);
 
   return (
     <AdminLayout header="Edit Job" icon={<Edit sx={{fontSize:"40px"}} />}>

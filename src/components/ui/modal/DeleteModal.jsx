@@ -19,7 +19,7 @@ const DeleteModalOverlay = ({ setIsDeleting, message, DeleteUser, setSearchParam
 
   return (
     <motion.div
-      className="fixed border-gradient bg-white z-[9999]  lg:top-20 top-12  p-8 space-y-6 w-full lg:w-[28rem] rounded-lg flex flex-col items-center"
+      className="fixed border-gradient bg-white z-[9999]  lg:top-20 top-12  p-8 space-y-6 w-[95%] lg:w-[28rem] rounded-lg flex flex-col items-center"
       variants={dropIn}
       initial="hidden"
       animate="visible"

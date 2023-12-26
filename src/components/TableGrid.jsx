@@ -5,28 +5,37 @@ import TableActionsMenu from './ui/TableActionsMenu';
 import { AccountCircle } from '@mui/icons-material';
 import DeleteModal from './ui/modal/DeleteModal';
 import { modifiedDate } from '../utils/timeAndDate';
-import useMembersFacade from '../facades/useMembersFacade';
-import useAdminFacade from '../facades/useAdminFacade';
+import { useDeleteUserMutation } from '../store/api/userApi';
+import { useDeleteMemberMutation } from '../store/api/memberApi';
 
-const TableGrid = ({ page, tableData }) => {
+const TableGrid = ({ page, tableData, refetch }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [tableColumn, setTableColumn] = useState([]);
-
-  const { DeleteMember, loading, success, error, data, updateState, fetchMembers } =
-    useMembersFacade();
-  const { DeleteAdmin, loading: loading_2, success: success_2, fetchAdmins } = useAdminFacade();
-  const isLoading = loading || loading_2;
-
+  const [rowData, setRowData] = useState(tableData);
   const [searchParams, setSearchParams] = useSearchParams();
   const userId = searchParams.get('userId');
+  const [
+    deleteUser,
+    { isLoading: loading_u, isError: isError_u, error: error_u, isSuccess: success_u, data: data_u }
+  ] = useDeleteUserMutation();
+  const [
+    deleteMember,
+    { isLoading: loading_m, isError: isError_m, error: error_m, isSuccess: success_m, data: data_m }
+  ] = useDeleteMemberMutation();
+  const loading = loading_u || loading_m;
+  const success = success_u || success_m;
 
   const adminsColumnData = [
     {
       key: 'avatar',
       title: 'Avatar',
       // ellipsis: true,
-      render: () => {
-        return <AccountCircle className="text-slate-800" sx={{ fontSize: '40px' }} />;
+      render: ({ imageUrl } = record) => {
+        return imageUrl ? (
+          <img src={imageUrl} alt="" className="w-[3.5rem] h-[3.5rem] rounded-full" />
+        ) : (
+          <AccountCircle className="text-slate-800" sx={{ fontSize: '60px' }} />
+        );
       }
     },
     {
@@ -78,6 +87,7 @@ const TableGrid = ({ page, tableData }) => {
             setIsDeleting={setIsDeleting}
             page={page}
             setSearchParams={setSearchParams}
+            refetch={refetch}
           />
         );
       }
@@ -89,8 +99,12 @@ const TableGrid = ({ page, tableData }) => {
       key: 'avatar',
       title: 'Avatar',
       ellipsis: true,
-      render: () => {
-        return <AccountCircle className="text-slate-800" sx={{ fontSize: '40px' }} />;
+      render: ({ image } = record) => {
+        return image ? (
+          <img src={image} alt="" className="w-24 h-24 rounded-full" />
+        ) : (
+          <AccountCircle className="text-slate-800" sx={{ fontSize: '40px' }} />
+        );
       }
     },
     {
@@ -165,6 +179,7 @@ const TableGrid = ({ page, tableData }) => {
             setIsDeleting={setIsDeleting}
             page={page}
             setSearchParams={setSearchParams}
+            refetch={refetch}
           />
         );
       }
@@ -176,8 +191,12 @@ const TableGrid = ({ page, tableData }) => {
       key: 'avatar',
       title: 'Avatar',
       ellipsis: true,
-      render: () => {
-        return <AccountCircle className="text-slate-800" sx={{ fontSize: '40px' }} />;
+      render: ({ image } = record) => {
+        return image ? (
+          <img src={image} alt="" className="w-24 h-24 rounded-full" />
+        ) : (
+          <AccountCircle className="text-slate-800" sx={{ fontSize: '40px' }} />
+        );
       }
     },
     {
@@ -309,6 +328,7 @@ const TableGrid = ({ page, tableData }) => {
   ];
 
   useEffect(() => {
+    setRowData(tableData);
     switch (page) {
       case 'admins':
         setTableColumn(adminsColumnData);
@@ -329,45 +349,33 @@ const TableGrid = ({ page, tableData }) => {
       default:
         break;
     }
-  }, [page]);
+  }, [page, tableData]);
+
+  useEffect(() => {
+    if (success) {
+      setIsDeleting(false);
+      setSearchParams((params) => {
+        params.delete('userId');
+        return params;
+      });
+    }
+  }, [success]);
 
   const DeleteUser = () => {
     switch (page) {
       case 'admins':
-        DeleteAdmin(userId);
-        setTimeout(() => {
-          fetchAdmins();
-          setIsDeleting(false);
-          setSearchParams((params) => {
-            params.delete('userId');
-            return params;
-          });
-        }, 2500);
+        deleteUser(userId);
+        setRowData((tableData) => tableData.filter((row) => row.id != userId));
         break;
 
       case 'mentors':
-        DeleteMember('mentors', userId);
-        setTimeout(() => {
-          fetchMembers('mentors');
-          setIsDeleting(false);
-          setSearchParams((params) => {
-            params.delete('userId');
-            return params;
-          });
-        }, 2500);
-
+        deleteMember({ member: 'mentors', Id: userId });
+        setRowData((tableData) => tableData.filter((row) => row.id != userId));
         break;
 
       case 'mentees':
-        DeleteMember('mentees', userId);
-        setTimeout(() => {
-          fetchMembers('mentees');
-          setIsDeleting(false);
-          setSearchParams((params) => {
-            params.delete('userId');
-            return params;
-          });
-        }, 2500);
+        deleteMember({ member: 'mentees', Id: userId });
+        setRowData((tableData) => tableData.filter((row) => row.id != userId));
         break;
 
       case 'transactions':
@@ -414,13 +422,13 @@ const TableGrid = ({ page, tableData }) => {
           message={deleteMessages.find((message) => message.page === page)}
           DeleteUser={DeleteUser}
           setSearchParams={setSearchParams}
-          loading={isLoading}
+          loading={loading}
         />
       )}
       <div className="w-full app scroller glossy h-screen ">
         <div className="w-full table">
           <Table
-            dataSource={tableData}
+            dataSource={rowData}
             columns={tableColumn}
             pagination={{ pageSize: 10, total: tableData?.length, showSizeChanger: true }}
             rowKey={(record) => record.id}

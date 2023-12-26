@@ -11,9 +11,8 @@ import RadialBarChart from '../components/charts/RadialBarChart';
 import SparkAreaChart from '../components/charts/SparkAreaChart';
 import SparkLineChart from '../components/charts/SparkLineChart';
 import PolarAreaChart from '../components/charts/PolarAreaChart';
-import useJobsFacade from '../facades/useJobsFacade';
-import useAdminFacade from '../facades/useAdminFacade';
-import useAuth from '../hooks/useAuth';
+import { useGetUserQuery } from '../store/api/userApi';
+import { getToken } from '../utils/authHelpers';
 
 const getChartCardData = (mentors, mentees, income) => {
   const chartCardData = [
@@ -47,24 +46,21 @@ const getChartCardData = (mentors, mentees, income) => {
 };
 
 const Dashboard = () => {
-  const { fetchSingleAdmin, loading, success, error, admin } = useAdminFacade();
-  const { accessToken } = useAuth();
+  const token = getToken();
+  const { isLoading, isError, error, isSuccess, data: user } = useGetUserQuery(token);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchSingleAdmin(accessToken);
-  }, []);
-
-  useEffect(() => {
-    if (!accessToken) {
+    if (!token) {
       navigate('/', { replace: true });
     }
-  }, [accessToken]);
+  }, [token]);
+  console.log(user);
 
   return (
     <AdminLayout header="Dashboard" icon={<DashboardCustomize />}>
       <div className="lg:mx-6 space-y-6 w-full">
-        <PanelHeader admin={admin} loading={loading} />
+        <PanelHeader admin={user?.data[0]} loading={isLoading} />
         <div className="flex flex-wrap gap-6">
           {getChartCardData(0, 0, '0.0').map((data) => {
             const { id, title, amount, percentage, icon, chart } = data;

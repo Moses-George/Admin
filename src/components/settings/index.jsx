@@ -4,15 +4,15 @@ import { Email, Key, Person, Phone, SchoolSharp } from '@mui/icons-material';
 
 const InputFieldsData = [
   {
-    id: 'first_name',
-    name: 'first_name',
+    id: 'firstName',
+    name: 'firstName',
     type: 'text',
     placeholder: "Enter new first name",
     icon: <Person className="text-slate-400" />
   },
   {
-    id: 'last_name',
-    name: 'last_name',
+    id: 'lastName',
+    name: 'lastName',
     type: 'text',
     placeholder: "Enter new last name ",
     icon: <Person className="text-slate-400" />
@@ -25,8 +25,8 @@ const InputFieldsData = [
     icon: <Email className="text-slate-400" />
   },
   {
-    id: 'phone_number',
-    name: 'phone_number',
+    id: 'telNumber',
+    name: 'telNumber',
     type: 'number',
     placeholder: "Enter new phone number",
     icon: <Phone className="text-slate-400" />

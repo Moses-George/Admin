@@ -3,10 +3,10 @@ import { Key, Save } from '@mui/icons-material';
 import InputField from '../ui/InputField';
 import useForm from '../../hooks/useForm';
 import Validator from '../../utils/validator';
-import useAdminFacade from '../../facades/useAdminFacade';
 import useApiToast from '../../hooks/useApiToast';
-import useAuth from '../../hooks/useAuth';
 import { useEffect } from 'react';
+import { useUpdateUserPasswordMutation } from '../../store/api/userApi';
+import { getToken } from '../../utils/authHelpers';
 
 const InitialData = {
   oldPassword: '',
@@ -15,31 +15,35 @@ const InitialData = {
 
 const ChangePasswordForm = () => {
   const { formData, setFormData, handleChange } = useForm(InitialData);
-  const { updatePassword, data, loading, error, success, resetState } = useAdminFacade();
-  useApiToast(
-    { data, loading, success, error },
-    { loadingMsg: 'Sending your request...', successMsg: 'Password successfully changed!' }
-  );
-  const { accessToken } = useAuth();
+  const [updateUserPassword, { isLoading, isError, error, isSuccess, data: user }] =
+    useUpdateUserPasswordMutation();
+  useApiToast({
+    user,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+    loadingMsg: 'Sending your request...',
+    successMsg: 'Successfully changed password!'
+  });
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
+    const token = getToken();
     const validator = new Validator(formData);
     if (validator.whiteSpaces().length !== 0) {
       toast.error(validator.message, { autoClose: 4000 });
       return;
     }
-    updatePassword(accessToken, formData);
+    updateUserPassword({ token, payload: formData });
   };
 
   useEffect(() => {
-    if (success) {
+    if (isSuccess) {
       setFormData(InitialData);
-      resetState();
     }
-  }, [success]);
+  }, [isSuccess]); 
 
   return (
     <form className="space-y-6 max-w-md" onSubmit={handleSubmit}>

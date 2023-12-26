@@ -9,52 +9,36 @@ import {
 } from '@mui/icons-material';
 import { Link, useParams } from 'react-router-dom';
 
-const ProfileBaseData = ({
-  Id,
-  name,
-  initials,
-  email,
-  verified,
-  image,
-  job_title,
-  industry,
-  country,
-  telNumber,
-  bio,
-  why_mentoring,
-  how_help,
-  loading,
-  member
-}) => {
+const ProfileBaseData = ({ mentor, loading }) => {
   const textSkeleton = <p className="animate-pulse w-20 h-4 bg-gray-200"></p>;
   return (
     <section className="space-y-8">
       <div className="bg-white rounded-md glossy px-8 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_8fr] gap-4 w-full">
           <div className="">
-            {!image ? (
+            {!mentor?.image ? (
               <AccountBox className="text-slate-800" sx={{ fontSize: '170px' }} />
             ) : (
-              <img src={image} alt="" className="rounded-full h-[10rem] w-[10rem]" />
+              <img src={mentor?.image} alt="" className="rounded-full h-[10rem] w-[10rem]" />
             )}
           </div>
 
           <div className="space-y-8 w-full">
             <div className="flex flex-col lg:flex-row w-full space-y-6">
               <div className="w-full space-y-2">
-                {loading || member.length === 0 ? (
+                {loading || !mentor ? (
                   <h1 className="w-60 h-6 bg-gray-200"></h1>
                 ) : (
-                  <h1 className="text-3xl text-lime-900 font-medium">{`${name} (${initials})`}</h1>
+                  <h1 className="text-3xl text-lime-900 font-medium">{`${mentor?.firstName} (${mentor?.initials})`}</h1>
                 )}
                 <div className="space-x-1 w-full">
-                  {Boolean(verified) ? (
+                  {Boolean(mentor?.verified) ? (
                     <VerifiedUser className="text-lime-400" style={{ fontSize: '30px' }} />
                   ) : (
                     <Cancel className="text-red-400" style={{ fontSize: '30px' }} />
                   )}
                   <span className="font-semibold text-slate-600">
-                    {Boolean(verified) ? 'Verified Mentor' : 'Unverified Mentor'}{' '}
+                    {Boolean(mentor?.verified) ? 'Verified Mentor' : 'Unverified Mentor'}{' '}
                   </span>
                 </div>
               </div>
@@ -83,54 +67,54 @@ const ProfileBaseData = ({
               <div className="jsutify-end space-y-6 flex-grow basis-1/4 w-full">
                 <div className="w-full">
                   <p className="text-slate-800 font-medium">UUID</p>
-                  {loading || member.length === 0 ? (
+                  {loading || !mentor ? (
                     textSkeleton
                   ) : (
-                    <p className="text-slate-600">{Id}</p>
+                    <p className="text-slate-600">{mentor?.id}</p>
                   )}
                 </div>
                 <div className="w-full">
                   <p className="text-slate-800 font-medium">Job Title</p>
-                  {loading || member.length === 0 ? (
+                  {loading || !mentor ? (
                     textSkeleton
                   ) : (
-                    <p className="text-slate-600">{!job_title ? "null" : job_title}</p>
+                    <p className="text-slate-600">{!mentor?.job_title ? 'null' : mentor?.job_title}</p>
                   )}
                 </div>
               </div>
               <div className="jsutify-end space-y-6 flex-grow basis-1/4 w-full">
                 <div className="w-full">
                   <p className="text-slate-800 font-medium">Industry</p>
-                  {loading || member.length === 0 ? (
+                  {loading || !mentor ? (
                     textSkeleton
                   ) : (
-                    <p className="text-slate-600">{!industry ? "null" : industry}</p>
+                    <p className="text-slate-600">{!mentor?.industry ? 'null' : mentor?.industry}</p>
                   )}
                 </div>
                 <div className="w-full">
                   <p className="text-slate-800 font-medium">Country</p>
-                  {loading || member.length === 0 ? (
+                  {loading || !mentor ? (
                     textSkeleton
                   ) : (
-                    <p className="text-slate-600">{!country ? "null" : country}</p>
+                    <p className="text-slate-600">{!mentor?.country ? 'null' : mentor?.country}</p>
                   )}
                 </div>
               </div>
               <div className="text-en space-y-6 flex-grow basis-1/4 w-full">
                 <div className="w-full">
                   <p className="text-slate-800 font-medium">Phone Number</p>
-                  {loading || member.length === 0 ? (
+                  {loading || !mentor ? (
                     textSkeleton
                   ) : (
-                    <p className="text-slate-600">{!telNumber ? "null" : telNumber}</p>
+                    <p className="text-slate-600">{!mentor?.telNumber ? 'null' : mentor?.telNumber}</p>
                   )}
                 </div>
                 <div className="w-full">
                   <p className="text-slate-800 font-medium">Email</p>
-                  {loading || member.length === 0 ? (
+                  {loading || !mentor ? (
                     textSkeleton
                   ) : (
-                    <p className="text-slate-600">{!email ? "null" : email}</p>
+                    <p className="text-slate-600">{!mentor?.email ? 'null' : mentor?.email}</p>
                   )}
                 </div>
               </div>
@@ -142,10 +126,10 @@ const ProfileBaseData = ({
       <div className="bg-white rounded-md glossy px-8 py-16">
         <div className="space-y-3">
           <h2 className="font-semibold text-2xl text-slate-800">BIO</h2>
-          {loading || member.length === 0 ? (
+          {loading || mentor.length === 0 ? (
             <p className="w-full h-60 bg-gray-200 animate-pulse"></p>
           ) : (
-            <p className="text-slate-600">{!bio ? "No biography" : bio}</p>
+            <p className="text-slate-600">{!mentor?.bio ? 'No biography' : mentor?.bio}</p>
           )}
         </div>
       </div>
@@ -154,20 +138,22 @@ const ProfileBaseData = ({
         <div className="bg-white rounded-md glossy px-8 py-16">
           <div className="space-y-3">
             <h2 className="font-semibold text-2xl text-slate-800">Why mentoring </h2>
-            {loading || member.length === 0 ? (
+            {loading || mentor?.length === 0 ? (
               <p className="w-full h-60 bg-gray-200 animate-pulse"></p>
             ) : (
-              <p className="text-slate-600">{!why_mentoring ? "No Information provided" : why_mentoring}</p>
+              <p className="text-slate-600">
+                {!mentor?.why_mentoring ? 'No Information provided' : mentor?.why_mentoring}
+              </p>
             )}
           </div>
         </div>
         <div className="bg-white rounded-md glossy px-8 py-16">
           <div className="space-y-3">
             <h2 className="font-semibold text-2xl text-slate-800">How Help</h2>
-            {loading || member.length === 0 ? (
+            {loading || mentor.length === 0 ? (
               <p className="w-full h-60 bg-gray-200 animate-pulse"></p>
             ) : (
-              <p className="text-slate-600">{!how_help ? "No Information provided" : how_help}</p>
+              <p className="text-slate-600">{!mentor?.how_help ? 'No Information provided' : mentor?.how_help}</p>
             )}
           </div>
         </div>

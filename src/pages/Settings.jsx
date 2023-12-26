@@ -5,18 +5,18 @@ import AdminLayout from '../components/layout/AdminLayout';
 import BioDataForm from '../components/settings/BioDataForm';
 import ChangePasswordForm from '../components/settings/ChangePasswordForm';
 import ChangeDPForm from '../components/settings/ChangeDPForm';
-import useAuth from '../hooks/useAuth';
+import { getToken } from '../utils/authHelpers';
 
 const Settings = () => {
 
-  const { accessToken } = useAuth();
+  const token = getToken();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!accessToken) {
+    if (!token) {
       navigate('/', { replace: true });
     }
-  }, [accessToken]);
+  }, [token]);
 
   return (
     <AdminLayout header="Settings" icon={<SettingsSharp />}>

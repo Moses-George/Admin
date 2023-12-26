@@ -1,20 +1,71 @@
 import { Link, useSearchParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { AccountCircle, Delete, Download, Edit, MoreVert } from '@mui/icons-material';
-import useMembersFacade from '../../facades/useMembersFacade';
 import useApiToast from '../../hooks/useApiToast';
+import { useVerifyUserMutation } from '../../store/api/userApi';
+import { useVerifyMentorMutation } from '../../store/api/memberApi';
 
-const TableActionsMenu = ({ record, setIsDeleting, page, setSearchParams }) => { 
+const TableActionsMenu = ({ record, setIsDeleting, page, setSearchParams, refetch }) => {
   const [dropdownIsVisible, setDropdownIsVisible] = useState(false);
-  const [isVerified, setIsVerified] = useState(Boolean(record.verified));
-  // const isFirstRun = useRef(true);
-  const { verifyMentor, loading, success, error, members } = useMembersFacade();
-  // const [searchParams, setSearchParams] = useSearchParams();
+  const [isVerified, setIsVerified] = useState(Boolean(record?.verified));
+  const [
+    verifyUser,
+    { isLoading: loading_u, isError: isError_u, error: error_u, isSuccess: success_u, data: data_u }
+  ] = useVerifyUserMutation();
+  const [
+    verifyMentor,
+    { isLoading: loading_m, isError: isError_m, error: error_m, isSuccess: success_m, data: data_m }
+  ] = useVerifyMentorMutation();
+  const isSuccess = success_m || success_u;
+  const isLoading = loading_m || loading_u;
+  const isError = isError_m || isError_u;
+  const error = error_m || error_u;
+  const data = data_m || data_u;
+  useApiToast({
+    data,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+    loadingMsg: 'Verifying account...',
+    successMsg: 'Verification complete!'
+  });
 
-  const openModal = () => { 
+  const handleVerificationToggle = () => {
+    switch (page) {
+      case 'admins':
+        verifyUser(record?.id);
+        break;
+
+      case 'mentors':
+        verifyMentor(record?.id);
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const openModal = () => {
     setIsDeleting(true);
     setSearchParams({ userId: record.id });
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      if (page === 'mentors') {
+        setIsVerified(Boolean(data_m?.status));
+      }
+      if (page === 'admins') {
+        setIsVerified(Boolean(data_u?.status));
+      }
+      refetch();
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    setIsVerified(Boolean(record?.verified));
+  }, [isVerified, record?.verified]);
 
   return (
     <div className="relative">
@@ -35,7 +86,7 @@ const TableActionsMenu = ({ record, setIsDeleting, page, setSearchParams }) => {
             aria-labelledby="dropdownMenuIconButton">
             <li>
               <button
-                onClick={openModal} 
+                onClick={openModal}
                 className="px-4 py-2 hover:bg-gray-100 flex items-center gap-1 justify-between">
                 <Delete className="text-slate-500" />
                 <span className="text-slate-800 text-sm">
@@ -50,9 +101,9 @@ const TableActionsMenu = ({ record, setIsDeleting, page, setSearchParams }) => {
                     <input
                       type="checkbox"
                       className="sr-only peer"
-                      value={record.status}
-                      // checked={isVerified}
-                      // onChange={handleChangeVerification}
+                      value={record?.verified}
+                      checked={isVerified}
+                      onChange={handleVerificationToggle}
                     />
                     <div className="w-12 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-lime-300  rounded-full peer  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all  peer-checked:bg-lime-600"></div>
                     <span className="ml-3 text-sm font-medium text-slate-800 w-full">

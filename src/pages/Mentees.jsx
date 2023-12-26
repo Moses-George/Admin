@@ -2,13 +2,13 @@ import { useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { People, Badge, AttachMoney } from '@mui/icons-material';
 import AdminLayout from '../components/layout/AdminLayout';
-import useMembersFacade from '../facades/useMembersFacade';
 import TableGrid from '../components/TableGrid';
 import ChartCard from '../components/ChartCard';
 import SparkAreaChart from '../components/charts/SparkAreaChart';
 import SparkLineChart from '../components/charts/SparkLineChart';
 import useApiToast from '../hooks/useApiToast';
-import useAuth from '../hooks/useAuth';
+import { useGetAllMembersQuery } from '../store/api/memberApi';
+import { getToken } from '../utils/authHelpers';
 
 const getChartCardData = (all, active, inactive) => {
 
@@ -44,25 +44,25 @@ const getChartCardData = (all, active, inactive) => {
 
 const Mentees = () => {
 
-  const { members, fetchMembers, loading, error, success } = useMembersFacade();
-  useApiToast(
-    { data: members, loading, success, error },
-    { loadingMsg: 'Fetching Mentees...', successMsg: 'UI successfully updated' }
-  );
-  console.log(members);
-  const { accessToken } = useAuth(); 
-  const navigate = useNavigate(); 
-  
+  const { isLoading, isError, error, isSuccess, data: members } = useGetAllMembersQuery('mentees');
+  useApiToast({
+    members,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+    loadingMsg: 'Fetching all mentees..',
+    successMsg: 'UI updated successfully'
+  });
+  const token = getToken();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchMembers('mentees');
-  }, []);
-
-  useEffect(() => {
-    if (!accessToken) {
+    if (!token) {
       navigate('/', { replace: true });
     }
-  }, [accessToken]);
+  }, [token]);
+  console.log(members)
 
   return (
     <AdminLayout
@@ -86,7 +86,7 @@ const Mentees = () => {
         </div>
         <TableGrid
           page="mentees"
-          tableData={members}
+          tableData={members?.data}
         />
       </div>
     </AdminLayout>

@@ -6,15 +6,16 @@ import {
   AvTimer,
   Badge,
   People,
-  Reviews
+  Reviews,
+  Work
 } from '@mui/icons-material';
 import ProfileBaseData from '../components/profile/ProfileBaseData';
 import AdminLayout from '../components/layout/AdminLayout';
 import MentorSkills from '../components/profile/MentorSkills';
 import AchieveMentCard from '../components/AchievementCard';
 import AchieveMentCardSkeleton from '../components/ui/skeleton-loaders/AchievemntCardSkeleton';
-import useMembersFacade from '../facades/useMembersFacade';
-import useAuth from '../hooks/useAuth';
+import { useGetMentorQuery } from '../store/api/memberApi';
+import { getToken } from '../utils/authHelpers';
 
 const getAchievements = (experience, price) => {
   const achievements = [
@@ -37,7 +38,7 @@ const getAchievements = (experience, price) => {
     {
       id: 'a1',
       title: 'Price',
-      amount: `$${!price? 0 : price}`,
+      amount: `$${!price ? 0 : price}`,
       icon: <AttachMoney className="text-white" sx={{ fontSize: '60px' }} />,
       bgColor: 'bg-lime-600',
       hover: 'hover:bg-lime-500'
@@ -46,7 +47,7 @@ const getAchievements = (experience, price) => {
       id: 'a1',
       title: 'Experience',
       amount: !experience ? 0 : experience,
-      icon: <AttachMoney className="text-white" sx={{ fontSize: '60px' }} />,
+      icon: <Work className="text-white" sx={{ fontSize: '60px' }} />,
       bgColor: 'bg-amber-500',
       hover: 'hover:bg-amber-600'
     }
@@ -58,48 +59,26 @@ const getAchievements = (experience, price) => {
 const MentorProfile = () => {
   const { mentorId } = useParams();
 
-  const { fetchMentor, loading, success, error, members: member } = useMembersFacade();
-  const { accessToken } = useAuth();
+  const token = getToken();
+  const { isLoading, isError, error, isSuccess, data: member } = useGetMentorQuery(mentorId);
   const navigate = useNavigate();
+  // console.log(mentor);
 
   useEffect(() => {
-    if (!accessToken) {
+    if (!token) {
       navigate('/', { replace: true });
     }
-  }, [accessToken]);
+  }, [token]);
 
-  useEffect(() => {
-    fetchMentor(mentorId);
-  }, [mentorId]);
-
-  const {
-    id,
-    firstName,
-    initials,
-    email,
-    country,
-    industry,
-    experience,
-    skills,
-    bio,
-    telNumber,
-    userId,
-    verified,
-    price,
-    How_help,
-    image,
-    job_title,
-    social_link,
-    why_mentoring
-  } = member.length !== 0 && member[0];
+  const mentor = member?.data[0];
 
   return (
-    <AdminLayout header={firstName && firstName} icon={<Badge sx={{ fontSize: '50px' }} />}>
+    <AdminLayout header={mentor?.firstName && mentor?.firstName} icon={<Badge sx={{ fontSize: '50px' }} />}>
       <div className="lg:mx-6 space-y-6 w-full">
         <section className="flex flex-wrap gap-4">
-          {getAchievements(experience, price).map((achievement, index) => { 
+          {getAchievements(mentor?.experience, mentor?.price).map((achievement, index) => {
             const { title, amount, icon, bgColor, hover } = achievement;
-            return loading || member.length === 0 ? (
+            return isLoading || !mentor ? (
               <AchieveMentCardSkeleton key={index} />
             ) : (
               <AchieveMentCard
@@ -114,24 +93,11 @@ const MentorProfile = () => {
           })}
         </section>
         <ProfileBaseData
-          Id={id}
-          name={firstName}
-          initials={initials}
-          industry={industry}
-          job_title={job_title}
-          bio={bio}
-          why_mentoring={why_mentoring}
-          how_help={How_help}
-          telNumber={telNumber}
-          email={email}
-          verified={verified}
-          country={country}
-          image={image}
-          member={member}
-          loading={loading}
+          mentor={mentor}
+          loading={isLoading}
         />
         <section className="flex gap-6">
-          <MentorSkills skills={skills?.split(',')} experience={experience} />
+          <MentorSkills skills={mentor?.skills?.split(',')} experience={mentor?.experience} />
         </section>
       </div>
     </AdminLayout>

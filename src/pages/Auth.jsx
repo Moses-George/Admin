@@ -6,8 +6,8 @@ import { Email, Lock, Key } from '@mui/icons-material';
 import { Validator } from '../utils/validator';
 import { toast } from 'react-toastify';
 import useApiToast from '../hooks/useApiToast';
-import useAdminFacade from '../facades/useAdminFacade';
-import useAuth from '../hooks/useAuth';
+import { useSignInUserMutation } from '../store/api/authApi';
+import { getToken, setToken } from '../utils/authHelpers';
 
 const InitialData = {
   email: '',
@@ -16,39 +16,44 @@ const InitialData = {
 
 const Auth = () => {
   const { formData, setFormData, handleChange } = useForm(InitialData);
-  const { logInAdmin, resetState, data, loading, error, success} = useAdminFacade();
-  useApiToast(
-    { data, loading, success, error },
-    { loadingMsg: "Hold on, you're being logged in...", successMsg: data?.message }
-  );
-  const { accessToken } = useAuth();
   const navigate = useNavigate();
-  // console.log(accessToken);
+  const token = getToken();
 
-  const handleSubmit = (event) => {
+  const [signInUser, { isLoading, isError, error, isSuccess, data: user }] =
+    useSignInUserMutation();
+  useApiToast({
+    user,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+    loadingMsg: "Hold on, You're being signed in...",
+    successMsg: 'Successfully signed in!'
+  });
+
+  const SignInUser = async (event) => {
     event.preventDefault();
-    console.log(formData);
     const validator = new Validator(formData);
     if (validator.whiteSpaces().length !== 0) {
       toast.error(validator.message, { autoClose: 4000 });
       return;
     }
-    logInAdmin(formData);
+    await signInUser(formData);
   };
 
   useEffect(() => {
-    if (success) {
+    if (isSuccess) {
+      setToken(user?.token);
       setFormData(InitialData);
       navigate('/dashboard', { replace: true });
-      resetState();
     }
-  }, [success]);
+  }, [isSuccess]);
 
   useEffect(() => {
-    if (accessToken) {
+    if (token) {
       navigate('/dashboard', { replace: true });
     }
-  }, [accessToken]);
+  }, [token]);
 
   return (
     <>
@@ -59,7 +64,7 @@ const Auth = () => {
             <h1 className="text-4xl text-slate-700 tracking-wide">Login</h1>
             <Key className="self-end text-slate-200 rotate-45" sx={{ fontSize: '45px' }} />
           </div>
-          <form onSubmit={handleSubmit} className="">
+          <form onSubmit={SignInUser} className="">
             <div className="mb-6">
               <label htmlFor="email" className="block mb-2 text-sm font-medium text-slate-600">
                 Your email
@@ -124,7 +129,7 @@ const Auth = () => {
             <h1 className="text-4xl text-white font-semibold tracking-widest">Welcome back!</h1>
             <p className="text-lg font-normal text-white">Login to access your admin account</p>
           </div>
-          <img className="h-1/2 w-2/3 mx-auto" src="/images/admin.png" alt="man" />
+          <img className="h-1/2 w-2/3 mx-auto" src="/images/admin.png" alt="man" /> 
         </div>
       </section>
     </>

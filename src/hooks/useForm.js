@@ -13,7 +13,7 @@ const useForm = (InitialData) => {
         setFormData((prevState) => {
           return { ...prevState, media: files[0] };
         });
-        setMediaPreview(window.URL.createObjectURL(files[0]));
+        setMediaPreview(window.URL.createObjectURL(files[0])); 
       }
     } else {
       setFormData((prevState) => {

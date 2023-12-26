@@ -2,24 +2,22 @@ import { useNavigate } from 'react-router-dom';
 import { Work } from '@mui/icons-material';
 import AdminLayout from '../components/layout/AdminLayout';
 import JobCard from '../components/jobs/JobCard';
-import useJobsFacade from '../facades/useJobsFacade';
 import { useEffect } from 'react';
 import FilterBar from '../components/ui/FilterBar';
 import { Pagination } from 'antd';
 import JobCardSkeleton from '../components/ui/skeleton-loaders/JobCardSkeleton';
-import useAuth from '../hooks/useAuth';
+import { getToken } from '../utils/authHelpers';
 
 const JobsListing = () => {
-  const { jobs, fetchJobs, loading, error, success } = useJobsFacade();
 
-  const { accessToken } = useAuth(); 
-  const navigate = useNavigate(); 
+  const token = getToken();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!accessToken) {
+    if (!token) {
       navigate('/', { replace: true });
     }
-  }, [accessToken]);
+  }, [token]);
 
   return (
     <AdminLayout
@@ -27,7 +25,7 @@ const JobsListing = () => {
       icon={<Work className="text-slate-800" sx={{ fontSize: '40px' }} />}>
       <div className="lg:mx-6 space-y-6 w-full">
         <FilterBar path="/jobs-listing/new-job" btnText="New Job" />
-        <section className="flex flex-wrap gri grid-cols- gap-4">
+        {/* <section className="flex flex-wrap gri grid-cols- gap-4">
           {loading
             ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((card) => <JobCardSkeleton key={card} />)
             : jobs.map((job) => {
@@ -57,7 +55,7 @@ const JobsListing = () => {
                   />
                 );
               })}
-        </section>
+        </section> */}
         <Pagination defaultCurrent={1} total={300} />
       </div>
     </AdminLayout>
