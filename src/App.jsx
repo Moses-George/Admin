@@ -14,15 +14,11 @@ import Mentees from './pages/Mentees';
 import Transactions from './pages/Transactions';
 import EditJob from './pages/EditJob';
 import Settings from './pages/Settings';
-import { isAuthenticated } from './lib/authMiddleware';
 import NewAdmin from './pages/NewAdmin';
-import useAuth from './hooks/useAuth';
 import Admins from './pages/Admins';
 
 function App() {
   const location = useLocation();
-
-  const { token } = useAuth();
 
   useEffect(() => {
     window.scrollTo(0, 0);
