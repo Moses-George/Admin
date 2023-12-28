@@ -1,21 +1,21 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge, AttachMoney, People } from '@mui/icons-material';
 import AdminLayout from '../components/layout/AdminLayout';
 import TableGrid from '../components/TableGrid';
 import ChartCard from '../components/ChartCard';
 import SparkAreaChart from '../components/charts/SparkAreaChart';
-import SparkLineChart from '../components/charts/SparkLineChart';
 import useApiToast from '../hooks/useApiToast';
 import { useGetAllMembersQuery } from '../store/api/memberApi';
 import { getToken } from '../utils/authHelpers';
+import { accountCreatedDate } from '../utils/helpers';
 
-const getChartCardData = (all, active, inactive) => {
+const getChartCardData = (all, active, inactive, data) => {
   const chartCardData = [
     {
       id: 'c1',
       title: 'All',
-      amount: `${all}`,
+      amount: all,
       percentage: 4,
       icon: <Badge className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
       chart: <SparkAreaChart />
@@ -23,15 +23,15 @@ const getChartCardData = (all, active, inactive) => {
     {
       id: 'c2',
       title: 'Active',
-      amount: `${active}`,
+      amount: active,
       percentage: 4,
       icon: <People className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
-      chart: <SparkLineChart />
+      chart: <SparkAreaChart />
     },
     {
       id: 'c3',
       title: 'Inactive',
-      amount: `${inactive}`,
+      amount: inactive,
       percentage: 0,
       icon: <AttachMoney className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
       chart: <SparkAreaChart />
@@ -42,9 +42,16 @@ const getChartCardData = (all, active, inactive) => {
 };
 
 const Mentors = () => {
-  const { isLoading, isError, error, isSuccess, data: members, refetch } = useGetAllMembersQuery('mentors'); 
+  const {
+    isLoading,
+    isError,
+    error,
+    isSuccess,
+    data: members,
+    refetch
+  } = useGetAllMembersQuery('mentors');
   useApiToast({
-    members, 
+    members,
     isLoading,
     isSuccess,
     isError,
@@ -54,13 +61,21 @@ const Mentors = () => {
   });
   const token = getToken();
   const navigate = useNavigate();
+  const all = members?.data?.length;
+  const active = members?.data.filter((member) => member.verified)?.length;
+  const inactive = members?.data.filter((member) => !member.verified)?.length;
+
+  const [selectedYear, setSelectedYear] = useState(2023);
+
+  const { validYears, EachMonthData } = accountCreatedDate(members?.data, selectedYear);
 
   useEffect(() => {
     if (!token) {
       navigate('/', { replace: true });
     }
   }, [token]);
-  console.log(members)
+
+  console.log(members?.data)
 
   return (
     <AdminLayout
@@ -68,7 +83,7 @@ const Mentors = () => {
       icon={<Badge className="text-slate-800" sx={{ fontSize: '40px' }} />}>
       <div className="lg:mx-6 w-full space-y-6">
         <div className="flex flex-wrap gap-6">
-          {getChartCardData(10, 10, 0).map((data) => {
+          {getChartCardData(all, active, inactive, EachMonthData)?.map((data) => {
             const { id, title, amount, percentage, icon, chart } = data;
             return (
               <ChartCard
@@ -78,6 +93,11 @@ const Mentors = () => {
                 percentage={percentage}
                 icon={icon}
                 chart={chart}
+                loading={isLoading}
+                data={members}
+                onChange={(e) => setSelectedYear(e.target.value)}
+                value={selectedYear}
+                years={validYears}
               />
             );
           })}

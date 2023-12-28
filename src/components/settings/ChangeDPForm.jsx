@@ -57,6 +57,7 @@ const ChangeDPForm = () => {
         />
       )}
       <form className="w-fit lg:m-0 mx-auto">
+      <div className='p-1.5 rounded-full border-4 h-fit w-fit border-lime-300'>
         {isLoading || !user ? (
           <div className="animate-pulse w-[10rem] h-[10rem] rounded-full bg-gray-300 shadow-md"></div>
         ) : user?.data[0].imageUrl ? (
@@ -64,6 +65,7 @@ const ChangeDPForm = () => {
         ) : (
           <Avatar sx={{ width: '10rem', height: '10rem' }} />
         )}
+        </div>
         <label htmlFor="fileInput" className="relative cursor-pointer">
           <div className="absolute -top-12 -right-40 bg-slate-700 rounded-full w-16 h-16 flex items-center justify-center">
             <AddAPhoto className="text-white" sx={{ fontSize: '30px' }} />

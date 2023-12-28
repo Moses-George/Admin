@@ -17,6 +17,13 @@ const DeleteModalOverlay = ({ setIsDeleting, message, DeleteUser, setSearchParam
     });
   };
 
+  const loadingSpinner = (
+    <div
+      className="animate-spin inline-block w-6 h-6 border-[4px] border-current border-t-transparent text-white rounded-full"
+      role="status"
+      aria-label="loading"></div>
+  );
+
   return (
     <motion.div
       className="fixed border-gradient bg-white z-[9999]  lg:top-20 top-12  p-8 space-y-6 w-[95%] lg:w-[28rem] rounded-lg flex flex-col items-center"
@@ -37,9 +44,9 @@ const DeleteModalOverlay = ({ setIsDeleting, message, DeleteUser, setSearchParam
         </button>
         <button
           onClick={DeleteUser}
-          className="p-3 bg-red-500 text-white rounded-lg space-x-2 w-4/5">
-          <Delete className="" />
-          <span>{loading ? "Deleting..." : "Yes, Delete"}</span>
+          className="flex items-center gap-3 p-3 bg-red-500 text-white rounded-lg space-x-2 w-4/5">
+          {loading ? loadingSpinner : <Delete className="" />}
+          <span>{loading ? 'Deleting...' : 'Yes, Delete'}</span>
         </button>
       </div>
     </motion.div>

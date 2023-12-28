@@ -95,7 +95,7 @@ const TableActionsMenu = ({ record, setIsDeleting, page, setSearchParams, refetc
               </button>
             </li>
             <li>
-              {page !== 'mentees' && (
+              {page !== 'mentees' && page !== "payments" && (
                 <div className="flex p-2 rounded hover:bg-gray-100">
                   <label className="relative inline-flex items-center gap-1 w-full cursor-pointer">
                     <input
@@ -115,7 +115,7 @@ const TableActionsMenu = ({ record, setIsDeleting, page, setSearchParams, refetc
             </li>
           </ul>
           <div className="py-2">
-            {page === 'transactions' ? (
+            {page === 'payments' ? (
               <button className="space-x-3">
                 <Download className="text-slate-500" />
                 <span className="text-slate-800">Download receipt</span>

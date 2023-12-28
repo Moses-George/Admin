@@ -37,18 +37,22 @@ const Sidebar = ({ display, lg_display, zIndex, isVisible, setIsVisible }) => {
             <Menu className="lg:hidden" />
           )}
         </div>
-        <div className="p-1 rounded-full border-4 w-fit border-white self-center">
+        <div className="p-1 rounded-full border-4 w-fit border-lime-200 self-center">
           {isLoading || !user ? (
-            <div className="animate-pulse rounded-full h-24 w-24 bg-gray-300 shadow-md"></div>
+            <div className="animate-pulse rounded-full h-24 w-24 bg-lime-100 shadow-md"></div>
           ) : admin?.imageUrl ? (
             <img src={admin?.imageUrl} alt="" className="rounded-full h-24 w-24" />
           ) : (
             <AccountCircle className="" style={{ fontSize: '80px' }} />
           )}
         </div>
-        <p className="text-md font-semibold text-center">
-          {admin?.firstName} {admin?.lastName}
-        </p>
+        {isLoading || !user ? (
+          <p className="animate-pulse bg-lime-100 w-28 h-2 mx-auto rounded-xl"></p>
+        ) : (
+          <p className="text-md font-semibold text-center uppercase">
+            {admin?.firstName} {admin?.lastName}
+          </p>
+        )}
       </div>
 
       <div className="flex flex-col space-y-3 text-white mt-2">

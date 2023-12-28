@@ -45,8 +45,8 @@ export const adminLinks = [
   },
   {
     id: 'l6',
-    name: 'Transactions',
-    href: '/transactions',
+    name: 'Payments',
+    href: '/payments',
     icon: <Paid className="text-xl" />
   },
   {

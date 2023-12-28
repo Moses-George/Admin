@@ -16,6 +16,7 @@ import AchieveMentCard from '../components/AchievementCard';
 import AchieveMentCardSkeleton from '../components/ui/skeleton-loaders/AchievemntCardSkeleton';
 import { useGetMentorQuery } from '../store/api/memberApi';
 import { getToken } from '../utils/authHelpers';
+import { pluralizeWord } from '../utils/helpers';
 
 const getAchievements = (experience, price) => {
   const achievements = [
@@ -46,7 +47,7 @@ const getAchievements = (experience, price) => {
     {
       id: 'a1',
       title: 'Experience',
-      amount: !experience ? 0 : experience,
+      amount: `${!experience ? 0 : pluralizeWord(experience, 'yr')}`,
       icon: <Work className="text-white" sx={{ fontSize: '60px' }} />,
       bgColor: 'bg-amber-500',
       hover: 'hover:bg-amber-600'
@@ -73,7 +74,9 @@ const MentorProfile = () => {
   const mentor = member?.data[0];
 
   return (
-    <AdminLayout header={mentor?.firstName && mentor?.firstName} icon={<Badge sx={{ fontSize: '50px' }} />}>
+    <AdminLayout
+      header={mentor?.firstName && mentor?.firstName}
+      icon={<Badge sx={{ fontSize: '50px' }} />}>
       <div className="lg:mx-6 space-y-6 w-full">
         <section className="flex flex-wrap gap-4">
           {getAchievements(mentor?.experience, mentor?.price).map((achievement, index) => {
@@ -92,10 +95,7 @@ const MentorProfile = () => {
             );
           })}
         </section>
-        <ProfileBaseData
-          mentor={mentor}
-          loading={isLoading}
-        />
+        <ProfileBaseData mentor={mentor} loading={isLoading} />
         <section className="flex gap-6">
           <MentorSkills skills={mentor?.skills?.split(',')} experience={mentor?.experience} />
         </section>

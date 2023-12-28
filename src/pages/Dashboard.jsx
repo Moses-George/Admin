@@ -13,6 +13,7 @@ import SparkLineChart from '../components/charts/SparkLineChart';
 import PolarAreaChart from '../components/charts/PolarAreaChart';
 import { useGetUserQuery } from '../store/api/userApi';
 import { getToken } from '../utils/authHelpers';
+import { useGetAllMembersQuery } from '../store/api/memberApi';
 
 const getChartCardData = (mentors, mentees, income) => {
   const chartCardData = [
@@ -48,21 +49,24 @@ const getChartCardData = (mentors, mentees, income) => {
 const Dashboard = () => {
   const token = getToken();
   const { isLoading, isError, error, isSuccess, data: user } = useGetUserQuery(token);
-  const navigate = useNavigate();
+  const { data: mentors } = useGetAllMembersQuery('mentors');
+  const { data: mentees } = useGetAllMembersQuery('mentees');
+  const mentorsNumber = mentors?.data?.length; 
+  const menteesNumber = mentees?.data?.length;  
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     if (!token) {
       navigate('/', { replace: true });
     }
   }, [token]);
-  console.log(user);
 
   return (
     <AdminLayout header="Dashboard" icon={<DashboardCustomize />}>
       <div className="lg:mx-6 space-y-6 w-full">
         <PanelHeader admin={user?.data[0]} loading={isLoading} />
         <div className="flex flex-wrap gap-6">
-          {getChartCardData(0, 0, '0.0').map((data) => {
+          {getChartCardData(mentorsNumber, menteesNumber, '0.0').map((data) => {
             const { id, title, amount, percentage, icon, chart } = data;
             return (
               <ChartCard
@@ -72,6 +76,8 @@ const Dashboard = () => {
                 percentage={percentage}
                 icon={icon}
                 chart={chart}
+                loading={isLoading}
+                data={mentors && mentees}
               />
             );
           })}

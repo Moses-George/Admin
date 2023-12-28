@@ -2,9 +2,8 @@ import Doughnut from '../charts/Doughnut';
 
 const MentorSkills = ({ skills, experience }) => {
   return (
-    <div className="bg-white rounded-md shadow-md p-8 space-y-4 rounded-tr-[6rem]">
-      <h1 className="text-xl text-slate-800">Professional Skills</h1>
-      <Doughnut label="skills" percentage={30} width={250} color="#d97706" />
+    <div className="bg-white rounded-md shadow-md p-8 space-y-4 rounded-tr-[6rem] w-fit">
+      <h1 className="font-semibold text-2xl text-slate-800">Professional Skills</h1>
       <p className="text-slate-500 font-medium">Years of Experience: {experience}</p>
       <div className="flex flex-wrap gap-3">
         {skills?.map((skill, index) => (

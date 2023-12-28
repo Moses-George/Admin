@@ -1,7 +1,7 @@
 import ReactApexChart from 'react-apexcharts';
 
-const SparkAreaChart = () => {
-  const series = [{ name: 'sales', data: [31, 40, 28, 51, 42, 109, 100] }];
+const SparkAreaChart = ({ name }) => {
+  const series = [{ name: name, data: [31, 40, 28, 51, 42, 109, 100, 10, 27, 18, 17, 18] }];
   const options = {
     chart: {
       group: 'sparklines',
@@ -21,15 +21,20 @@ const SparkAreaChart = () => {
       show: false
     },
     xaxis: {
-      type: 'datetime',
+      type: 'months',
       categories: [
-        '2018-09-19T00:00:00.000Z',
-        '2018-09-19T01:00:30.000Z',
-        '2018-09-19T02:30:00.000Z',
-        '2018-09-19T03:30:00.000Z',
-        '2018-09-19T04:30:00.000Z',
-        '2018-09-19T05:30:00.000Z',
-        '2018-09-19T06:30:00.000Z'
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec'
       ]
     },
     colors: ['#84cc16']

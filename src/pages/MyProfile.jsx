@@ -28,9 +28,11 @@ const MyProfile = () => {
         <PanelHeader admin={admin} loading={isLoading} />
         <div className="bg-white rounded-md glossy px-8 py-16">
           <div className="grid grid-cols-1 lg:grid-cols-[2fr_8fr] gap-4 w-full">
-            <div className="">
-              {admin?.image ? (
-                <img src={admin?.image} alt="" className="rounded-full h-[10rem] w-[10rem]" />
+            <div className="p-1.5 rounded-full border-4 h-fit w-fit border-lime-300">
+              {isLoading || !admin ? (
+                <div className="animate-pulse w-[10rem] h-[10rem] rounded-full bg-gray-300 shadow-md"></div>
+              ) : admin?.imageUrl ? (
+                <img src={admin?.imageUrl} alt="" className="rounded-full h-[10rem] w-[10rem]" />
               ) : (
                 <AccountBox className="text-slate-800" sx={{ fontSize: '170px' }} />
               )}
@@ -42,11 +44,11 @@ const MyProfile = () => {
                   {isLoading || !admin ? (
                     <h1 className="animate-pulse w-60 h-10 bg-gray-200"></h1>
                   ) : (
-                    <h1 className="text-3xl text-lime-900 font-medium">
+                    <h1 className="text-3xl text-lime-900 font-medium uppercase">
                       {admin?.firstName} {admin?.lastName}
                     </h1>
                   )}
-                  <p>Admin</p>
+                  <p>ADMIN</p>
                 </div>
                 <div className="text-end gap-2 flex w-fit items-center">
                   <Link className="p-2 rounded-md bg-slate-100 border" aria-disabled>
@@ -70,28 +72,32 @@ const MyProfile = () => {
                     <p className="text-slate-600">#{admin?.id}</p>
                   </div>
                   <div className="w-full">
-                    <p className="text-slate-800 font-medium">Email</p>
+                    <p className="text-slate-800 font-medium">EMAIL</p>
                     <p className="text-slate-600">{admin?.email}</p>
                   </div>
                 </div>
                 <div className="jsutify-end space-y-6 flex-grow basis-1/4 w-full">
                   <div className="w-full">
-                    <p className="text-slate-800 font-medium">Experience</p>
+                    <p className="text-slate-800 font-medium">EXPERIENCE</p>
                     <p className="text-slate-600">Null</p>
                   </div>
                   <div className="w-full">
-                    <p className="text-slate-800 font-medium">Country</p>
+                    <p className="text-slate-800 font-medium">COUNTRY</p>
                     <p className="text-slate-600">Null</p>
                   </div>
                 </div>
                 <div className="text-en space-y-6 flex-grow basis-1/4 w-full">
                   <div className="w-full">
-                    <p className="text-slate-800 font-medium">Tel Number</p>
-                    <p className="text-slate-600">{!admin?.telNumber ? "Null" : admin?.telNumber}</p> 
+                    <p className="text-slate-800 font-medium">TEL NUMBER</p>
+                    <p className="text-slate-600">
+                      {!admin?.telNumber ? 'Null' : admin?.telNumber}
+                    </p>
                   </div>
                   <div className="w-full">
-                    <p className="text-slate-800 font-medium">Education</p>
-                    <p className="text-slate-600">{!admin?.education ? "Null" : admin?.education}</p>
+                    <p className="text-slate-800 font-medium">EDUCATION</p>
+                    <p className="text-slate-600">
+                      {!admin?.education ? 'Null' : admin?.education}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -101,7 +107,7 @@ const MyProfile = () => {
 
         <div className="bg-white rounded-md glossy px-8 py-16">
           <div className="space-y-3">
-            <h2 className="font-semibold text-2xl text-slate-800">About</h2>
+            <h2 className="font-semibold text-2xl text-slate-800">ABOUT</h2>
             {isLoading || !admin ? (
               <p className="w-full h-60 bg-gray-200 animate-pulse"></p>
             ) : (

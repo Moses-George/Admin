@@ -38,14 +38,14 @@ const AdminLayout = ({ children, header, icon }) => {
             <div className="flex items-center justify-end gap-6">
               <Link className="text-end w-fit p-2.5 bg-amber-100 rounded-full">
                 <Badge
-                  badgeContent={4}
+                  badgeContent={1}
                   sx={{ '& .MuiBadge-badge': { color: '#fff', backgroundColor: '#d97706' } }}>
                   <Notifications color="action" />
                 </Badge>
               </Link>
               <Link className="text-end w-fit p-2.5 bg-amber-100 rounded-full">
                 <Badge
-                  badgeContent={4}
+                  badgeContent={1}
                   sx={{ '& .MuiBadge-badge': { color: '#fff', backgroundColor: '#d97706' } }}>
                   <MessageSharp color="action" />
                 </Badge>

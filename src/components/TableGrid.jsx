@@ -7,6 +7,7 @@ import DeleteModal from './ui/modal/DeleteModal';
 import { modifiedDate } from '../utils/timeAndDate';
 import { useDeleteUserMutation } from '../store/api/userApi';
 import { useDeleteMemberMutation } from '../store/api/memberApi';
+import { subscriptionStatus } from '../utils/helpers';
 
 const TableGrid = ({ page, tableData, refetch }) => {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -46,15 +47,18 @@ const TableGrid = ({ page, tableData, refetch }) => {
     {
       key: 'firstName',
       title: 'First Name',
-      dataIndex: 'firstName',
+      ellipsis: true,
+      render: ({ firstName } = record) => {
+        return <span className="">{!firstName ? 'Null' : firstName}</span>;
+      },
       sorter: (a, b) => a.name > b.name,
       sortDirections: ['descend']
     },
     {
       key: 'lastName',
       title: 'Last Name',
-      dataIndex: 'lastName'
-      // ellipsis: true
+      dataIndex: 'lastName',
+      ellipsis: true
     },
     {
       key: 'email',
@@ -101,9 +105,9 @@ const TableGrid = ({ page, tableData, refetch }) => {
       ellipsis: true,
       render: ({ image } = record) => {
         return image ? (
-          <img src={image} alt="" className="w-24 h-24 rounded-full" />
+          <img src={image} alt="" className="w-[3.5rem] h-[3.5rem] rounded-full" />
         ) : (
-          <AccountCircle className="text-slate-800" sx={{ fontSize: '40px' }} />
+          <AccountCircle className="text-slate-800" sx={{ fontSize: '60px' }} />
         );
       }
     },
@@ -128,14 +132,17 @@ const TableGrid = ({ page, tableData, refetch }) => {
     {
       key: 'country',
       title: 'Country',
-      dataIndex: 'country',
+      render: ({ country } = record) => {
+        return <span className="">{!country ? 'Null' : country}</span>;
+      },
       ellipsis: true
     },
     {
       key: 'telNumber',
       title: 'Phone',
-      width: '10%',
-      dataIndex: 'telNumber',
+      render: ({ telNumber } = record) => {
+        return <span className="">{!telNumber ? 'Null' : telNumber}</span>;
+      },
       ellipsis: true
     },
     {
@@ -149,7 +156,9 @@ const TableGrid = ({ page, tableData, refetch }) => {
       key: 'price',
       title: 'Price',
       width: '10%',
-      dataIndex: 'price',
+      render: ({ price } = record) => {
+        return <span className="">{!price ? 'Null' : price}</span>;
+      },
       ellipsis: true
     },
     {
@@ -193,9 +202,9 @@ const TableGrid = ({ page, tableData, refetch }) => {
       ellipsis: true,
       render: ({ image } = record) => {
         return image ? (
-          <img src={image} alt="" className="w-24 h-24 rounded-full" />
+          <img src={image} alt="" className="w-[3.5rem] h-[3.5rem] rounded-full" />
         ) : (
-          <AccountCircle className="text-slate-800" sx={{ fontSize: '40px' }} />
+          <AccountCircle className="text-slate-800" sx={{ fontSize: '60px' }} />
         );
       }
     },
@@ -209,6 +218,7 @@ const TableGrid = ({ page, tableData, refetch }) => {
       key: 'firstName',
       title: 'Name',
       dataIndex: 'firstName',
+      ellipsis: true,
       sorter: (a, b) => a.name > b.name,
       sortDirections: ['descend']
     },
@@ -221,18 +231,41 @@ const TableGrid = ({ page, tableData, refetch }) => {
     {
       key: 'country',
       title: 'Country',
-      dataIndex: 'country',
+      render: ({ country } = record) => {
+        return <span className="">{!country ? 'Null' : country}</span>;
+      },
       ellipsis: true
     },
     {
       key: 'telNumber',
       title: 'Phone',
-      dataIndex: 'telNumber'
+      render: ({ telNumber } = record) => {
+        return <span className="">{!telNumber ? 'Null' : telNumber}</span>;
+      },
+      ellipsis: true
     },
     {
       key: 'mentor_type',
       title: 'Mentor',
-      dataIndex: 'mentor_type'
+      render: ({ mentor_type } = record) => {
+        return <span className="">{!mentor_type ? 'Null' : mentor_type}</span>;
+      },
+      ellipsis: true
+    },
+    {
+      key: 'subscription',
+      title: 'Subscription',
+      sortDirections: ['descend'],
+      render: ({ subscribed_at } = record) => {
+        const status = subscriptionStatus(subscribed_at);
+        return (
+          <span
+            className={`text-white pb-1.5 pt-1 w-28 text-center px-2.5
+            } rounded-3xl ${status === "Unsubscribed" ? 'bg-yellow-500' : status === "Subscribed" ? "bg-lime-500" : 'bg-red-500'} font-medium`}>
+            {status}
+          </span>
+        );
+      }
     },
     {
       key: 'action',
@@ -250,81 +283,64 @@ const TableGrid = ({ page, tableData, refetch }) => {
     }
   ];
 
-  const transactionsColumnData = [
+  const paymentsColumnData = [
     {
-      key: 'id',
+      key: 'payment_Id',
       title: 'UUID',
       ellipsis: true,
-      dataIndex: 'id'
+      dataIndex: 'payment_Id'
     },
     {
-      key: 'customer',
-      title: 'Customer',
-      dataIndex: 'customer',
+      key: 'mentee_name',
+      title: 'Mentee',
+      dataIndex: 'mentee_name',
       sorter: (a, b) => a.name > b.name,
-      sortDirections: ['descend']
+      sortDirections: ['descend'],
+      ellipsis: true
     },
     {
-      key: 'email',
-      title: 'Email',
-      ellipsis: true,
-      dataIndex: 'email'
+      key: 'mentor_name',
+      title: 'Mentor',
+      dataIndex: 'mentor_name',
+      sorter: (a, b) => a.name > b.name,
+      sortDirections: ['descend'],
+      ellipsis: true
     },
     {
       key: 'date',
       title: 'Date',
-      render: ({ date } = record) => {
-        return <span className="">{modifiedDate.formatDate(date)}</span>;
-      }
-      // dataIndex: 'date'
+      render: ({ subscribed_at } = record) => {
+        return <span className="">{modifiedDate.formatDate(subscribed_at)}</span>;
+      },
+      ellipsis: true
     },
     {
-      key: 'phone',
-      title: 'Phone',
-      dataIndex: 'phone'
-    },
-    {
-      key: 'mentor',
-      title: 'Mentor',
-      dataIndex: 'mentor'
+      key: 'amount',
+      title: 'Amount($)',
+      dataIndex: 'amount'
     },
     {
       key: 'status',
       title: 'Status',
       sorter: (a, b) => a.status > b.status,
       sortDirections: ['descend'],
-      render: ({ status } = record) => {
+      render: ({ payment_status } = record) => {
         return (
           <span
             className={`text-white pb-1.5 pt-1 text-center ${
-              status === 'failed' ? 'px-5' : 'px-2.5'
+              payment_status === 'failed' ? 'px-5' : 'px-2.5'
             } rounded-3xl ${
-              status === 'pending'
+              payment_status === 'pending'
                 ? 'bg-yellow-500'
-                : status === 'failed'
+                : payment_status === 'failed'
                 ? 'bg-red-500'
                 : 'bg-lime-500'
             } font-medium`}>
-            {status}
+            {payment_status}
           </span>
         );
       }
     },
-    {
-      key: 'action',
-      title: 'Actions',
-      width: '10%',
-      render: (record) => {
-        return (
-          <TableActionsMenu
-            record={record}
-            setIsDeleting={setIsDeleting}
-            page={page}
-            setSearchParams={setSearchParams}
-          />
-        );
-      }
-    }
   ];
 
   useEffect(() => {
@@ -342,8 +358,8 @@ const TableGrid = ({ page, tableData, refetch }) => {
         setTableColumn(menteesColumnData);
         break;
 
-      case 'transactions':
-        setTableColumn(transactionsColumnData);
+      case 'payments':
+        setTableColumn(paymentsColumnData);
         break;
 
       default:
@@ -378,10 +394,6 @@ const TableGrid = ({ page, tableData, refetch }) => {
         setRowData((tableData) => tableData.filter((row) => row.id != userId));
         break;
 
-      case 'transactions':
-        console.log('Deleted');
-        break;
-
       default:
         break;
     }
@@ -407,7 +419,7 @@ const TableGrid = ({ page, tableData, refetch }) => {
         "Deleting a mentee will automatically erase all records of the member. Confirm if you'd want to perform this action."
     },
     {
-      page: 'transactions',
+      page: 'payments',
       title: 'Delete Transaction data ?',
       content:
         'Deleting a transaction will automatically erase all records related to the transaction.'
@@ -425,7 +437,7 @@ const TableGrid = ({ page, tableData, refetch }) => {
           loading={loading}
         />
       )}
-      <div className="w-full app scroller glossy h-screen ">
+      <div className="w-full app scroller glossy ">
         <div className="w-full table">
           <Table
             dataSource={rowData}

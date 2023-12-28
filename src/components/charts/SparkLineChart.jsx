@@ -1,7 +1,7 @@
 import ReactApexChart from 'react-apexcharts';
 
-const SparkLineChart = () => {
-  const series = [{ data: [12, 14, 2, 47, 32, 44, 14, 55, 41, 69] }];
+const SparkLineChart = ({ name, }) => {
+  const series = [{ name: name, data: [31, 40, 28, 51, 42, 109, 100, 10, 27, 18, 17, 18] }];
 
   const options = {
     chart: {
@@ -31,10 +31,31 @@ const SparkLineChart = () => {
       size: 0
     },
     colors: ['#84cc16'],
+    yaxis: {
+      show: false,
+      min: 0
+    },
+    xaxis: {
+      type: 'months',
+      categories: [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec'
+      ]
+    },
     tooltip: {
-      x: {
-        show: false
-      },
+      // x: {
+      //   show: false
+      // },
       y: {
         title: {
           formatter: function formatter(val) {

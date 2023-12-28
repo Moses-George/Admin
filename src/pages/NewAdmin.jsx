@@ -119,7 +119,7 @@ const NewAdmin = () => {
                 );
               })}
             </div>
-            <button className="py-2 px-4 flex items-center gap-2 text-white rounded-md bg-lime-600">
+            <button className="py-2 px-4 flex items-center gap-2 text-white rounded-md bg-lime-600 hover:opacity-70">
               <PersonAddAlt />
               <span>Add Admin</span>
             </button>

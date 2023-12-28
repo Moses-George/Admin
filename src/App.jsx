@@ -11,11 +11,11 @@ import NewJob from './pages/NewJob';
 import Mentors from './pages/Mentors';
 import MentorProfile from './pages/MentorProfile';
 import Mentees from './pages/Mentees';
-import Transactions from './pages/Transactions';
 import EditJob from './pages/EditJob';
 import Settings from './pages/Settings';
 import NewAdmin from './pages/NewAdmin';
 import Admins from './pages/Admins';
+import Payments from './pages/Payments';
 
 function App() {
   const location = useLocation();
@@ -40,7 +40,7 @@ function App() {
         <Route path="/mentors/*" element={<Mentors />} />
         <Route path="/mentors/:mentorId" element={<MentorProfile />} />
         <Route path="/mentees" element={<Mentees />} />
-        <Route path="/transactions" element={<Transactions />} />
+        <Route path="/payments" element={<Payments />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

@@ -11,7 +11,8 @@ const Doughnut = ({ color, label, percentage, width }) => {
         left: 2,
         blur: 4,
         opacity: 1,
-        color: '#cbd5e1'
+        color: '#cbd5e1',
+        // fontSize: "20px"
       }
     },
     labels: [label],
