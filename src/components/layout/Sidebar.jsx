@@ -3,13 +3,13 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { adminLinks } from '.';
 import { useEffect } from 'react';
 import { useGetUserQuery } from '../../store/api/userApi';
-import { getToken, removeToken } from '../../utils/authHelpers';
+import { getLoginTime, getToken, removeLoginTime, removeToken } from '../../utils/authHelpers';
+import { capitalizeFirstLetter } from '../../utils/helpers';
 
-const Sidebar = ({ display, lg_display, zIndex, isVisible, setIsVisible }) => {
-  const token = getToken();
-  const { isLoading, isError, error, isSuccess, data: user } = useGetUserQuery(token);
-  const admin = user?.data[0];
+const Sidebar = ({ display, lg_display, zIndex, isVisible, setIsVisible, user, isLoading }) => {
   const navigate = useNavigate();
+  const token = getToken();
+  const admin = user?.data[0];
 
   useEffect(() => {
     if (!token) {
@@ -21,6 +21,30 @@ const Sidebar = ({ display, lg_display, zIndex, isVisible, setIsVisible }) => {
     navigate('/', { replace: true });
     removeToken();
   };
+
+  useEffect(() => {
+    const loginTime = getLoginTime();
+    if (loginTime) {
+      const twentyFourHours = 24 * 60 * 60 * 1000;
+      const currentTime = new Date().getTime();
+      const elapsedTime = currentTime - parseInt(loginTime, 10);
+
+      if (elapsedTime >= twentyFourHours) {
+        logout();
+        removeLoginTime();
+      } else {
+        const interval = setInterval(() => {
+          const currentTime = new Date().getTime();
+          const elapsedTime = currentTime - parseInt(loginTime, 10);
+          if (elapsedTime >= twentyFourHours) {
+            logout();
+            removeLoginTime();
+            clearInterval(interval);
+          }
+        }, 60000);
+      }
+    }
+  }, []);
 
   return (
     <aside
@@ -49,8 +73,8 @@ const Sidebar = ({ display, lg_display, zIndex, isVisible, setIsVisible }) => {
         {isLoading || !user ? (
           <p className="animate-pulse bg-lime-100 w-28 h-2 mx-auto rounded-xl"></p>
         ) : (
-          <p className="text-md font-semibold text-center uppercase">
-            {admin?.firstName} {admin?.lastName}
+          <p className="text-md font-semibold text-center uppercae">
+            {capitalizeFirstLetter(admin?.firstName)} {capitalizeFirstLetter(admin?.lastName)}
           </p>
         )}
       </div>

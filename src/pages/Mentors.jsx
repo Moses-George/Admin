@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Badge, AttachMoney, People } from '@mui/icons-material';
+import { Badge, AttachMoney, People, PersonRemoveAlt1Sharp } from '@mui/icons-material';
 import AdminLayout from '../components/layout/AdminLayout';
 import TableGrid from '../components/TableGrid';
 import ChartCard from '../components/ChartCard';
@@ -17,7 +17,7 @@ const getChartCardData = (all, active, inactive, data) => {
       title: 'All',
       amount: all,
       percentage: 4,
-      icon: <Badge className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
+      icon: <People className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
       chart: <SparkAreaChart />
     },
     {
@@ -25,7 +25,7 @@ const getChartCardData = (all, active, inactive, data) => {
       title: 'Active',
       amount: active,
       percentage: 4,
-      icon: <People className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
+      icon: <Badge className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
       chart: <SparkAreaChart />
     },
     {
@@ -33,7 +33,7 @@ const getChartCardData = (all, active, inactive, data) => {
       title: 'Inactive',
       amount: inactive,
       percentage: 0,
-      icon: <AttachMoney className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
+      icon: <PersonRemoveAlt1Sharp className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
       chart: <SparkAreaChart />
     }
   ];

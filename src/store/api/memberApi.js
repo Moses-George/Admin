@@ -1,9 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { baseUrl } from '../../lib/baseUrl';
+
 
 export const memberApi = createApi({
   reducerPath: 'memberApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://dashboard-m5qj.onrender.com'
+    baseUrl: baseUrl  
   }),
   tagTypes: ['Members'],
   endpoints: (builder) => ({

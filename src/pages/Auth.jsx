@@ -7,7 +7,7 @@ import { Validator } from '../utils/validator';
 import { toast } from 'react-toastify';
 import useApiToast from '../hooks/useApiToast';
 import { useSignInUserMutation } from '../store/api/authApi';
-import { getToken, setToken } from '../utils/authHelpers';
+import { getToken, setLoginTime, setToken } from '../utils/authHelpers';
 
 const InitialData = {
   email: '',
@@ -44,6 +44,7 @@ const Auth = () => {
   useEffect(() => {
     if (isSuccess) {
       setToken(user?.token);
+      setLoginTime();
       setFormData(InitialData);
       navigate('/dashboard', { replace: true });
     }
@@ -129,7 +130,7 @@ const Auth = () => {
             <h1 className="text-4xl text-white font-semibold tracking-widest">Welcome back!</h1>
             <p className="text-lg font-normal text-white">Login to access your admin account</p>
           </div>
-          <img className="h-1/2 w-2/3 mx-auto" src="/images/admin.png" alt="man" /> 
+          <img className="h-1/2 w-2/3 mx-auto" src="/images/admin.png" alt="man" />
         </div>
       </section>
     </>

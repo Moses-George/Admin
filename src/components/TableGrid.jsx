@@ -5,9 +5,11 @@ import TableActionsMenu from './ui/TableActionsMenu';
 import { AccountCircle } from '@mui/icons-material';
 import DeleteModal from './ui/modal/DeleteModal';
 import { modifiedDate } from '../utils/timeAndDate';
-import { useDeleteUserMutation } from '../store/api/userApi';
+import { useDeleteUserMutation, useGetUserQuery } from '../store/api/userApi';
 import { useDeleteMemberMutation } from '../store/api/memberApi';
 import { subscriptionStatus } from '../utils/helpers';
+import { getToken } from '../utils/authHelpers';
+import { toast } from 'react-toastify';
 
 const TableGrid = ({ page, tableData, refetch }) => {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -23,6 +25,9 @@ const TableGrid = ({ page, tableData, refetch }) => {
     deleteMember,
     { isLoading: loading_m, isError: isError_m, error: error_m, isSuccess: success_m, data: data_m }
   ] = useDeleteMemberMutation();
+  const token = getToken();
+  const { data: user } = useGetUserQuery(token);
+  const currentUser = user?.data[0];
   const loading = loading_u || loading_m;
   const success = success_u || success_m;
 
@@ -157,7 +162,7 @@ const TableGrid = ({ page, tableData, refetch }) => {
       title: 'Price',
       width: '10%',
       render: ({ price } = record) => {
-        return <span className="">{!price ? 'Null' : price}</span>;
+        return <span className="">{!price ? 'Null' : price}</span>; 
       },
       ellipsis: true
     },
@@ -219,8 +224,8 @@ const TableGrid = ({ page, tableData, refetch }) => {
       title: 'Name',
       dataIndex: 'firstName',
       ellipsis: true,
-      sorter: (a, b) => a.name > b.name,
-      sortDirections: ['descend']
+      // sorter: (a, b) => a.name > b.name,
+      // sortDirections: ['descend']
     },
     {
       key: 'email',
@@ -252,21 +257,27 @@ const TableGrid = ({ page, tableData, refetch }) => {
       },
       ellipsis: true
     },
-    {
-      key: 'subscription',
-      title: 'Subscription',
-      sortDirections: ['descend'],
-      render: ({ subscribed_at } = record) => {
-        const status = subscriptionStatus(subscribed_at);
-        return (
-          <span
-            className={`text-white pb-1.5 pt-1 w-28 text-center px-2.5
-            } rounded-3xl ${status === "Unsubscribed" ? 'bg-yellow-500' : status === "Subscribed" ? "bg-lime-500" : 'bg-red-500'} font-medium`}>
-            {status}
-          </span>
-        );
-      }
-    },
+    // {
+    //   key: 'subscription',
+    //   title: 'Subscription',
+    //   // sortDirections: ['descend'],
+    //   render: ({ subscribed_at } = record) => {
+    //     const status = subscriptionStatus(subscribed_at);
+    //     return (
+    //       <span
+    //         className={`text-white pb-1.5 pt-1 w-28 text-center px-2.5
+    //         } rounded-3xl ${
+    //           status === 'Unsubscribed'
+    //             ? 'bg-yellow-500'
+    //             : status === 'Subscribed'
+    //             ? 'bg-lime-500'
+    //             : 'bg-red-500'
+    //         } font-medium`}>
+    //         {status}
+    //       </span>
+    //     );
+    //   }
+    // },
     {
       key: 'action',
       title: 'Actions',
@@ -340,7 +351,7 @@ const TableGrid = ({ page, tableData, refetch }) => {
           </span>
         );
       }
-    },
+    }
   ];
 
   useEffect(() => {
@@ -377,20 +388,24 @@ const TableGrid = ({ page, tableData, refetch }) => {
     }
   }, [success]);
 
-  const DeleteUser = () => {
+  const DeleteUser = async () => {
+    // if (!currentUser?.verified) {
+    //   toast.warning("You're not authorized to perform this action!", { autoClose: 3000 });
+    //   return;
+    // }
     switch (page) {
       case 'admins':
-        deleteUser(userId);
+        await deleteUser(userId);
         setRowData((tableData) => tableData.filter((row) => row.id != userId));
         break;
 
       case 'mentors':
-        deleteMember({ member: 'mentors', Id: userId });
+        await deleteMember({ member: 'mentors', Id: userId });
         setRowData((tableData) => tableData.filter((row) => row.id != userId));
         break;
 
       case 'mentees':
-        deleteMember({ member: 'mentees', Id: userId });
+        await deleteMember({ member: 'mentees', Id: userId });
         setRowData((tableData) => tableData.filter((row) => row.id != userId));
         break;
 

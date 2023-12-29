@@ -8,6 +8,7 @@ import {
   Cancel
 } from '@mui/icons-material';
 import { Link, useParams } from 'react-router-dom';
+import { capitalizeFirstLetter } from '../../utils/helpers';
 
 const ProfileBaseData = ({ mentor, loading }) => {
   const textSkeleton = <p className="animate-pulse w-20 h-4 bg-gray-200"></p>;
@@ -21,7 +22,7 @@ const ProfileBaseData = ({ mentor, loading }) => {
             ) : !mentor?.image ? (
               <AccountBox className="text-slate-800" sx={{ fontSize: '170px' }} />
             ) : (
-              <img src={mentor?.image} alt="" className="rounded-full h-[10rem] w-[10rem]" /> 
+              <img src={mentor?.image} alt="" className="rounded-full h-[10rem] w-[10rem]" />
             )}
           </div>
 
@@ -31,7 +32,9 @@ const ProfileBaseData = ({ mentor, loading }) => {
                 {loading || !mentor ? (
                   <h1 className="w-60 h-6 bg-gray-200"></h1>
                 ) : (
-                  <h1 className="text-3xl text-lime-900 font-medium">{`${mentor?.firstName} (${mentor?.initials})`}</h1>
+                  <h1 className="text-3xl text-lime-900 font-medium">{`${capitalizeFirstLetter(
+                    mentor?.firstName
+                  )} (${capitalizeFirstLetter(mentor?.initials)})`}</h1>
                 )}
                 <div className="space-x-1 w-full">
                   {Boolean(mentor?.verified) ? (
@@ -44,7 +47,7 @@ const ProfileBaseData = ({ mentor, loading }) => {
                   </span>
                 </div>
               </div>
-              <div className="text-end gap-2 flex w-fit items-center">
+              {/* <div className="text-end gap-2 flex w-fit items-center">
                 <Link className="p-2 rounded-md bg-slate-100 border" aria-disabled>
                   <LinkedIn className="text-blue-500" />
                 </Link>
@@ -62,7 +65,7 @@ const ProfileBaseData = ({ mentor, loading }) => {
                   <Visibility className="text-lime-900" />
                   <span>RESUME</span>
                 </Link>
-              </div>
+              </div> */}
             </div>
 
             <div className="flex flex-wrap gap-8 w-full">
@@ -137,7 +140,9 @@ const ProfileBaseData = ({ mentor, loading }) => {
           {loading || mentor.length === 0 ? (
             <p className="w-full h-60 bg-gray-200 animate-pulse"></p>
           ) : (
-            <p className="text-slate-600 leading-8">{!mentor?.bio ? 'No biography' : mentor?.bio}</p>
+            <p className="text-slate-600 leading-8">
+              {!mentor?.bio ? 'No biography' : mentor?.bio}
+            </p>
           )}
         </div>
       </div>

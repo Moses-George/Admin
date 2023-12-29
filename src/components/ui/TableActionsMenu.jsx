@@ -2,8 +2,9 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { AccountCircle, Delete, Download, Edit, MoreVert } from '@mui/icons-material';
 import useApiToast from '../../hooks/useApiToast';
-import { useVerifyUserMutation } from '../../store/api/userApi';
+import { useGetUserQuery, useVerifyUserMutation } from '../../store/api/userApi';
 import { useVerifyMentorMutation } from '../../store/api/memberApi';
+import { getToken } from '../../utils/authHelpers';
 
 const TableActionsMenu = ({ record, setIsDeleting, page, setSearchParams, refetch }) => {
   const [dropdownIsVisible, setDropdownIsVisible] = useState(false);
@@ -16,6 +17,9 @@ const TableActionsMenu = ({ record, setIsDeleting, page, setSearchParams, refetc
     verifyMentor,
     { isLoading: loading_m, isError: isError_m, error: error_m, isSuccess: success_m, data: data_m }
   ] = useVerifyMentorMutation();
+  const token = getToken();
+  const { data: user } = useGetUserQuery(token);
+  const currentUser = user?.data[0];
   const isSuccess = success_m || success_u;
   const isLoading = loading_m || loading_u;
   const isError = isError_m || isError_u;
@@ -31,14 +35,18 @@ const TableActionsMenu = ({ record, setIsDeleting, page, setSearchParams, refetc
     successMsg: 'Verification complete!'
   });
 
-  const handleVerificationToggle = () => {
+  const handleVerificationToggle = async () => {
+    if (!currentUser?.verified) {
+      toast.warning("You're not authorized to perform this action!", { autoClose: 3000 });
+      return;
+    }
     switch (page) {
       case 'admins':
-        verifyUser(record?.id);
+        await verifyUser(record?.id);
         break;
 
       case 'mentors':
-        verifyMentor(record?.id);
+        await verifyMentor(record?.id);
         break;
 
       default:
@@ -47,6 +55,10 @@ const TableActionsMenu = ({ record, setIsDeleting, page, setSearchParams, refetc
   };
 
   const openModal = () => {
+    if (!currentUser?.verified) {
+      toast.warning("You're not authorized to perform this action!", { autoClose: 3000 });
+      return;
+    }
     setIsDeleting(true);
     setSearchParams({ userId: record.id });
   };
@@ -95,7 +107,7 @@ const TableActionsMenu = ({ record, setIsDeleting, page, setSearchParams, refetc
               </button>
             </li>
             <li>
-              {page !== 'mentees' && page !== "payments" && (
+              {page !== 'mentees' && page !== 'payments' && (
                 <div className="flex p-2 rounded hover:bg-gray-100">
                   <label className="relative inline-flex items-center gap-1 w-full cursor-pointer">
                     <input

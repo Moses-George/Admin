@@ -14,6 +14,8 @@ const InitialData = {
   lastName: '',
   email: '',
   telNumber: '',
+  experience: "",
+  country: "",
   education: '',
   about: ''
 };

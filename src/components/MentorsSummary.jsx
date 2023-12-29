@@ -26,15 +26,15 @@ const MentorsSummary = () => {
           <Badge className="text-slate-600" sx={{ fontSize: '40px' }} />
           <h1 className="text-2xl text-slate-800 font-medium w-full">Mentors Summary</h1>
         </div>
-        <div className="flex scroller">
+        <div className={`flex scroller ${isLoading || !members ? 'space-x-10' : 'space-x-4'}`}>
           {isLoading || !members
             ? [1, 2, 3, 4, 5].map((loader) => (
                 <div
                   key={loader}
-                  className="animate-pulse border-[1.5rem] rounded-full w-36 h-36  border-gray-300"></div>
+                  className="animate-pulse border-[1.7rem] rounded-full w-40 h-40  border-gray-300"></div>
               ))
             : availablePositions.map((position, index) => (
-                <div key={position} className='flex flex-col justify-center'>
+                <div key={position} className="flex flex-col justify-center">
                   <Doughnut
                     color="#65a30d"
                     label={position}

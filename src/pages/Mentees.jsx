@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { People, Badge, AttachMoney } from '@mui/icons-material';
+import { People, Badge, AttachMoney, PersonAdd, Unsubscribe, Paid, MoneyOff } from '@mui/icons-material';
 import AdminLayout from '../components/layout/AdminLayout';
 import TableGrid from '../components/TableGrid';
 import ChartCard from '../components/ChartCard';
@@ -17,7 +17,7 @@ const getChartCardData = (subscribed, unsubscibed, Joined) => {
       title: 'Subscribed',
       amount: subscribed,
       percentage: 4,
-      icon: <Badge className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
+      icon: <Paid className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
       chart: <SparkLineChart />
     },
     {
@@ -25,7 +25,7 @@ const getChartCardData = (subscribed, unsubscibed, Joined) => {
       title: 'Unsubscribed',
       amount: unsubscibed,
       percentage: 4,
-      icon: <People className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
+      icon: <MoneyOff className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
       chart: <SparkLineChart />
     },
     {
@@ -33,7 +33,7 @@ const getChartCardData = (subscribed, unsubscibed, Joined) => {
       title: 'Joined',
       amount: Joined,
       percentage: 4,
-      icon: <AttachMoney className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
+      icon: <PersonAdd className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,
       chart: <SparkLineChart />
     }
   ];
@@ -42,7 +42,7 @@ const getChartCardData = (subscribed, unsubscibed, Joined) => {
 };
 
 const Mentees = () => {
-  const { isLoading, isError, error, isSuccess, data: members } = useGetAllMembersQuery('mentees');
+  const { isLoading, isError, error, isSuccess, data: members, refetch } = useGetAllMembersQuery('mentees');
   useApiToast({
     members,
     isLoading,
@@ -61,6 +61,7 @@ const Mentees = () => {
       navigate('/', { replace: true });
     }
   }, [token]);
+  console.log(members);
 
   return (
     <AdminLayout
@@ -84,7 +85,7 @@ const Mentees = () => {
             );
           })}
         </div>
-        <TableGrid page="mentees" tableData={members?.data} />
+        <TableGrid page="mentees" tableData={members?.data} refetch={refetch} />
       </div>
     </AdminLayout>
   );

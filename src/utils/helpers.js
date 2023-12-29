@@ -34,6 +34,8 @@ export const subscriptionStatus = (subscriptionDate) => {
   }
 };
 
+export const getTotalSubscriptionAmount = (subscriptions) => {};
+
 export const accountCreatedDate = (data, selectedYear) => {
   const months = [
     'Jan',
@@ -78,4 +80,8 @@ export const pluralizeWord = (item, word) => {
   if (+item > 1) {
     return `${item}${word}s`;
   }
+};
+
+export const capitalizeFirstLetter = (word) => {
+  return word[0].toUpperCase() + word.substring(1);
 };

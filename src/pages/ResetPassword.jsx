@@ -16,10 +16,10 @@ const InitialData = {
 
 const ResetPassword = () => {
   const { formData, setFormData, handleChange } = useForm(InitialData);
-  const [resetUserPassword, { isLoading, isError, error, isSuccess, data: user }] =
+  const [resetUserPassword, { isLoading, isError, error, isSuccess, data: user }] = 
     useResetUserPasswordMutation();
   useApiToast({
-    data,
+    user,
     isLoading,
     isSuccess,
     isError,
@@ -31,7 +31,7 @@ const ResetPassword = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const validator = new Validator(formData);
     if (validator.whiteSpaces().length !== 0) {
       toast.error(validator.message, { autoClose: 4000 });

@@ -21,12 +21,12 @@ const Settings = () => {
   return (
     <AdminLayout header="Settings" icon={<SettingsSharp />}>
       <div className="lg:mx-6 space-y-6 w-full">
-        <section className="bg-white p-12 rounded-md glossy space-y-10">
+        <section className="bg-white lg:p-12 p-6 rounded-md glossy space-y-10">
           <h1 className="text-2xl text-slate-700 font-medium">Bio Data Settings</h1>
           <ChangeDPForm />
           <BioDataForm />
         </section>
-        <section className="bg-white p-12 rounded-md glossy space-y-10">
+        <section className="bg-white lg:p-12 p-6 rounded-md glossy space-y-10">
           <h1 className="text-2xl text-slate-700 font-medium">Change Password</h1>
           <ChangePasswordForm />
         </section>

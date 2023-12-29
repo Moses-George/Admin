@@ -1,10 +1,18 @@
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AccountBox, AdminPanelSettings, LinkedIn, Twitter, Facebook } from '@mui/icons-material';
+import {
+  AccountBox,
+  AdminPanelSettings,
+  LinkedIn,
+  Twitter,
+  Facebook,
+  Instagram
+} from '@mui/icons-material';
 import AdminLayout from '../components/layout/AdminLayout';
 import PanelHeader from '../components/PanelHeader';
 import { useGetUserQuery } from '../store/api/userApi';
 import { getToken } from '../utils/authHelpers';
+import { capitalizeFirstLetter } from '../utils/helpers';
 
 const MyProfile = () => {
   const token = getToken();
@@ -45,15 +53,16 @@ const MyProfile = () => {
                     <h1 className="animate-pulse w-60 h-10 bg-gray-200"></h1>
                   ) : (
                     <h1 className="text-3xl text-lime-900 font-medium uppercase">
-                      {admin?.firstName} {admin?.lastName}
+                      {capitalizeFirstLetter(admin?.firstName)}{' '}
+                      {capitalizeFirstLetter(admin?.lastName)}
                     </h1>
                   )}
                   <p>ADMIN</p>
                 </div>
-                <div className="text-end gap-2 flex w-fit items-center">
-                  <Link className="p-2 rounded-md bg-slate-100 border" aria-disabled>
-                    <LinkedIn className="text-blue-500" />
-                  </Link>
+                {/* <div className="text-end gap-2 flex w-fit items-center">
+                  <a href='' className="p-2 rounded-md bg-slate-100 border" target='_blank' rel="noreferrer">
+                    <Instagram className="text-blue-500" />
+                  </a>
                   <Link className="p-2 rounded-md bg-slate-100 border" aria-disabled>
                     <Facebook />
                   </Link>
@@ -62,7 +71,7 @@ const MyProfile = () => {
                       <Twitter className="text-blue-500" />
                     </Link>
                   }
-                </div>
+                </div> */}
               </div>
 
               <div className="flex flex-wrap gap-8 w-full">

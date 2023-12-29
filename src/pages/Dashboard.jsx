@@ -35,7 +35,7 @@ const getChartCardData = (mentors, mentees, income) => {
     },
     {
       id: 'c3',
-      title: 'Income',
+      title: 'Subscription',
       amount: `$${income}`,
       percentage: 0,
       icon: <AttachMoney className="text-3xl text-amber-500" sx={{ fontSize: '40px' }} />,

@@ -1,3 +1,5 @@
+import { capitalizeFirstLetter } from './helpers';
+
 export class Greeting {
   constructor() {
     this.currentTime = new Date();
@@ -18,7 +20,7 @@ export class Greeting {
   }
   greetUser(username) {
     const userGreeting = this.getGreeting();
-    return `${userGreeting}, ${username}`;
+    return `${userGreeting}, ${capitalizeFirstLetter(username)}`;
   }
 }
 

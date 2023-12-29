@@ -9,6 +9,7 @@ import useApiToast from '../hooks/useApiToast';
 import { toast } from 'react-toastify';
 import { useSignupUserMutation } from '../store/api/authApi';
 import { getToken } from '../utils/authHelpers';
+import { useGetUserQuery } from '../store/api/userApi';
 
 const InitialData = {
   firstName: '',
@@ -63,9 +64,15 @@ const NewAdmin = () => {
   });
   const token = getToken();
   const navigate = useNavigate();
+  const { data } = useGetUserQuery(token);
+  const currentUser = user?.data[0];
 
   const RegisterUser = async (event) => {
     event.preventDefault();
+    if (!currentUser?.verified) {
+      toast.warning("You're not authorized to perform this action!", { autoClose: 3000 });
+      return;
+    }
     const validator = new Validator(formData);
     if (validator.whiteSpaces().length !== 0) {
       toast.error(validator.message, { autoClose: 4000 });
