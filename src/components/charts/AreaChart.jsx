@@ -1,14 +1,14 @@
 import ReactApexChart from 'react-apexcharts';
 
-const AreaChart = () => {
+const AreaChart = ({ name_1, name_2, data_1, data_2 }) => {
   const series = [
     {
-      name: 'Revenue',
-      data: [31, 40, 28, 51, 42, 109, 100, 38, 44, 38, 39, 4]
+      name: name_1,
+      data: data_1
     },
     {
-      name: 'Income',
-      data: [11, 32, 45, 32, 34, 52, 41, 44, 57, 49, 49, 30]
+      name: name_2,
+      data: data_2
     }
   ];
 

@@ -1,19 +1,21 @@
 import ReactApexChart from 'react-apexcharts';
 import SelectMenu from '../ui/SelectMenu';
+import { months } from '../../utils/chartHelpers';
+import ChartFilter from '../ui/chartFilter';
 
-const LineChart = () => {
+const LineChart = ({ name_1, name_2, name_3, data_1, data_2, data_3 }) => {
   const series = [
     {
-      name: 'Music',
-      data: [1, 15, 26, 20, 33, 27]
+      name: name_1,
+      data: data_1
     },
     {
-      name: 'Photos',
-      data: [3, 33, 21, 42, 19, 32]
+      name: name_2,
+      data: data_2
     },
     {
-      name: 'Files',
-      data: [0, 39, 52, 11, 29, 43]
+      name: name_3,
+      data: data_3
     }
   ];
 
@@ -61,7 +63,7 @@ const LineChart = () => {
         bottom: 0
       }
     },
-    labels: ['01/15/2002', '01/16/2002', '01/17/2002', '01/18/2002', '01/19/2002', '01/20/2002'],
+    labels: months,
     xaxis: {
       tooltip: {
         enabled: false
@@ -77,8 +79,8 @@ const LineChart = () => {
   return (
     <div className="bg-white shadow-md rounded-md glossy space-y-8">
       <div className="flex p-6 w-full">
-        <h1 className="text-2xl text-slate-800 font-medium w-full">Line chart</h1>
-        <SelectMenu />
+        <h1 className="text-2xl text-slate-800 font-medium w-full">Members and Subscriptions</h1>
+        <ChartFilter width="w-28" height="h-10" />
       </div>
       <ReactApexChart options={options} series={series} width={'100%'} height={450} />
     </div>

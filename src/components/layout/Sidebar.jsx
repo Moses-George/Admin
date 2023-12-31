@@ -2,7 +2,6 @@ import { AccountCircle, Logout, Menu, Close } from '@mui/icons-material';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { adminLinks } from '.';
 import { useEffect } from 'react';
-import { useGetUserQuery } from '../../store/api/userApi';
 import { getLoginTime, getToken, removeLoginTime, removeToken } from '../../utils/authHelpers';
 import { capitalizeFirstLetter } from '../../utils/helpers';
 

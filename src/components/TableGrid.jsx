@@ -5,11 +5,10 @@ import TableActionsMenu from './ui/TableActionsMenu';
 import { AccountCircle } from '@mui/icons-material';
 import DeleteModal from './ui/modal/DeleteModal';
 import { modifiedDate } from '../utils/timeAndDate';
-import { useDeleteUserMutation, useGetUserQuery } from '../store/api/userApi';
-import { useDeleteMemberMutation } from '../store/api/memberApi';
-import { subscriptionStatus } from '../utils/helpers';
+import { useDeleteUserMutation } from '../store/api/userApi';
+import { useDeleteMemberMutation} from '../store/api/memberApi';
+import { subscriptionStatus } from '../utils/chartHelpers';
 import { getToken } from '../utils/authHelpers';
-import { toast } from 'react-toastify';
 
 const TableGrid = ({ page, tableData, refetch }) => {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -26,8 +25,6 @@ const TableGrid = ({ page, tableData, refetch }) => {
     { isLoading: loading_m, isError: isError_m, error: error_m, isSuccess: success_m, data: data_m }
   ] = useDeleteMemberMutation();
   const token = getToken();
-  const { data: user } = useGetUserQuery(token);
-  const currentUser = user?.data[0];
   const loading = loading_u || loading_m;
   const success = success_u || success_m;
 
@@ -162,7 +159,7 @@ const TableGrid = ({ page, tableData, refetch }) => {
       title: 'Price',
       width: '10%',
       render: ({ price } = record) => {
-        return <span className="">{!price ? 'Null' : price}</span>; 
+        return <span className="">{!price ? 'Null' : price}</span>;
       },
       ellipsis: true
     },
@@ -223,7 +220,7 @@ const TableGrid = ({ page, tableData, refetch }) => {
       key: 'firstName',
       title: 'Name',
       dataIndex: 'firstName',
-      ellipsis: true,
+      ellipsis: true
       // sorter: (a, b) => a.name > b.name,
       // sortDirections: ['descend']
     },
@@ -440,6 +437,10 @@ const TableGrid = ({ page, tableData, refetch }) => {
         'Deleting a transaction will automatically erase all records related to the transaction.'
     }
   ];
+
+  // const updatePrice = async () => {
+  //   await updateMentorPrice({Id: userId})
+  // };
 
   return (
     <>

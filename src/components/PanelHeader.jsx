@@ -9,7 +9,7 @@ const PanelHeader = ({ loading, admin }) => {
         {loading || !admin  ? (
           <p className="animate-pulse w-60 lg:w-80 h-10 bg-lime-400"></p>
         ) : (
-          <h1 className="text-2xl text-white font-medium uppercase">{greeting.greetUser(admin?.firstName)}</h1>
+          <h1 className="text-2xl text-white font-medium">{greeting.greetUser(admin?.firstName)}</h1>
         )}
         {loading || !admin ? (
           <p className="animate-pulse w-40 h-4 mt-3 bg-lime-400"></p>

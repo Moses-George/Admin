@@ -1,6 +1,14 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { People, Badge, AttachMoney, PersonAdd, Unsubscribe, Paid, MoneyOff } from '@mui/icons-material';
+import {
+  People,
+  Badge,
+  AttachMoney,
+  PersonAdd,
+  Unsubscribe,
+  Paid,
+  MoneyOff
+} from '@mui/icons-material';
 import AdminLayout from '../components/layout/AdminLayout';
 import TableGrid from '../components/TableGrid';
 import ChartCard from '../components/ChartCard';
@@ -42,7 +50,14 @@ const getChartCardData = (subscribed, unsubscibed, Joined) => {
 };
 
 const Mentees = () => {
-  const { isLoading, isError, error, isSuccess, data: members, refetch } = useGetAllMembersQuery('mentees');
+  const {
+    isLoading,
+    isError,
+    error,
+    isSuccess,
+    data: members,
+    refetch
+  } = useGetAllMembersQuery('mentees');
   useApiToast({
     members,
     isLoading,
@@ -68,7 +83,7 @@ const Mentees = () => {
       header="Mentees"
       icon={<People className="text-slate-800" sx={{ fontSize: '40px' }} />}>
       <div className="lg:mx-6 w-full space-y-6">
-        <div className="flex flex-wrap gap-6">
+        {/* <div className="flex flex-wrap gap-6">
           {getChartCardData(0, 0, menteesNumber).map((data) => {
             const { id, title, amount, percentage, icon, chart } = data;
             return (
@@ -84,7 +99,7 @@ const Mentees = () => {
               />
             );
           })}
-        </div>
+        </div> */}
         <TableGrid page="mentees" tableData={members?.data} refetch={refetch} />
       </div>
     </AdminLayout>

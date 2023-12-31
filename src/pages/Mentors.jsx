@@ -8,7 +8,7 @@ import SparkAreaChart from '../components/charts/SparkAreaChart';
 import useApiToast from '../hooks/useApiToast';
 import { useGetAllMembersQuery } from '../store/api/memberApi';
 import { getToken } from '../utils/authHelpers';
-import { accountCreatedDate } from '../utils/helpers';
+// import { accountCreatedDate } from '../utils/helpers';
 
 const getChartCardData = (all, active, inactive, data) => {
   const chartCardData = [
@@ -65,25 +65,19 @@ const Mentors = () => {
   const active = members?.data.filter((member) => member.verified)?.length;
   const inactive = members?.data.filter((member) => !member.verified)?.length;
 
-  const [selectedYear, setSelectedYear] = useState(2023);
-
-  const { validYears, EachMonthData } = accountCreatedDate(members?.data, selectedYear);
-
   useEffect(() => {
     if (!token) {
       navigate('/', { replace: true });
     }
   }, [token]);
 
-  console.log(members?.data)
-
   return (
     <AdminLayout
       header="Mentors"
       icon={<Badge className="text-slate-800" sx={{ fontSize: '40px' }} />}>
       <div className="lg:mx-6 w-full space-y-6">
-        <div className="flex flex-wrap gap-6">
-          {getChartCardData(all, active, inactive, EachMonthData)?.map((data) => {
+        {/* <div className="flex flex-wrap gap-6">
+          {getChartCardData(all, active, inactive, "")?.map((data) => {
             const { id, title, amount, percentage, icon, chart } = data;
             return (
               <ChartCard
@@ -95,13 +89,10 @@ const Mentors = () => {
                 chart={chart}
                 loading={isLoading}
                 data={members}
-                onChange={(e) => setSelectedYear(e.target.value)}
-                value={selectedYear}
-                years={validYears}
               />
             );
           })}
-        </div>
+        </div> */}
         <TableGrid page="mentors" tableData={members?.data} refetch={refetch} />
       </div>
     </AdminLayout>

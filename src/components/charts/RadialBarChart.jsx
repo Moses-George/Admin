@@ -1,6 +1,6 @@
 import ReactApexChart from 'react-apexcharts';
 import ProgressBar from '../ProgressBar';
-import { getLabelSize } from '../../utils/helpers';
+import { getLabelSize } from '../../utils/chartHelpers';
 
 const RadialBarChart = ({ chartData, heading }) => {
   const colorCodes = ['#84cc16', '#fbbf24', '#d97706'];
@@ -60,7 +60,8 @@ const RadialBarChart = ({ chartData, heading }) => {
   return (
     <div className="bg-white shadow-md rounded-md p-6 space-y-8 glossy">
       <h1 className="text-2xl text-slate-800 font-medium">{heading}</h1>
-      <ReactApexChart series={series} options={options} type="radialBar" width={300} height={300} />
+      <h1 className='text-2xl font-medium my-auto mx-auto'>No data yet</h1>
+      {/* <ReactApexChart series={series} options={options} type="radialBar" width={300} height={300} />
       <div className="w-full space-y-4">
         {progressBarData.map((data) => {
           const { id, label, bgColor, percentage, labelSize } = data;
@@ -74,7 +75,7 @@ const RadialBarChart = ({ chartData, heading }) => {
             />
           );
         })}
-      </div>
+      </div> */}
     </div>
   );
 };

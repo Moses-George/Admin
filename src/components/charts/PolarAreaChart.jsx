@@ -1,6 +1,6 @@
 import ReactApexChart from 'react-apexcharts';
 import ProgressBar from '../ProgressBar';
-import { getLabelSize } from '../../utils/helpers';
+import { getLabelSize } from '../../utils/chartHelpers';
 
 const PolarAreaChart = ({ heading, chartData }) => {
   const colorsCode = ['#84cc16', '#fbbf24', '#d97706'];
@@ -64,7 +64,8 @@ const PolarAreaChart = ({ heading, chartData }) => {
   return (
     <div className="bg-white rounded-md shadow-md p-6 w-full space-y-8 glossy">
       <h1 className="font-medium text-slate-800 text-xl">{heading}</h1>
-      <div className="">
+      <h1 className='text-2xl font-medium my-auto mx-auto'>No data yet</h1>
+      {/* <div className="">
         <ReactApexChart options={options} series={series} type="polarArea" width="100%" />
       </div>
       <div className="w-full space-y-4">
@@ -80,7 +81,7 @@ const PolarAreaChart = ({ heading, chartData }) => {
             />
           );
         })}
-      </div>
+      </div> */}
     </div>
   );
 };

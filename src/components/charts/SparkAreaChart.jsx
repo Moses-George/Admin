@@ -1,7 +1,7 @@
 import ReactApexChart from 'react-apexcharts';
 
-const SparkAreaChart = ({ name }) => {
-  const series = [{ name: name, data: [31, 40, 28, 51, 42, 109, 100, 10, 27, 18, 17, 18] }];
+const SparkAreaChart = ({ name, data }) => {
+  const series = [{ name: name, data: data }]; 
   const options = {
     chart: {
       group: 'sparklines',
