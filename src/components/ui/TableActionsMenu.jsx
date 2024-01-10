@@ -7,6 +7,7 @@ import { useUpdateMentorPriceMutation, useVerifyMentorMutation } from '../../sto
 import { getToken } from '../../utils/authHelpers';
 import NewPrice from './modal/NewPrice';
 import useForm from '../../hooks/useForm';
+import { toast } from 'react-toastify';
 
 const initialData = {
   price: ''
