@@ -4,7 +4,7 @@ import { baseUrl } from '../../lib/baseUrl';
 export const memberApi = createApi({
   reducerPath: 'memberApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: baseUrl
+    baseUrl
   }),
   tagTypes: ['Members'],
   endpoints: (builder) => ({

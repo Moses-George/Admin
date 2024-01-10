@@ -8,7 +8,9 @@ export const chartYearSelectorSlice = createSlice({
   name: 'chartYearSelector',
   initialState,
   reducers: {
-    setSelectedYear: (state, action) => (state.selectedYear = action.payload)
+    setSelectedYear: (state, action) => {
+      state.selectedYear = action.payload;
+    }
   }
 });
 

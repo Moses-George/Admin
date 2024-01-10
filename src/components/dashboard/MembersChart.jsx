@@ -1,8 +1,8 @@
-import SelectMenu from '../ui/SelectMenu';
+import SelectMenu from '../ui/SelectMenu';  
 import AreaChart from '../charts/AreaChart';
-import ChartFilter from '../ui/chartFilter';
+import ChartFilter from '../ui/ChartFilter';
 
-const MembersChart = ({ name_1, name_2, data_1, data_2 }) => {
+const MembersChart = ({ name_1, name_2, data_1, data_2 }) => {  
   return (
     <div className="w-full bg-white rounded-md shadow-md glossy">
       <div className="flex  justify-between p-6 gap-y-6">
@@ -10,7 +10,7 @@ const MembersChart = ({ name_1, name_2, data_1, data_2 }) => {
           <h1 className="text-slate-800 text-2xl font-semibold border-l-8 pl-2 border-lime-600">
             Members
           </h1>
-          <p className="text-slate-600 text-md">mentors and mentees charts demostration</p>
+          <p className="text-slate-600 text-md">mentors and mentees charts demostration</p> 
         </div>
         <ChartFilter width="w-28" height="h-10" />
       </div>

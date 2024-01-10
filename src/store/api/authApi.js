@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"; 
+import { baseUrl } from "../../lib/baseUrl";
 
 export const authApi = createApi({
     reducerPath: 'authApi', 
     baseQuery: fetchBaseQuery({
-        baseUrl: "https://dashboard-m5qj.onrender.com"   
+        baseUrl 
     }),
     tagTypes: ['Auth'], 
     endpoints: (builder) => ({

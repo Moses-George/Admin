@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
 const SparkAreaChart = ({ name, data }) => {
-  const series = [{ name: name, data: data }]; 
+  const [chartData, setChartData] = useState([]);
+  const series = [{ name: name, data: chartData }];
   const options = {
     chart: {
       group: 'sparklines',
@@ -39,6 +41,10 @@ const SparkAreaChart = ({ name, data }) => {
     },
     colors: ['#84cc16']
   };
+
+  useEffect(() => {
+    setChartData(data);
+  }, [data, chartData]);
 
   return (
     <ReactApexChart series={series} options={options} type="area" width={'100%'} height={100} />

@@ -1,4 +1,4 @@
-import ChartFilter from './ui/chartFilter';
+import ChartFilter from './ui/ChartFilter';
 
 const ChartCard = ({ icon, chart, total, yearTotal, title, loading, data }) => {
   return (

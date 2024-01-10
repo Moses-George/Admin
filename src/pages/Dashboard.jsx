@@ -19,7 +19,8 @@ import { accountCreatedDate, getTotalSubscriptionAmount } from '../utils/chartHe
 import { useGetAllPaymentsQuery } from '../store/api/paymentApi';
 
 const Dashboard = () => {
-  const selectedYear = useSelector((state) => state.chartYearSelector.selectedYear);
+  const selectedYear = useSelector((state) => state.chartYearSelector.selectedYear);   
+  console.log(selectedYear)
   const token = getToken();
   const { isLoading, isError, error, isSuccess, data: user } = useGetUserQuery(token);
   const { data: mentors } = useGetAllMembersQuery('mentors');

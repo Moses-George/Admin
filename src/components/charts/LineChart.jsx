@@ -1,7 +1,7 @@
 import ReactApexChart from 'react-apexcharts';
 import SelectMenu from '../ui/SelectMenu';
 import { months } from '../../utils/chartHelpers';
-import ChartFilter from '../ui/chartFilter';
+import ChartFilter from '../ui/ChartFilter';
 
 const LineChart = ({ name_1, name_2, name_3, data_1, data_2, data_3 }) => {
   const series = [
@@ -40,7 +40,7 @@ const LineChart = ({ name_1, name_2, name_3, data_1, data_2, data_3 }) => {
     },
     colors: ['#84cc16', '#2196F3', '#f59e0b'],
     title: {
-      text: 'Media',
+      text: 'chart',
       align: 'left',
       offsetY: 25,
       offsetX: 20

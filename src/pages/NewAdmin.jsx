@@ -51,10 +51,10 @@ const InputFieldsData = [
 
 const NewAdmin = () => {
   const { formData, setFormData, handleChange } = useForm(InitialData);
-  const [signupUser, { isLoading, isError, error, isSuccess, data: user }] =
+  const [signupUser, { isLoading, isError, error, isSuccess, data }] =
     useSignupUserMutation();
   useApiToast({
-    user,
+    data,
     isLoading,
     isSuccess,
     isError,
@@ -64,8 +64,8 @@ const NewAdmin = () => {
   });
   const token = getToken();
   const navigate = useNavigate();
-  const { data } = useGetUserQuery(token);
-  const currentUser = user?.data[0];
+  const { data: user } = useGetUserQuery(token);
+  const currentUser = user?.data[0]; 
 
   const RegisterUser = async (event) => {
     event.preventDefault();
